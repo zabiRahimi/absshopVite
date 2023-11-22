@@ -1,0 +1,414 @@
+.bodySlider {
+    width: 100%;
+    padding: clamp(9px, 2.5vw, 18px) 0;
+    overflow: hidden;
+    position: relative;
+    direction: rtl;
+}
+
+
+
+.sliderMe {
+    width: max-content;
+    overflow: hidden;
+    display: flex;
+    user-select: none;
+}
+
+
+
+.slideMe {
+    transition: transform 0.5s ease-in-out;
+}
+
+
+
+.divBtnMe {
+    position: absolute;
+    z-index: 2;
+    top: 50px;
+
+}
+
+
+
+/* 
+برای عدم نمایش دکمه‌های ناوبری در تبلت و موبایل 
+این کلاس توسط ری‌اکت به المان اضافه یا حذف میشود
+*/
+.notShowDivBtnMe {
+    display: none !important;
+}
+
+/* @media screen and (min-width:769px){
+    .divBtnMe {
+        
+        display: block !important;
+    }
+} */
+
+
+.divBtnMeRight {
+    right: 6px;
+    display: none;
+}
+
+
+
+.divBtnMeLeft {
+    left: 6px;
+}
+
+
+
+.btnMe {
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid #9192a6;
+    color: #85869b;
+    background-color: #ffffff;
+    font-size: 28px;
+}
+
+
+.btnMe:hover {
+    border-color: #187cce;
+    color: #187cce;
+    background-color: #e3e9ee;
+
+}
+
+/* ------------- انواع استایل بندی اسلاید ها ------------------- */
+
+/* 
+* برای نمایش اسلایدها از چندین استایل متفاوت استفاده می‌کنیم
+* بسته به نوع کارکرد اسلایدر استایل بند متفاوتی برای اسلایدها در نظر گرفته ایم
+*/
+
+
+/* --------- normal style ------------- */
+.title_normal_me,
+.container_normal_me,
+.more_normal_me {
+    width: clamp(106px, 40vw, 136px);
+    height: clamp(177px, calc((40vw / 3) * 5), calc((136px / 3) * 5));
+    display: flex;
+    flex-direction: column;
+    margin: 0 0.5px;
+
+}
+
+
+
+/* استایل دهی title کامپوننت productSlider */
+.title_normal_me {
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.titleH2_normal_me {
+    height: 25%;
+    font-size: 1rem;
+    color: #ffffff;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+
+.divTitleImg_normal_me {
+    position: relative;
+}
+
+
+
+.titleImg_normal_me {
+    width: 100%;
+    height: auto;
+}
+
+
+
+.container_normal_me {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+
+
+.firstContainer_normal_me {
+    border-radius: 0 1vw 1vw 0;
+}
+
+
+
+.divImg_normal_me {
+    width: 100%;
+    padding: 2px 5px;
+    position: relative;
+}
+
+
+
+.img_normal_me {
+    width: 100%;
+    height: auto;
+}
+
+
+
+/* فقط برای عدم کشیده شدن تصویر هنگامی که کاربر مبادرت به کشیدن اسلایدر با موس میکند */
+.noDragImg_normal_me {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+
+
+.name_normal_me {
+    width: 100%;
+    font-size: 0.8rem;
+    height: 28px;
+    margin-top: 0.5px;
+    margin-bottom: 2px;
+    padding: 5px 5px 0 0;
+    color: #44445f;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+
+
+.shop_normal_me {
+    height: 15px;
+    font-size: 0.6rem;
+    display: inline-flex;
+
+}
+
+
+.shop_shop_normal_me {
+    padding-right: 5px;
+
+}
+
+
+.shop_name_normal_me {}
+
+
+
+.price_normal_me {
+    height: 28px;
+    margin-top: 3.8px;
+    /* padding-right: 5px; */
+    padding: 0 5px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+
+}
+
+
+.price_toman_normal_me {
+    width: 30px;
+    font-size: 0.6rem;
+    /* padding-left: 5px; */
+    color: #3f4064;
+
+
+}
+
+
+.price_number_normal_me {
+    width: 100%;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding-left: 2px;
+    text-align: end;
+    color: #3f4064;
+
+}
+
+
+.price_percent_normal_me {
+    font-size: 0.6rem;
+    padding: 0 0.7px;
+    background-color: rgb(214, 238, 230);
+    color: #031c55;
+    border-radius: 3px;
+
+
+}
+
+
+
+.oldPrice_normal_me {
+    height: 14px;
+    padding-bottom: 12px;
+    font-size: 0.65rem;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+
+}
+
+
+
+.oldPrice_div1_normal_me {
+    width: 30px;
+
+}
+
+
+
+.oldPrice_price_normal_me {
+    padding: 4px;
+    color: #cdcdd6;
+    text-decoration: line-through;
+}
+
+
+
+.oldPrice_div2_normal_me {}
+
+
+
+.more_normal_me {
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px 0 0 8px;
+}
+
+
+
+.moreBtn_normal_me {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: inherit;
+    border: none;
+}
+
+
+
+.moreBtnIcon_normal_me {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #a0bac4;
+    color: #a0bac4;
+    background-color: #dcf0f7;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+
+}
+
+
+
+.moreBrnText_normal_me {}
+
+
+@media screen and (min-width: 450px) {
+
+    .title_normal_me,
+    .container_normal_me,
+    .more_normal_me {
+
+        width: clamp(136px, 30vw, 175px);
+        height: clamp(136px, calc((30vw / 3) * 5), calc((175px / 3) * 5));
+
+
+    }
+
+    .titleH2_normal_me {
+        
+        font-size: 1.2rem;
+        
+    }
+}
+
+@media screen and (min-width: 769px) {
+
+    .title_normal_me,
+    .container_normal_me,
+    .more_normal_me {
+
+        margin: 0 1px;
+
+    }
+
+
+    .titleH2_normal_me {
+        
+        font-size: 1.4rem;
+        
+    }
+
+    .name_normal_me {
+
+        height: 40px;
+        padding: 13px 10px 0 0;
+
+        font-size: 0.9rem;
+        font-weight: 700;
+
+    }
+
+    .price_normal_me {
+        padding: 0 10px;
+    }
+
+    .price_number_normal_me {
+        
+        font-size: 1rem;
+        /* font-weight: 600;
+        padding-left: 2px;
+        text-align: end;
+        color: #3f4064; */
+    
+    }
+
+    .price_toman_normal_me {
+        width: 30px;
+        font-size: 0.8rem;
+        /* padding-left: 5px; */
+        /* color: #3f4064; */
+    
+    
+    }
+
+
+    .price_percent_normal_me {
+        font-size: 0.8rem;
+        padding: 0 1px;
+        
+        border-radius: 5px;
+    
+    
+    }
+
+    .oldPrice_normal_me {
+        padding: 0 10px;
+        font-size: 0.8rem;
+       
+    
+    }
+}

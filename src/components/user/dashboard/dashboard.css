@@ -1,0 +1,365 @@
+.containerTop_Dash {
+
+    width: 100%;
+    padding: 10px var(--paddingContainer);
+    display: flex;
+    align-items: center;
+
+}
+
+
+.divAvatar_Dash {
+
+    width: 50px;
+    height: 50px;
+    position: relative;
+
+}
+
+.divOverAvatar_Dash {
+
+    width: 50px;
+    height: 50px;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    border: 1px solid #838282;
+    border-radius: 50%;
+
+}
+
+
+.avatar_Dash {
+
+    top: 0;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    border-radius: 50%;
+
+}
+
+
+.btnAddAvatar_Dash {
+
+    width: 17px;
+    height: 17px;
+    z-index: 20;
+    position: absolute;
+    top: 65%;
+    right: -2px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background-color: #5454f5;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.btnAddAvatar_Dash i {
+    font-size: 0.55rem;
+}
+
+
+.divUserName_Dash {
+
+    margin: 0 3px;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+
+.userName_Dash {
+
+    padding: 0;
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #131358;
+
+}
+
+
+.containerAlarm_Dash {
+
+    display: flex;
+    width: fit-content;
+    margin-left: auto;
+
+}
+
+
+.divMessage_Dash,
+.divAlarm_Dash {
+
+    width: 20px;
+    height: 50px;
+    position: relative;
+
+}
+
+
+.divAlarm_Dash {
+
+    margin: 0 9px 0 20px;
+
+}
+
+
+.iMessage_Dash {
+
+    position: absolute;
+    top: 25%;
+
+}
+
+
+.spanMessage_Dash,
+.spanAlarm_Dash {
+
+    position: absolute;
+    top: 5px;
+    left: 12px;
+    font-size: 0.65rem;
+    background-color: #008000;
+    color: #fff;
+    padding: 1px 3px;
+    border-radius: 50%;
+
+}
+
+
+.iAlarm_Dash {
+    position: absolute;
+    top: 25%;
+}
+
+
+.spanAlarm_Dash {}
+
+
+
+
+.iAlarm_Dash,
+.iMessage_Dash {
+
+    font-size: 1.6rem;
+    color: #131358;
+
+}
+
+
+.iAlarm_Dash {}
+
+
+.iMessage_Dash {}
+
+
+.containerAlert_Dash {
+    text-align: center;
+    padding: 0 var(--paddingContainer);
+}
+
+
+.containerMain_Dash {
+
+    display: flex;
+}
+
+
+.main_Dash {
+
+    width: 100%;
+    background-color: #ebecf0;
+
+}
+
+
+.navHorizontal_Dash {
+
+    padding: 7px var(--paddingContainer);
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+
+.btnMenu_Dash {
+
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.btnMenu_Dash i {
+
+    font-size: 1.5rem;
+    color: #98999e;
+}
+
+
+.btnNavHori_Dash {
+
+
+    width: 87px;
+    height: 45px;
+    margin: 3px 6px 0 3px;
+    background-color: #fff;
+    color: #98999e;
+    border-radius: 4px;
+    display: flex;
+
+
+}
+
+
+.aside_dash {
+
+    width: max-content;
+    min-width: 250px;
+    display: none;
+
+
+}
+
+
+
+
+
+
+
+@media screen and (min-width: 320px) {
+
+    .divUserName_Dash {
+
+        margin: 0 7px;
+
+
+    }
+
+    .userName_Dash {
+
+        font-size: 0.9rem;
+
+
+    }
+
+
+    .divAlarm_Dash {
+
+        margin: 0 20px 0 30px;
+
+    }
+
+
+    .iAlarm_Dash,
+    .iMessage_Dash {
+
+        font-size: 1.6rem;
+
+    }
+
+
+}
+
+
+@media screen and (min-width: 560px) {
+
+    .userName_Dash {
+
+        font-size: 1rem;
+
+    }
+
+
+    .divAlarm_Dash {
+
+        margin-left: 40px;
+
+    }
+
+
+    .iAlarm_Dash,
+    .iMessage_Dash {
+
+        font-size: 1.9rem;
+
+    }
+
+
+}
+
+
+@media screen and (min-width: 768px) {
+
+    .userName_Dash {
+
+        font-size: 1.24rem;
+
+    }
+
+
+    .divAvatar_Dash,
+    .divOverAvatar_Dash,
+    .avatar_Dash {
+
+        width: 65px;
+        height: 65px;
+
+    }
+
+
+    .btnAddAvatar_Dash {
+
+        width: 20px;
+        height: 20px;
+        top: 65%;
+        right: -5px;
+
+    }
+
+
+    .btnAddAvatar_Dash i {
+        font-size: 0.65rem;
+    }
+
+
+    .divAlarm_Dash {
+
+        margin: 0 55px 0 50px;
+
+    }
+
+    .btnMenu_Dash {
+
+        display: none;
+
+    }
+
+    .aside_dash {
+
+        display: block;
+
+    }
+
+}
+
+
+@media screen and (min-width: 1200px) {
+
+    .aside_dash {
+
+        min-width: 320px;
+
+    }
+}

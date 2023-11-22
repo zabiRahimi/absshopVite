@@ -1,0 +1,206 @@
+.containerFooter {
+    margin-top: 10px;
+    padding: 10px var(--paddingContainer);
+    background-color: #3e7a8c;
+    color: #9ff4e5;
+}
+
+.containerWebFooter,
+.containerAccountFooter {
+    padding: 0 4px 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 2px solid #60a79a;
+}
+
+
+.webFooter {}
+
+
+.flagFooter {
+    margin-left: auto;
+
+}
+
+.flagFooter img {
+    width: 50px;
+    height: 23px;
+}
+
+
+.containerAccountFooter {
+    margin-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+    column-gap: 40px;
+}
+
+
+.signInLink_Foo,
+.signUpLink_Foo,
+.profileLink_Foo,
+.logoutBtn_Foo {
+
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    column-gap: 10px;
+
+
+}
+
+
+.logoutBtn_Foo {
+
+    color: #f7a9a9;
+
+}
+
+.containerShopFooter {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+.logoFooter {
+    text-align: center;
+
+
+}
+
+
+.shopFooter {}
+
+
+.itmeShopFooter {
+    text-align: right;
+}
+
+.linkFooter {
+    width: 100%;
+    margin: 8px 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #9ff4e5;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    column-gap: 5px;
+}
+
+
+.linkFooter:hover {
+
+    color: #71b1a6;
+
+}
+
+.linkFooter i {
+    /* width: 40px; */
+    font-size: 1rem;
+    position: relative;
+    top: 2px;
+
+
+}
+
+.containerContractFooter {}
+
+
+.titleFooter {}
+
+
+.lineFooter {}
+
+
+.contractFooter {}
+
+
+.itmeContractFooter {}
+
+
+
+.containerLicenseFooter {}
+
+
+.titleFooter {}
+
+
+.lineFooter {}
+
+
+.licenseFooter {}
+
+
+.itmeLicenseFooter {}
+
+
+
+
+
+.containerFollowFooter {}
+
+
+.titleFooter span {
+    width: max-content;
+    display: block;
+    margin: 25px auto 5px;
+    color: #77c7b8;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+
+.lineFooter {
+    width: 80%;
+    height: 1px;
+    margin: 0 auto;
+    border: 1px solid #4090a8;
+    border-radius: 2px;
+}
+
+
+.followFooter {
+    margin: 20px auto 15px;
+    display: flex;
+    row-gap: 12px;
+    justify-content: center;
+    column-gap: 15px;
+    flex-flow: row wrap;
+}
+
+
+.itmeFollowFooter {
+    text-align: center;
+}
+
+
+.itmeFollowFooter img {
+    width: 25px;
+    height: auto;
+}
+
+
+@media screen and (min-width: 769px) {
+
+    .webFooter {
+        font-size: 1.3rem;
+    }
+
+    .flagFooter img {
+        width: 60px;
+        height: 35px;
+    }
+
+    .linkFooter {
+        font-size: 0.96rem;
+        margin-top: 13px;
+        column-gap: 7px;
+    }
+
+    .linkFooter i {
+        font-size: 1.2rem;
+    }
+}

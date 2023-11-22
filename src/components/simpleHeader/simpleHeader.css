@@ -1,0 +1,165 @@
+.containerHeader_SHe {
+
+    padding: 5px var(--paddingContainer) 0;
+    border-bottom: 1px solid #eee;
+
+}
+
+
+.containerLogo_SHe {
+
+    padding: 0 6px 6px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 2px solid #eee;
+
+}
+
+
+.logo_SHe {}
+
+
+.name_SHe {
+
+    text-align: right;
+
+}
+
+
+.containerLink_She {
+
+    display: flex;
+    flex-direction: row-reverse;
+    column-gap: 7px;
+
+}
+
+
+.divLink_SHe {
+
+    padding: 5px 6px 5px 0;
+    direction: rtl;
+
+}
+
+
+.link_SHe {
+
+    color: #353535;
+
+}
+
+
+.divLink_SHe:first-child .link_SHe {
+
+    border-left: 1px solid #eee;
+    padding-left: 6px;
+
+}
+
+
+.link_SHe:hover {
+
+    color: #7e7d7d;
+
+}
+
+
+.divLogout_SHe {
+
+    margin-right: auto;
+    color: #ff0000;
+}
+
+
+.divLogout_SHe button {
+
+    color: #ff0000;
+
+}
+
+
+.i_SHe {
+
+    font-size: 0.9rem;
+    margin-left: 4px;
+
+}
+
+
+.divLogout_SHe button i {
+
+    position: relative;
+    top: 2px;
+    font-size: 1rem;
+
+}
+
+
+.span_SHe {
+
+    font-size: 0.92rem;
+    font-weight: 700;
+
+}
+
+
+@media screen and (min-width:768.1px) {
+
+    .containerLogo_SHe {
+
+        padding: 3px 8px 9px;
+
+    }
+
+    .divLink_SHe {
+
+        padding: 8px 8px 8px 0;
+
+    }
+
+    .divLink_SHe:last-child .link_SHe {
+
+        padding-right: 9px;
+
+    }
+
+    .i_SHe {
+
+        font-size: 1.1rem;
+        margin-left: 4px;
+
+    }
+
+    .span_SHe {
+
+        font-size: 1.05rem;
+
+    }
+
+}
+
+
+@media screen and (min-width:980.1px) {
+
+    .i_SHe {
+
+        font-size: 1.3rem;
+        margin-left: 5px;
+
+    }
+
+    .divLogout_SHe button i {
+
+        top: 3px;
+        font-size: 1.3rem;
+
+    }
+
+    .span_SHe {
+
+        font-size: 1.2rem;
+
+    }
+
+}

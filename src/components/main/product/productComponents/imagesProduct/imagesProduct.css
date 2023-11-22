@@ -1,0 +1,17 @@
+.imageMobile {}
+
+.imagePc {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+
+    .imageMobile {
+
+        display: none;
+    }
+
+    .imagePc {
+        display: block;
+    }
+}

@@ -1,0 +1,52 @@
+.containerMain_SME {
+
+    margin-right: 20px;
+    padding: 0 0 10px;
+    width: calc(100% - 20px);
+
+}
+
+
+.divClose_SME {
+
+    width: 100%;
+    border-bottom: 1px solid #dbdbdb;
+
+}
+
+
+.btnClose_SME {
+
+    display: block;
+    margin-left: auto;
+    padding: 2px 8px;
+    color: #44bece;
+
+}
+
+
+.containerItems_SME button {}
+
+
+.btn_SME {
+
+    display: flex;
+    margin: 0 0 6px 0;
+    padding: 0 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #003b73;
+
+}
+
+
+
+@media screen and (min-width:768px) {
+
+    .btn_SME {
+
+        font-size: 1rem;
+
+    }
+
+}

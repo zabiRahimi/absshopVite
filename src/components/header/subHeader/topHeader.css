@@ -1,0 +1,451 @@
+.container_header_logo {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+    column-gap: clamp(8px, 1.5vw, 35px);
+}
+
+
+.logo {
+    margin-right: clamp(1px, 2vw, 200px);
+    font-size: 1rem;
+    color: #000;
+    font-weight: 700;
+}
+
+
+.about_us,
+.contact_us {
+    color: #000;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    top: 3px;
+}
+
+
+.sign {
+    height: 37px;
+    margin-left: auto;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+
+.btnSign_THe {
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+
+.iUserSign_THe {}
+
+
+.iUserSign_THe {}
+
+
+
+
+.bgColorSign_THe {
+    background-color: #eee;
+}
+
+
+.iUpSign_THe,
+.iUpAvatar_THe {
+    font-size: 1rem;
+    color: red;
+    position: relative;
+    top: 5px;
+    margin-right: 5px;
+}
+
+
+.hover_icon:hover {
+    color: #747474;
+}
+
+
+.showSignLink_THe,
+.showProfileLink_THe {
+    width: 220px;
+    padding: 0 8px;
+    background-color: #fff;
+    border: 2px solid #919090;
+    border-radius: 5px;
+    position: absolute;
+    top: 40px;
+    right: 15px;
+    z-index: 101;
+}
+
+
+.iCaretUp {
+    margin: 0;
+    padding: 0;
+    margin-left: 170px;
+    display: inline;
+    position: relative;
+    top: -16px;
+    font-size: 1.4rem;
+    color: #919090;
+}
+
+
+.btnCloseSign_THe {
+    margin-bottom: 5px;
+}
+
+
+.btnCloseSign_THe i {
+    color: red;
+    font-size: 1.3rem;
+}
+
+
+.signLink_THe,
+.profileLink_THe,
+.btnSignOut_THe {
+    height: 40px;
+    margin-top: -15px;
+    margin-bottom: 25px;
+    padding-right: 12px;
+    display: flex;
+    flex-direction: row-reverse;
+    column-gap: 15px;
+    align-items: center;
+    background-color: #eee;
+}
+
+
+.signLink_THe:last-child {
+    margin-bottom: 15px;
+}
+
+
+.signLink_THe i {
+    position: relative;
+    font-size: 1.3rem;
+}
+
+
+.signLink_THe span,
+.showProfileLink_THe span {
+
+    font-size: 0.9rem;
+    font-weight: 700;
+
+}
+
+
+.spanSignIn {
+
+    position: relative;
+    /* top: -4px; */
+
+}
+
+
+.iSignIn {
+
+    rotate: 180deg;
+
+}
+
+
+.btnAvatar_THe {
+
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+
+.avatar_THe {
+
+    display: inline-flex;
+    width: 27px;
+    height: 27px;
+    border: 2px solid #20a0b5;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.iAvatar_THe {}
+
+
+.iDownAvatar_THe {
+
+    font-size: 0.9rem;
+    position: relative;
+    top: 5px;
+    color: #20a0b5;
+
+}
+
+
+.iUpAvatar_THe {
+    font-size: 0.8rem;
+    margin-right: 0;
+}
+
+
+
+.showProfileLink_THe {
+
+    right: 7px;
+    top: 43px;
+
+}
+
+.showProfileLink_THe .iCaretUp {
+    margin-left: 175px;
+    /* top: -16px; */
+
+}
+
+.profileLink_THe {}
+
+
+.btnSignOut_THe {
+    width: 100%;
+    background-color: #eee !important;
+    color: #ff0000;
+    margin-bottom: 15px;
+
+}
+
+
+
+@media screen and (min-width: 320px) {
+
+    .container_header_logo {
+        height: 50px;
+        padding: 0 8px;
+    }
+
+
+    .logo {
+        font-size: 1.1rem;
+    }
+
+
+    .about_us,
+    .contact_us,
+    .sign {
+        font-size: 1.3rem;
+    }
+
+
+    .sign {
+        padding: 0 5px;
+    }
+
+
+    .iUpSign_THe {
+        margin-right: 8px;
+    }
+
+
+    .showSignLink_THe {
+        top: 42px;
+    }
+
+
+    .iCaretUp {
+        top: -17px;
+        font-size: 1.5rem;
+        right: 10px;
+    }
+
+}
+
+
+@media screen and (min-width: 560px) {
+
+    .container_header_logo {
+        height: 55px;
+        padding: 0 13px;
+    }
+
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+
+    .about_us,
+    .contact_us,
+    .sign {
+        font-size: 1.5rem;
+    }
+
+    .about_us,
+    .contact_us {
+        top: 0;
+    }
+
+    .btnSign_THe {
+        font-size: 1.25rem;
+    }
+
+    .showSignLink_THe {
+        width: 250px;
+        top: 44px;
+    }
+
+
+    .iCaretUp {
+        margin-left: 200px;
+        top: -20px;
+        font-size: 1.6rem;
+        right: 10px;
+    }
+
+
+    .signLink_THe span,
+    .showProfileLink_THe span {
+        font-size: 1rem;
+    }
+
+
+    .avatar_THe {
+
+        width: 36px;
+        height: 36px;
+
+    }
+
+
+    .iAvatar_THe {}
+
+
+    .iDownAvatar_THe,
+    .iUpAvatar_THe {
+
+        font-size: 1rem;
+
+    }
+
+
+    .showProfileLink_THe {
+
+        right: 17px;
+        top: 44px;
+
+    }
+
+    .showProfileLink_THe .iCaretUp {
+        margin-left: 175px;
+        /* top: -16px; */
+
+    }
+
+}
+
+
+
+@media screen and (min-width: 768px) {
+
+    .sign {
+        margin-right: 15px;
+    }
+
+    .btnSign_THe {
+        font-size: 1.4rem;
+    }
+
+    .iCaretUp {
+        font-size: 1.6rem;
+    }
+
+
+    .signLink_THe span,
+    .showProfileLink_THe span {
+        font-size: 1.2rem;
+    }
+
+
+    .avatar_THe {
+
+        width: 40px;
+        height: 40px;
+
+    }
+
+
+    .iAvatar_THe {
+        font-size: 1.72rem;
+    }
+
+    .showProfileLink_THe {
+
+        top: 46px;
+
+    }
+}
+
+
+
+@media screen and (min-width: 1200px) {
+
+    .logo,
+    .about_us,
+    .contact_us,
+    .sign {
+        font-size: 28px;
+    }
+
+    .btnSign_THe {
+        font-size: 1.55rem;
+    }
+
+    .showSignLink_THe,
+    .showProfileLink_THe {
+
+        top: 47px;
+        right: 18px;
+    }
+
+
+
+    .iCaretUp {
+        top: -24px;
+
+    }
+
+
+    .signLink_THe span,
+    .showProfileLink_THe span {
+        font-size: 1.28rem;
+    }
+
+
+    .avatar_THe {
+
+        width: 46px;
+        height: 46px;
+
+    }
+
+
+    .iAvatar_THe {
+        font-size: 1.95rem;
+    }
+
+
+    .iDownAvatar_THe,
+    .iUpAvatar_THe {
+
+        font-size: 1.3rem;
+
+    }
+
+}

@@ -1,0 +1,57 @@
+.h3_1APr {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #10108b84;
+    color: #fff;
+}
+
+
+.addProduct_APr {
+    width: 90%;
+    max-width: 450px;
+    margin: 5px auto;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #dfdede;
+    border-radius: 6px;
+    background-color: #f7f6f6;
+}
+
+.error_APr {
+    margin: 6px 0;
+    padding: 3px 6px;
+    color: #ff0000;
+    direction: rtl;
+    background-color: #f3bdbd;
+    border-radius: 3px;
+}
+
+.addProduct_APr p {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    direction: rtl;
+
+}
+
+.addProduct_APr p input,
+.addProduct_APr p textarea {
+    padding: 0 6px;
+    border-radius: 4px;
+}
+
+.addProduct_APr p input {
+    height: 40px;
+
+}
+
+@media screen and (min-width: 360px) {
+    .addProduct_APr {
+        padding: 20px 35px;
+
+    }
+}

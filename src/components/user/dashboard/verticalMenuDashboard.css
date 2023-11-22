@@ -1,0 +1,170 @@
+.cotainerItems_VMD {
+
+    padding: 5px;
+    direction: rtl;
+    background-color: #f3f3f3;
+
+}
+
+
+.divItems_VMD {
+
+    padding: 3px 2px;
+    margin-bottom: 16px;
+    background-color: #fff;
+    border-radius: 3px;
+
+}
+
+
+.btnItem_VMD,
+.linkItem_VMD {
+
+    width: 100%;
+    margin: 4px 0 6px;
+    padding: 2px 7px 4px 4px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    column-gap: 7px;
+    position: relative;
+
+}
+
+
+.btnItem_VMD:hover,
+.linkItem_VMD:hover {
+
+    color: #4d4dad;
+
+}
+
+
+.btnItem_VMD i,
+.linkItem_VMD i {
+
+    font-size: 1.4rem;
+
+}
+
+.linkItem_VMD i.vanSend_VMD {
+
+    font-size: 1.6rem !important;
+}
+
+
+.linkItem_VMD i.iTruckBack_VMD {
+
+    font-size: 1.9rem !important;
+    top: 2px;
+}
+
+
+.divCreateIcon_VMD {
+    width: 20px;
+}
+
+
+.iconOne_VMD {
+    position: relative;
+    left: 15px;
+    top: 5px;
+}
+
+
+.iconTwo_VMD {
+    position: relative;
+    color: #9c9c9c;
+    font-size: 0.95rem !important;
+    right: 9px;
+    top: -3px;
+}
+
+
+.icofont-user-alt-3.iconTwo_VMD {
+
+    right: 8px;
+    top: -5px;
+    font-size: 0.8rem !important;
+    /* border: 1px solid #636262; */
+    border-radius: 50%;
+    background-color: #000;
+
+}
+
+
+.icofont-redo.iconTwo_VMD {
+    right: 9px;
+    top: -6px;
+    font-size: 0.7rem !important;
+    font-weight: 700;
+    color: #fff;
+
+
+}
+
+
+
+.btnItem_VMD span,
+.linkItem_VMD span {
+
+
+    position: relative;
+    top: -2px;
+
+
+}
+
+
+.btnItem_VMD i.lastChild_VMD {
+
+    margin-right: auto;
+
+}
+
+
+.iCart_VMD {
+
+    rotate: y -180deg;
+    font-size: 1.4rem !important;
+    position: relative;
+    top: -3px;
+
+}
+
+
+.showNum_VMD {
+
+
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #008000;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    margin-right: auto;
+
+}
+
+
+@media screen and (min-width: 768px) {
+
+    .btnItem_VMD span,
+    .linkItem_VMD span {
+
+        font-size: 1.15rem;
+        top: -2px;
+
+    }
+
+    .showNum_VMD {
+        width: 20px;
+        height: 20px;
+        font-size: 0.9rem !important;
+
+    }
+
+}

@@ -1,0 +1,41 @@
+
+.containerMain_BCU {
+    padding: 5px var(--paddingContainer);
+}
+
+
+.title_BCU {
+    direction: rtl;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #030381;
+}
+
+
+.container_BCU {
+    direction: rtl;
+    font-size: 0.8rem;
+}
+
+
+@media screen and (min-width: 560px) {
+
+    .title_BCU {
+        padding: 8px 0;
+    }
+    
+}
+
+
+@media screen and (min-width: 769px) {
+
+    .title_BCU {
+        padding: 10px 0;
+        font-size: 1.3rem;
+    }
+
+    .container_BCU {
+        font-size: 0.93rem;
+    }
+
+}

@@ -1,0 +1,43 @@
+
+.containerMain_BAU{
+    padding: 5px var(--paddingContainer);
+}
+
+
+.title_BAU{
+    direction: rtl;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #030381;
+}
+
+
+.container_BAU{
+    direction: rtl;
+    font-size: 0.8rem;
+}
+
+
+@media screen and (min-width: 560px){
+
+    .title_BAU{
+        padding: 8px 0;
+    }
+
+}
+
+
+@media screen and (min-width: 769px){
+
+    .title_BAU{
+        padding: 10px 0;
+        font-size: 1.3rem;
+    }
+
+    .container_BAU{
+        font-size: 0.93rem;
+    
+    }
+
+}
+

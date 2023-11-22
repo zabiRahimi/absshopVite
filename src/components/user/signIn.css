@@ -1,0 +1,21 @@
+.divBtnGetBtn_SI {
+
+    margin-top: 10px;
+    direction: rtl;
+
+}
+
+
+.divBtnGetBtn_SI p {
+
+    font-size: 0.85rem;
+
+}
+
+
+.btnGetBtn_SI {
+
+    color: var(--colorLink);
+    text-decoration: underline;
+
+}

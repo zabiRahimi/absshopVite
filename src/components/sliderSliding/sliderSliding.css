@@ -1,0 +1,165 @@
+.bodySliderSliding {
+    width: calc(100% - 2vw);
+    margin: 20px 1vw 0;
+    padding: clamp(9px, 2.5vw, 18px) clamp(1.3px , 0.8vw , 2.5px);
+    direction: rtl;
+    overflow: hidden;
+    position: relative;
+}
+
+
+
+.containerTitleSS {
+    display: flex;
+    padding: 0 5px;
+
+}
+
+
+
+.divTitleSS {
+
+}
+
+
+
+.h2TitleSS {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+
+
+.divBtnMoreSS {
+    /* display: flex; */
+    margin-right: auto;
+}
+
+
+
+.btnMoreSS {
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: inherit;
+}
+
+
+
+.btnMoreSS span {
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+
+.btnMoreSS i {
+    font-size: 1.2rem;
+   
+    color: #a0bac4;
+}
+
+
+
+.divBtnNavSS{
+    width: max-content;
+    position: absolute;
+    
+    z-index: 2;
+}
+
+.divBtnNavLeft{
+    
+    left: 0;
+}
+
+/* 
+برای عدم نمایش دکمه‌های ناوبری در تبلت و موبایل 
+این کلاس توسط ری‌اکت به المان اضافه یا حذف میشود
+*/
+.notShowDivBtnSS {
+    display: none !important;
+}
+
+.btnNavSS{
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid #9192a6;
+    color: #85869b;
+    background-color: #ffffff;
+    font-size: 28px;
+
+}
+
+.btnNavSS:hover {
+    border-color: #187cce;
+    color: #187cce;
+    background-color: #e3e9ee;
+
+}
+
+.continerSliderSliding {
+    width: max-content;
+    display: flex;
+}
+
+
+.continerColumnSS {
+
+    display: flex;
+    flex-direction: column;
+}
+
+.containerSlide{
+
+    width: 100px;
+    height: 139px;
+    margin: 5px 2px;
+    padding: 1px 4px;
+
+}
+
+.divImg_circle_SS{
+
+    width: 100%;
+
+}
+
+.img_circle_SS{
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+
+/* فقط برای عدم کشیده شدن تصویر هنگامی که کاربر مبادرت به کشیدن اسلایدر با موس میکند */
+.noDragImg_circle_SS {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+
+.divName_circle_SS{
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.divName_circle_SS h3{
+    min-height: 20px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.containerPaginateSS {
+
+}
+
+
