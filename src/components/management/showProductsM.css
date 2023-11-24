@@ -1,0 +1,105 @@
+.containerRow_ShP {
+    padding: 0 5px;
+}
+
+
+
+
+
+.containerRow_ShP div.row_ShP:nth-child(odd) {
+    background-color: #f3f2f3;
+}
+
+
+
+.containerRow_ShP div.row_ShP:nth-child(even) {
+    background-color: #e4e3e3;
+}
+
+
+.row_ShP {
+    height: 40px;
+    padding: 2px 0;
+    display: flex;
+    flex-direction: row-reverse;
+    /* position: relative;
+    z-index: 1; */
+}
+
+/* .row_ShP:hover {
+    z-index: 10;
+} */
+
+
+
+
+.row_ShP .divName {
+    padding: 0 2px;
+    width: 45%;
+    text-align: right;
+}
+
+
+.row_ShP .divPrice {
+    width: 19%;
+    text-align: center;
+}
+
+
+.row_ShP .divImg {
+    width: 8%;
+    /* overflow: hidden; */
+    position: relative;
+
+}
+
+.row_ShP .divImg img {
+    width: 35px;
+    height: auto;
+
+}
+
+
+.row_ShP .divEdit {
+    width: 12%;
+
+}
+
+
+.row_ShP .divDel {
+    width: 12%;
+
+}
+
+
+.row_ShP .divEdit .iEdit_Shp {
+    color: #ff9800;
+}
+
+
+.row_ShP .divDel .iDel_ShP {
+    color: #fb5b5b;
+}
+
+@media screen and (min-width: 768px) {
+    .containerRow_ShP {
+        padding: 0 35px;
+    }
+
+    .row_ShP {
+        padding: 1px 0;
+    }
+
+    .row_ShP .divName {
+        padding: 0 19px;
+    }
+
+    .row_ShP:hover .divImg img {
+        position: absolute;
+        z-index: 3;
+        top: -5px;
+        right: 35px;
+        width: 50px;
+
+    }
+}

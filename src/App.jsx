@@ -29,6 +29,15 @@ import Cart from "./components/user/cart/Cart";
 import AddProduct, {
   action as addProductAction,
 } from "./components/management/AddProduct";
+import ShowProductsM, {
+  loader as showProductsMLoader,
+} from "./components/management/ShowProductsM";
+import EditProductM, {
+  loader as productMLoader,
+  action as editProductMAction,
+} from "./components/management/EditProductM";
+
+import { action as destroyProductM } from "./components/management/DestroyProductM";
 
 function App() {
   const userData = useUserContext();
@@ -82,14 +91,32 @@ function App() {
             {/* <Route path="" element={< />} /> */}
             {/* <Route path="" element={< />} /> */}
           </Route>
-
-          {/* روت زیر بصورت موقت ساخته شده است */}
-          <Route
-            path="addProduct"
-            element={<AddProduct />}
-            action={addProductAction}
-          />
         </Route>
+
+        {/* روت زیر بصورت موقت ساخته شده است */}
+        <Route
+          path="addProduct"
+          element={<AddProduct />}
+          action={addProductAction}
+        />
+
+        {/* روت زیر بصورت موقت ساخته شده است */}
+        <Route
+          path="showProductsM"
+          element={<ShowProductsM />}
+          loader={showProductsMLoader}
+        />
+
+        {/* روت زیر بصورت موقت ساخته شده است */}
+        <Route
+          path="editProductM/:productId"
+          element={<EditProductM />}
+          loader={productMLoader}
+          action={editProductMAction}
+        />
+
+        {/* روت زیر بصورت موقت ساخته شده است */}
+        <Route path="destroyProductM/:productId" action={destroyProductM} />
       </Route>
     )
   );

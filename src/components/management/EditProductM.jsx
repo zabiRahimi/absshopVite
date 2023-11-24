@@ -1,28 +1,46 @@
-import { Form, redirect } from "react-router-dom";
+import { Form, redirect, useLoaderData } from "react-router-dom";
 import { SimpleHeader } from "../simpleHeader/SimpleHeader";
-import "./addProduct.css";
+import "./editProductM.css";
 import { Button } from "react-bootstrap";
 import localforage from "localforage";
-import { useEffect } from "react";
-import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+
+export async function loader({ params }) {
+  let product;
+
+  await localforage.getItem("products").then(function (value) {
+    product = value.find((obj) => obj.id == params.productId);
+  });
+
+  if (!product) {
+    throw new Response("", {
+      status: 404,
+      statusText: "Not Found",
+    });
+  }
+
+  return { product };
+}
 
 export async function action({ request, params }) {
   const formData = await request.formData();
 
+  const id = params.productId;
+
   const datas = Object.fromEntries(formData);
+  datas.id = id;
 
   if (!validation(datas)) {
-    return redirect(`/addProduct`);
+    return redirect(`/editProductM/${id}`);
   }
 
-  if (await duplicateProduct(datas.name)) {
-    return redirect(`/addProduct`);
+  if (await duplicateProduct(datas.name, id)) {
+    return redirect(`/editProductM/${id}`);
   }
 
-  setDatas(datas);
-
-  return redirect(`/addProduct`);
+  editDatas(datas, id);
+  return redirect(`/editProductM/${id}`);
 }
 
 const validation = (datas) => {
@@ -53,7 +71,7 @@ const validation = (datas) => {
           break;
       }
 
-      let element = document.getElementById("containerError_APr");
+      let element = document.getElementById("containerError_EPr");
 
       element.innerHTML = `<div class='error_APr'>لطفا ${item} را وارد کنید</div>`;
 
@@ -76,15 +94,15 @@ const validation = (datas) => {
 /**
  * چک می کند محصول تکراری نباشد
  */
-const duplicateProduct = async (name) => {
+const duplicateProduct = async (name, id) => {
   let result;
 
   await localforage.getItem("products").then(function (value) {
-    result = value.find((obj) => obj.name === name);
+    result = value.find((obj) => obj.name === name && obj.id != id);
   });
 
   if (result) {
-    let element = document.getElementById("containerError_APr");
+    let element = document.getElementById("containerError_EPr");
 
     element.innerHTML = `<div class='error_APr'> نام محصول تکراری است </div>`;
 
@@ -100,16 +118,15 @@ const duplicateProduct = async (name) => {
   return false;
 };
 
-const setDatas = async (datas) => {
+const editDatas = async (datas, id) => {
   const MySwal = withReactContent(Swal);
 
   let val = await localforage.getItem("products");
 
-  if (Array.isArray(val)) {
-    datas.id = val.length + 1; // اضافه کردن آی‌دی به شی
+  //   val = val.filter((item) => item.id != id);
+  let index = val.findIndex((item) => item.id == id);
 
-    val.push(datas);
-  }
+  val.splice(index, 1, datas);
 
   await localforage.setItem("products", val).then(() => {
     MySwal.fire({
@@ -123,8 +140,8 @@ const setDatas = async (datas) => {
 
           <div className="--mySwalDivTitle">
             <h3 className="--mySwalTitle --mySwalColorTitleGreen">
-              {" "}
-              محصول با موفقیت ثبت شد. <i className="icofont-simple-smile  " />{" "}
+              محصول با موفقیت ویرایش شد.{" "}
+              <i className="icofont-simple-smile  " />
             </h3>
           </div>
         </div>
@@ -137,7 +154,7 @@ const setDatas = async (datas) => {
       confirmButtonText: "متوجه شدم",
 
       didClose: () => {
-        document.getElementById("addProduct").reset();
+        // document.getElementById("addProduct").reset();
 
         window.scrollTo(0, 0);
       },
@@ -154,21 +171,13 @@ const setDatas = async (datas) => {
   // localforage.setItem("products", datas);
 };
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-const AddProduct = () => {
-  useEffect(() => {
-    // کنترل می‌کند اگر کلید زیر ساخته نشده باشد آن را ایجاد کند
-    localforage.getItem("products").then(function (value) {
-      if (value == null) {
-        localforage.setItem("products", []);
-      }
-    });
-  }, []);
+//   _______________________________________________________
+const EditProductM = () => {
+  const { product } = useLoaderData();
 
   // پاک کردن متن خطا پس از اینکه کاربر در داخل یکی از گزینه ها شروع به نوشتن کرد
   const deleteError = () => {
-    let element = document.getElementById("containerError_APr");
+    let element = document.getElementById("containerError_EPr");
 
     element.innerHTML = "";
   };
@@ -176,11 +185,12 @@ const AddProduct = () => {
   return (
     <div>
       <SimpleHeader />
-      <div>
-        <h3 className="h3_1APr"> اضافه کردن محصول </h3>
 
-        <Form method="post" id="addProduct" className="addProduct_APr">
-          <div className="containerError_APr" id="containerError_APr"></div>
+      <div>
+        <h3 className="h3_1APr"> ویرایش محصول </h3>
+
+        <Form method="post" id="editProduct" className="addProduct_APr">
+          <div className="containerError_APr" id="containerError_EPr"></div>
           <p>
             <span>نام محصول</span>
             <input
@@ -189,6 +199,7 @@ const AddProduct = () => {
               type="text"
               name="name"
               onInput={deleteError}
+              defaultValue={product.name}
             />
           </p>
 
@@ -200,6 +211,7 @@ const AddProduct = () => {
               type="text"
               name="price"
               onInput={deleteError}
+              defaultValue={product.price}
             />
           </p>
 
@@ -211,6 +223,7 @@ const AddProduct = () => {
               type="text"
               name="priceOff"
               onInput={deleteError}
+              defaultValue={product.priceOff}
             />
           </p>
 
@@ -223,6 +236,7 @@ const AddProduct = () => {
               type="text"
               name="img"
               onInput={deleteError}
+              defaultValue={product.img}
             />
           </p>
 
@@ -234,6 +248,7 @@ const AddProduct = () => {
               aria-label="dis"
               name="dis"
               onInput={deleteError}
+              defaultValue={product.dis}
             ></textarea>
           </p>
 
@@ -245,6 +260,7 @@ const AddProduct = () => {
               type="text"
               name="brand"
               onInput={deleteError}
+              defaultValue={product.brand}
             />
           </p>
 
@@ -256,15 +272,16 @@ const AddProduct = () => {
               type="text"
               name="shop"
               onInput={deleteError}
+              defaultValue={product.shop}
             />
           </p>
 
           <Button variant="success" type="submit">
-            ذخیره
+            ویرایش
           </Button>
         </Form>
       </div>
     </div>
   );
 };
-export default AddProduct;
+export default EditProductM;

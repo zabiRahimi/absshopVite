@@ -201,7 +201,16 @@ const VerticalMenu = ({ handleBodyScrollShow, handleCloseVerticalMenu }) => {
           onClick={handleBodyScrollShow}
         >
           <i className="icofont-plus-square  " />
-          <span>ثبت محصول</span>
+          <span>ثبت محصول ( مدیریت ) </span>
+        </Link>
+
+        <Link
+          className="--styleLessLink linkItem_VMe"
+          to="/showProductsM"
+          onClick={handleBodyScrollShow}
+        >
+          <i className="icofont-eye-alt   " />
+          <span>مشاهده محصولات ( مدیریت ) </span>
         </Link>
       </div>
     </div>
