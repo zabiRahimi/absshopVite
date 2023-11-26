@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-export async function action({ request, params }) {
+export async function action({ request }) {
   const formData = await request.formData();
 
   const datas = Object.fromEntries(formData);

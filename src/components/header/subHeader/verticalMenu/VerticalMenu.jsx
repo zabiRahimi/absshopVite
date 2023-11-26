@@ -212,6 +212,15 @@ const VerticalMenu = ({ handleBodyScrollShow, handleCloseVerticalMenu }) => {
           <i className="icofont-eye-alt   " />
           <span>مشاهده محصولات ( مدیریت ) </span>
         </Link>
+
+        <Link
+          className="--styleLessLink linkItem_VMe"
+          to="/addProSliderM"
+          onClick={handleBodyScrollShow}
+        >
+          <i className="icofont-plus-square   " />
+          <span> انتخاب محصولات برای اسلایدرها ( مدیریت ) </span>
+        </Link>
       </div>
     </div>
   );

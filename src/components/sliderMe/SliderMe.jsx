@@ -477,10 +477,10 @@ const SliderMe = ({ className, slides, typeClass, title, symbol }) => {
                 {Intl.NumberFormat("fa-IR").format(slide.price)}
               </div>
               <div className={`price_percent_${typeClass}_me`}>
-                {slide.oldPrice
+                {slide.priceOff
                   ? `${Intl.NumberFormat("fa-IR").format(
                       Math.floor(
-                        ((slide.oldPrice - slide.price) / slide.oldPrice) * 100
+                        ((slide.price - slide.priceOff) / slide.price) * 100
                       )
                     )}%`
                   : ""}
@@ -490,7 +490,8 @@ const SliderMe = ({ className, slides, typeClass, title, symbol }) => {
             <div className={`oldPrice_${typeClass}_me`}>
               <div className={`oldPrice_div1_${typeClass}_me`}></div>
               <div className={`oldPrice_price_${typeClass}_me`}>
-                {Intl.NumberFormat("fa-IR").format(slide.oldPrice)}
+                {slide.priceOff &&
+                  Intl.NumberFormat("fa-IR").format(slide.priceOff)}
               </div>
               <div className={`oldPrice_div2_${typeClass}_me`}></div>
             </div>

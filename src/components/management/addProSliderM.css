@@ -1,0 +1,107 @@
+.container_APS {
+    width: 100%;
+    padding: 5px;
+}
+
+.h3_Aps {
+    padding-bottom: 5px;
+    height: auto;
+    background-color: #6262e6;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_APS {
+    width: 90%;
+    max-width: 450px;
+    margin: 6px auto 15px;
+    padding: 5px 15px;
+    background-color: #d8d6d6;
+    border: 1px solid #c4c3c3;
+    border-radius: 4px;
+}
+
+
+.divSeletct_APS {
+    width: 100%;
+}
+
+
+.btnSelect_APS {
+    width: 100%;
+    height: 40px;
+    background-color: #fff;
+}
+
+
+
+.showProSelect_APS {
+    width: 100%;
+    max-height: 170px;
+    padding: 5px;
+    display: grid;
+    background-color: #eeeeee;
+    overflow-y: auto;
+}
+
+.btnShowPro_APS {
+    display: flex;
+    direction: rtl;
+    align-items: center;
+}
+
+.btnShowPro_APS:nth-child(1) {
+    grid-column: 2;
+}
+
+.spanShowChecked_APS {
+    margin-left: 3px;
+    display: inline-flex;
+    width: 13px;
+    height: 13px;
+    border: 1px solid #000;
+    border-radius: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #eae8e8;
+}
+
+.selectedChecked_APS {
+    background-color: #0d6efd;
+    border: none;
+}
+
+
+.iShowChecked_APS {
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 900;
+
+}
+
+
+.spanNameProChecked_APS {}
+
+
+
+
+
+.formSelect_APS {
+    margin: 25px 0;
+    direction: rtl;
+}
+
+.btnSubmit_APS {
+    width: 100%;
+}
+
+@media screen and (min-width: 350px) {
+
+    .showProSelect_APS {
+        grid-template-columns: 1fr 1fr;
+        column-gap: 3px;
+    }
+
+}

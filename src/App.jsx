@@ -38,6 +38,10 @@ import EditProductM, {
 } from "./components/management/EditProductM";
 
 import { action as destroyProductM } from "./components/management/DestroyProductM";
+import AddProSliderM, {
+  loader as showProductsMSliderLoader,
+  action as addProSliderMAction,
+} from "./components/management/AddProSliderM";
 
 function App() {
   const userData = useUserContext();
@@ -117,6 +121,14 @@ function App() {
 
         {/* روت زیر بصورت موقت ساخته شده است */}
         <Route path="destroyProductM/:productId" action={destroyProductM} />
+
+        {/* روت زیر بصورت موقت ساخته شده است */}
+        <Route
+          path="addProSliderM"
+          element={<AddProSliderM />}
+          loader={showProductsMSliderLoader}
+          action={addProSliderMAction}
+        />
       </Route>
     )
   );
