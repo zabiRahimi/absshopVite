@@ -147,7 +147,7 @@ export default function NormalShowProduct({
           ref={containerNSP_pro.current[i]}
           key={i}
           onClick={() => {
-            navigate("product/1");
+            navigate(`product/${pro.id}`);
           }}
         >
           <div className="divImgNSP">
@@ -179,11 +179,9 @@ export default function NormalShowProduct({
             </div>
 
             <div className="percentNSP">
-              {pro.oldPrice
+              {pro.priceOff
                 ? `${Intl.NumberFormat("fa-IR").format(
-                    Math.floor(
-                      ((pro.oldPrice - pro.price) / pro.oldPrice) * 100
-                    )
+                    Math.floor(((pro.price - pro.priceOff) / pro.price) * 100)
                   )}%`
                 : ""}
             </div>
@@ -193,8 +191,8 @@ export default function NormalShowProduct({
             <div className="spaceLeftNSP"></div>
 
             <div className="oldPriceNSP">
-              {pro.oldPrice
-                ? Intl.NumberFormat("fa-IR").format(pro.oldPrice)
+              {pro.priceOff
+                ? Intl.NumberFormat("fa-IR").format(pro.priceOff)
                 : ""}
             </div>
 

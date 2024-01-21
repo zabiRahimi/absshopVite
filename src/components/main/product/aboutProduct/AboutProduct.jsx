@@ -1,10 +1,4 @@
-const AboutProduct = () => {
-
-
-    return (
-        <div>
-            AboutProduct
-        </div>
-    );
-}
+const AboutProduct = ({ dis }) => {
+  return <div>{dis} </div>;
+};
 export default AboutProduct;

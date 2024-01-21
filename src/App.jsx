@@ -42,6 +42,9 @@ import AddProSliderM, {
   loader as showProductsMSliderLoader,
   action as addProSliderMAction,
 } from "./components/management/AddProSliderM";
+import Product, {
+  loader as productLoader,
+} from "./components/main/product/Product";
 
 function App() {
   const userData = useUserContext();
@@ -54,6 +57,12 @@ function App() {
         <Route path="aboutUs" element={<AboutUs />} />
 
         <Route path="contactUs" element={<ContactUs />} />
+
+        <Route
+          path="product/:id"
+          element={<Product />}
+          loader={productLoader}
+        />
 
         <Route
           element={

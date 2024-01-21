@@ -106,7 +106,9 @@ const setDatas = async (datas) => {
   let val = await localforage.getItem("products");
 
   if (Array.isArray(val)) {
-    datas.id = val.length + 1; // اضافه کردن آی‌دی به شی
+    let id = await createId();
+
+    datas.id = id; // اضافه کردن آی‌دی به شی
 
     val.push(datas);
   }
@@ -149,9 +151,18 @@ const setDatas = async (datas) => {
       },
     });
   });
+};
 
-  // val.push(datas);
-  // localforage.setItem("products", datas);
+const createId = async () => {
+  let id;
+
+  await localforage.getItem("keepIdProduct").then((value) => {
+    id = value + 1;
+  });
+
+  await localforage.setItem("keepIdProduct", id);
+
+  return id;
 };
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -162,6 +173,12 @@ const AddProduct = () => {
     localforage.getItem("products").then(function (value) {
       if (value == null) {
         localforage.setItem("products", []);
+      }
+    });
+
+    localforage.getItem("keepIdProduct").then((value) => {
+      if (value == null) {
+        localforage.setItem("keepIdProduct", 1);
       }
     });
   }, []);

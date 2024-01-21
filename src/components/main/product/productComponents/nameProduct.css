@@ -1,0 +1,56 @@
+.container_NPr {
+    margin-bottom: 4px;
+    padding: 6px 5px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.h3Name_NPr {
+    padding: 3px 0;
+    direction: rtl;
+    font-weight: 700;
+    font-size: 1.125rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.divBrand_NPr {
+    max-width: 32%;
+    min-width: 46px;
+    font-size: 0.76rem;
+    border: 1px solid #bbc2c9;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-radius: 5px 0 0 9px;
+    padding: 0 0 2px 4px;
+    background-color: #fdfdfd;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #888787;
+
+}
+
+/* .divBrand_NPr {
+    padding: 0 8px 2px;
+    direction: rtl;
+    overflow: auto;
+}
+
+
+.spanBrand_NPr {
+    font-size: 0.82rem;
+    color: #9bafb6;
+}
+
+
+.spanBrandName_NPr {
+    float: left;
+} */

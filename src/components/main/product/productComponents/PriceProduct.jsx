@@ -1,10 +1,10 @@
-const PriceProduct = () => {
-
-
-    return (
-        <div>
-            PriceProduct
-        </div>
-    );
-}
+const PriceProduct = ({ price, priceOff }) => {
+  return (
+    <div>
+      {price}
+      <br />
+      {priceOff}
+    </div>
+  );
+};
 export default PriceProduct;
