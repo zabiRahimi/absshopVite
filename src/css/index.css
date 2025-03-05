@@ -1,3 +1,7 @@
+@import "jalaali-react-date-picker/lib/styles/index.css";
+/* @import 'bootstrap/dist/css/bootstrap.min.css'; */
+
+
 :root {
 
     --colorMore: #7492c1;
@@ -19,26 +23,6 @@
 
 }
 
-
-* {
-    @font-face {
-        font-family: 'b koodak';
-        src: url('../assets/fonts/BKoodakBold.eot');
-        src: url('../assets/fonts/BKoodakBold.eot?#') format('eot'),
-            /* IE6–8 */
-            url('../assets/fonts/BKoodakBold.woff') format('woff'),
-            url('../assets/fonts/BKoodakBold.ttf') format('truetype');
-        /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
-        font-family: 'b yekan';
-        src: url('../assets/fonts/BYekan.eot?#') format('eot'),
-            /* IE6–8 */
-            url('../assets/fonts/BYekan.woff') format('woff'),
-            /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
-            url('../assets/fonts/BYekan.ttf') format('truetype');
-        /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
-    }
-}
-
 ul,
 ol {
 
@@ -51,8 +35,21 @@ body {
 
     margin: 0;
     font-size: 16px;
-    font-family: 'b koodak';
 
+
+}
+
+* {
+    font-family: IRANSansRegular;
+    /* font-family: IRANSansBold; */
+    /* font-family: IRANSansLight; */
+    /* font-family: IRANSansMedium; */
+    /*
+    IRANSansRegular
+    IRANSansBold
+    IRANSansLight
+    IRANSansMedium 
+    */
 }
 
 /** 

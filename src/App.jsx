@@ -1,3 +1,5 @@
+import "jalaali-react-date-picker/lib/styles/index.css";
+
 import "./App.css";
 import {
   Route,
