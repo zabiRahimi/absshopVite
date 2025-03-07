@@ -105,7 +105,7 @@ const TopHeader = () => {
         </Link>
       </div>
 
-      <div className="sign " ref={sign_THe}>
+      <div className="sign" ref={sign_THe}>
         {!user.login ? (
           <button
             className="--styleLessBtn hover_icon btnSign_THe"
@@ -115,8 +115,9 @@ const TopHeader = () => {
               className="icofont-rounded-up  iUpSign_THe --displayNone"
               ref={iUpSign_THe}
             />
-            <i className="icofont-ui-user iUserSign_THe"></i>/
-            <i className="icofont-login iUserSign_THe"></i>
+            <i className="icofont-login iLoging_THe iUserSign_THe"></i>
+            /
+            <i className="icofont-ui-user iUser_THe iUserSign_THe"></i>
           </button>
         ) : (
           <button
