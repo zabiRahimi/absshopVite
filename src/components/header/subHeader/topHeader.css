@@ -1,6 +1,6 @@
 .container_header_logo {
     width: 100%;
-    height: 45px;
+    height: 38px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -28,7 +28,7 @@
 
 
 .sign {
-    height: 37px;
+    height: 32px;
     margin-left: auto;
     position: relative;
     display: inline-flex;
@@ -238,7 +238,7 @@
 @media screen and (min-width: 320px) {
 
     .container_header_logo {
-        height: 50px;
+        height: 40px;
         padding: 0 8px;
     }
 
@@ -282,7 +282,7 @@
 @media screen and (min-width: 560px) {
 
     .container_header_logo {
-        height: 55px;
+        height: 45px;
         padding: 0 13px;
     }
 
@@ -296,6 +296,10 @@
     .contact_us,
     .sign {
         font-size: 1.5rem;
+    }
+
+    .sign {
+        height: 35px;
     }
 
     .about_us,
