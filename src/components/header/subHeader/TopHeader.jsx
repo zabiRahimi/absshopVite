@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import Swal from "sweetalert2";
@@ -18,11 +18,41 @@ const TopHeader = () => {
   const iDownAvatar_THe = useRef(null);
   const iUpAvatar_THe = useRef(null);
 
+  const [isShowSignLinkOpen, setIsShowSignLinkOpen] = useState(false);
   const showSubMenuSign = () => {
     sign_THe.current.classList.toggle("bgColorSign_THe");
     iUpSign_THe.current.classList.toggle("--displayNone");
     showSignLink_THe.current.classList.toggle("--displayNone");
+    setIsShowSignLinkOpen(!isShowSignLinkOpen);
   };
+
+  const handleClickOutsideOfSign = (e) => {
+    if (showSignLink_THe.current &&
+      (!showSignLink_THe.current.contains(e.target) && !sign_THe.current.contains(e.target))
+    ) {
+      console.log('ok');
+      showSubMenuSign();
+    }
+  }
+
+  /**
+   * هنگامی که کاربر کادر مربوط به ورود و ثبت نام را
+   * باز می کند و سپس خارج از آن کادر و خارج از دکمه نمایش کادر کلیک می کند 
+   * افکت زیر کادر را می بندد
+   */
+  useEffect(() => {
+    if (isShowSignLinkOpen) {
+      document.addEventListener('mousedown', handleClickOutsideOfSign);
+      document.addEventListener('touchstart', handleClickOutsideOfSign); // اضافه کردن رویداد لمسی
+    } else {
+      document.removeEventListener('mousedown', handleClickOutsideOfSign);
+      document.removeEventListener('touchstart', handleClickOutsideOfSign); // حذف رویداد لمسی
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutsideOfSign);
+      document.removeEventListener('touchstart', handleClickOutsideOfSign); // حذف رویداد لمسی
+    };
+  }, [isShowSignLinkOpen]);
 
   const showSubMenuAvatar = () => {
     sign_THe.current.classList.toggle("bgColorSign_THe");
