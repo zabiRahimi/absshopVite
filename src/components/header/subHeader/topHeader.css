@@ -68,17 +68,6 @@
     margin-right: 5px;
 }
 
-.sign:hover .iLoging_THe{
-    color: #75d775;
-}
-
-.sign:hover .iUser_THe{
-    color: #8888ec;
-}
-
-.hover_icon:hover {
-    color: #747474;
-}
 
 
 .showSignLink_THe,
@@ -130,6 +119,7 @@
     column-gap: 15px;
     align-items: center;
     background-color: #eee;
+    border-radius: 4px;
 }
 
 
@@ -146,27 +136,28 @@
 
 .signLink_THe span,
 .showProfileLink_THe span {
-
+    padding-right: 10px;
     font-size: 0.9rem;
-    font-weight: 700;
-
+    font-family: IRANSansBold; 
+    
 }
 
 
 .spanSignIn {
-
     position: relative;
-    /* top: -4px; */
-
 }
 
+.singIn_The{
+    color:#008000;
+}
 
 .iSignIn {
-
     rotate: 180deg;
-
 }
 
+.signUp_THe{
+    color:#4949fb;
+}
 
 .btnAvatar_THe {
 
@@ -383,7 +374,7 @@
 
     .signLink_THe span,
     .showProfileLink_THe span {
-        font-size: 1.2rem;
+        font-size: 1.05rem;
     }
 
 
@@ -436,11 +427,6 @@
     .iCaretUp {
         top: -24px;
 
-    }
-
-    .signLink_THe span,
-    .showProfileLink_THe span {
-        font-size: 1.28rem;
     }
 
 

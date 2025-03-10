@@ -125,20 +125,20 @@ const TopHeader = () => {
 
       <div className="about_us">
         <Link className="--styleLessLink" to="/aboutUs">
-          <i className="icofont-info-circle hover_icon" />
+          <i className="icofont-info-circle --hover" />
         </Link>
       </div>
 
       <div className="contact_us">
         <Link className="--styleLessLink" to="/contactUs">
-          <i className="icofont-phone-circle hover_icon" />
+          <i className="icofont-phone-circle --hover" />
         </Link>
       </div>
 
       <div className="sign" ref={sign_THe}>
         {!user.login ? (
           <button
-            className="--styleLessBtn hover_icon btnSign_THe"
+            className="--styleLessBtn --hover btnSign_THe"
             onClick={showSubMenuSign}
           >
             <i
@@ -151,7 +151,7 @@ const TopHeader = () => {
           </button>
         ) : (
           <button
-            className="--styleLessBtn hover_icon btnAvatar_THe"
+            className="--styleLessBtn --hover btnAvatar_THe"
             onClick={showSubMenuAvatar}
           >
             <span className="avatar_THe">
@@ -173,7 +173,7 @@ const TopHeader = () => {
           <i className="icofont-caret-up iCaretUp" />
 
           <Link
-            className="--styleLessLink signLink_THe"
+            className="--styleLessLink --hover singIn_The signLink_THe"
             onClick={showSubMenuSign}
             to="signIn"
           >
@@ -182,7 +182,7 @@ const TopHeader = () => {
           </Link>
 
           <Link
-            className="--styleLessLink signLink_THe"
+            className="--styleLessLink --hover signUp_THe signLink_THe"
             onClick={showSubMenuSign}
             to="signUp"
           >
