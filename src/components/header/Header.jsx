@@ -11,7 +11,7 @@ const Header = () => {
     <header className="header_H" ref={headerRef}> 
       <TopHeader />
       <SliderHeader />
-      <NavHeader headerRef={headerRef}/>
+      {/* <NavHeader headerRef={headerRef}/> */}
     </header>
   );
 };

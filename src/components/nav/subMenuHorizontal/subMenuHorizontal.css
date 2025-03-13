@@ -1,0 +1,133 @@
+.container_SMH {
+  width: 96vw;
+  margin-left: 2vw;
+  padding: 5px 10px 20px 5px;
+  background-color: #fff;
+  border: 2px solid #e9e9e9;
+  z-index: 1000;
+  
+  /* display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  column-gap: 15px;
+  row-gap: 10px;
+  justify-content: space-around; */
+
+  /* display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+ 
+  justify-items: stretch;
+  column-gap: 5px;
+  flex-wrap: wrap; */
+  
+}
+
+.containerItems_SMH {
+  width: 100%;
+  
+  
+  /* display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  column-gap: 15px;
+  row-gap: 10px;
+  justify-content: space-around; */
+  direction: rtl;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+ 
+  justify-items: stretch;
+  column-gap: 5px;
+  flex-wrap: wrap;
+}
+
+.divItemSMH {
+  direction: ltr;
+}
+
+.btnItemSMH {
+  width: 100%;
+  height: 25px;
+  min-width: 120px;
+  margin-bottom: 15px;
+  padding: 0 5px 0 2px;
+  display: flex;
+  align-items: center;
+  
+  justify-content: end;
+  /* border-left: 1px solid #d3d3d3; */
+  border-bottom: 2px solid #ebe9e9;
+  border-radius: 8px;
+  /* background-color: #e9e9e9; */
+  /* overflow: hidden; */
+
+}
+
+.colorBorder{
+  border-bottom-color: #3aa061 !important;
+}
+
+.btnItemSMH:hover {
+  color: var(--hoverLink);
+}
+
+
+.btnItemSMH i {
+  display: inline-block;
+  position: relative;
+  top: 3px;
+  margin-right: auto;
+  font-size: 0.68rem;
+}
+
+.iUp_SMH{
+  color: var(--colorBtnUp);
+}
+
+.btnItemSMH span {
+  width: 100%;
+  height: inherit;
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  /* overflow: hidden; */
+  text-align: right;
+  
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: rtl;
+  
+}
+
+
+.divNameItem_SMH {
+  width: max-content;
+  margin-left: auto;
+  margin-right: 20px;
+  padding: 0 6px;
+  border: 1px solid #3aa061;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+}
+
+
+
+
+.btnNameItem_SMH i{
+  color : var(--colorBtnUp);
+}
+
+
+.btnNameItem_SMH span {
+  color: #174e6e;
+  position: relative;
+  top: -2px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.btnNameItem_SMH span:hover {
+  color : var(--colorBtnUp) !important;
+  
+}

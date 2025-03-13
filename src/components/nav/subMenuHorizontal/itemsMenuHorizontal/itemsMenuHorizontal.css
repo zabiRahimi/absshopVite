@@ -1,0 +1,48 @@
+
+.containerMain_IMH {
+    width: 100%;
+    border-top: 2px solid #008f37;
+    border-radius: 12px;
+    padding: 10px 5px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    column-gap: 15px;
+    row-gap: 30px;
+    /* background-color: antiquewhite; */
+    direction: rtl;
+    justify-items: stretch;
+}
+
+
+.containerItems_IMH {
+
+}
+
+.titleItems_IMH {
+    padding-bottom: 6px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #090969;
+}
+
+
+.containerDivItems_IMH{
+    width: 100%;
+    padding: 5px 10px 0 10px;
+    border-top: 1px solid #acacac;
+    border-radius: 10px;
+    text-align: center;
+}
+
+
+.divItem_IMH {
+    padding: 5px 0;
+}
+
+
+.btn_IMH {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+

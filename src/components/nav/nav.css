@@ -1,0 +1,217 @@
+:root {
+    --padding_nav_container_s: clamp(5px, calc(5px + ((100vw - 240px) / 70)), 12px);
+    --padding_nav_container_l: clamp(12px, calc(12px + ((100vw - 240px) / 85)), 25px);
+
+    --font_size_cart_icon_s: clamp(28px, calc(28px + ((100vw - 240px) / 90)), 32px);
+    --font_size_cart_icon_l: clamp(32px, calc(32px + ((100vw - 240px) / 80)), 38px);
+
+    --cart_count_top :clamp(5px, calc(5px + ((100vw - 240px) / 80)), 10px);
+    --cart_count_right:clamp(5px, calc(6px + ((100vw - 240px) / 80)), 10px);
+}
+
+
+.container_NHS {
+    width: 100%;
+    height: 40px;
+    padding: 0 var(--padding_nav_container_s) 4px;
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 5px 0px;
+    position: sticky;
+    top: 0;
+  
+    z-index: 100000000;
+    
+}
+
+.sticky_NHe {
+    position: sticky;
+    top: 0; /* چسبندگی در بالای صفحه */
+    background-color: white; /* پس‌زمینه */
+    padding: 10px;
+    transition: all 0.3s ease; /* انیمیشن برای تغییر */
+}
+
+.fixed_NHe {
+    position: fixed; /* ثابت در بالای صفحه */
+    top: 0;
+    left: 0;
+    width: 100%; /* عرض کامل */
+    background-color: white; /* پس‌زمینه */
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* سایه برای زیبایی */
+}
+
+.positionStatic{
+    position: static !important;
+}
+
+
+
+.cart_container_NHS {
+    display: inline-flex;
+    cursor: pointer;
+}
+
+
+.cart_div_icon_NHS {
+    font-size: var(--font_size_cart_icon_s);
+}
+
+
+.cart_container_NHS:hover .cart_icon_NHS {
+    display: inline-block;
+    color: var(--bs-gray-600);
+}
+
+
+.cart_count_NHS {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: green;
+    color: #fff;
+    position: relative;
+    top: var(--cart_count_top);
+    right: var(--cart_count_right);
+    font-size: 12px;
+}
+
+
+.serch_container_NHS {
+    display: inline-flex;
+}
+
+
+.serch_icon_NHS {
+    font-size: clamp(19px, calc(19px + ((100vw - 240px) / 145)), 26px);
+    cursor: pointer;
+}
+
+
+.serch_icon_NHS:hover {
+    display: inline-block;
+    color: var(--bs-gray-600);
+}
+
+
+.serch_input_NHS {
+    display: none;
+}
+
+
+.nav_NHS {
+    margin-left: auto;
+    display: inline-flex;
+    column-gap: 35px;
+    justify-items: center;
+    align-items: center;
+}
+
+
+.nav_item_NHS {
+
+    display: none;
+    
+}
+
+
+.btn_NHS{
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 700;
+    column-gap: 3px;
+}
+
+
+.btn_NHS:hover{
+    color: var(--bs-gray-600);
+}
+
+
+.btn_NHS i {
+    position: relative;
+    top: 4px;
+    font-size: 1.2rem;
+}
+
+
+.iUp_NHS{
+    color: var(--colorBtnUp);
+}
+
+
+.nav_item_icon_sub_NHS i {
+    position: relative;
+    top: 3px;
+}
+
+
+.menubutton_NHS {
+    display: inline-block;
+    font-size: clamp(22px, calc(22px + ((100vw - 240px) / 145)), 32px);
+    position: relative;
+    top: 4px;
+}
+
+
+.menu_NHS button:hover {
+    color:var(--bs-gray-600);
+}
+
+.bgColorItem_NHS{
+    height: 40px; 
+    margin-top: 7px;
+    padding: 0 6px;
+    background-color: #fff;
+    border: 2px solid #e9e9e9;
+    z-index: 101 !important;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    
+}
+
+
+.subMenu_NHS{
+
+    position: absolute;
+    top: 40px;
+    left: 0;
+    z-index: 100;
+
+}
+
+
+
+@media screen and (min-width:768px) {
+
+    .nav_item_NHS {
+        display: inline-flex;
+        font-size: clamp(16px, calc(16px + ((100vw - 768px) / 210)), 20px);
+        font-weight: bold;
+        cursor:pointer;
+        /* position: relative; */
+    }
+
+    .nav_item_NHS:hover {
+        color:var(--bs-gray-600);
+    }
+
+    .container_NHS {
+        padding: 0 var(--padding_nav_container_l) 4px;
+    }
+
+    .cart_div_icon_NHS {
+        font-size: var(--font_size_cart_icon_l);
+    }
+
+    .cart_count_NHS{
+        width: 20px;
+        height: 20px;
+    }
+}

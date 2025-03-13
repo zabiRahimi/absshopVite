@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import VerticalMenu from "./verticalMenu/VerticalMenu";
-import UseVerticalMenu from "../../hooks/UseVerticalMenu";
-import "./navHeader.css";
+import UseVerticalMenu from "../hooks/UseVerticalMenu";
+import "./nav.css";
 import SubMenuHorizontal from "./subMenuHorizontal/SubMenuHorizontal";
 import { Link, useNavigate } from "react-router-dom";
 
-const NavHeader = ({headerRef}) => {
+const Nav = () => {
   const navigate = useNavigate();
 
   const ref = useRef();
@@ -40,38 +40,6 @@ const NavHeader = ({headerRef}) => {
 
   const [modelSubMenu, setModelSubMenu] = useState();
   const [arraySubMenu, setArraySubMenu] = useState();
-  const [isSticky, setIsSticky] = useState(true);
-  const [headerHeight, setHeaderHeight] = useState(0);
-
-  useEffect(() => {
-    if (headerRef.current) {
-      
-      setHeaderHeight(headerRef.current.clientHeight)
-    }
-
-  }, [headerHeight])
-
-
-
-  const handleScroll = () => {
-    const offset = window.scrollY;
-    console.log(headerHeight);
-    
-    if (offset > headerHeight) {
-      setIsSticky(true);
-    } else {
-      setIsSticky(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    // Cleanup listener on component unmount
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   /**
    * این متد، متدهای لازم برای نمایش منوی عمودی را فرخوانی میکند
@@ -190,7 +158,7 @@ const NavHeader = ({headerRef}) => {
   };
 
   return (
-    <div className={`container_NHS ${isSticky ? 'fixed_NHe' : 'sticky_NHe'}`} ref={container_NHS}>
+    <div className={`container_NHS`} ref={container_NHS}>
       <div className="cart_container_NHS">
         <div className="cart_div_icon_NHS">
           <i className="icofont-cart cart_icon_NHS" />
@@ -342,4 +310,4 @@ const NavHeader = ({headerRef}) => {
   );
 };
 
-export default NavHeader;
+export default Nav;
