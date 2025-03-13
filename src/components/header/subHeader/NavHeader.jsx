@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import VerticalMenu from "./verticalMenu/VerticalMenu";
 import UseVerticalMenu from "../../hooks/UseVerticalMenu";
 import "./navHeader.css";
 import SubMenuHorizontal from "./subMenuHorizontal/SubMenuHorizontal";
 import { Link, useNavigate } from "react-router-dom";
 
-const NavHeader = () => {
+const NavHeader = ({headerRef}) => {
   const navigate = useNavigate();
 
   const ref = useRef();
@@ -40,6 +40,37 @@ const NavHeader = () => {
 
   const [modelSubMenu, setModelSubMenu] = useState();
   const [arraySubMenu, setArraySubMenu] = useState();
+  const [isSticky, setIsSticky] = useState(true);
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  useEffect(() => {
+    if (headerRef.current) {
+      console.log(headerRef.current.clientHeight);
+      
+      setHeaderHeight(headerRef.current.clientHeight)
+    }
+
+  }, [])
+
+
+
+  const handleScroll = () => {
+    const offset = window.scrollY;
+    if (offset > headerHeight) {
+      setIsSticky(true);
+    } else {
+      setIsSticky(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   /**
    * این متد، متدهای لازم برای نمایش منوی عمودی را فرخوانی میکند
@@ -158,14 +189,12 @@ const NavHeader = () => {
   };
 
   return (
-    <div className="container_NHS" ref={container_NHS}>
+    <div className={`container_NHS ${isSticky ? 'fixed_NHe' : 'sticky_NHe'}`} ref={container_NHS}>
       <div className="cart_container_NHS">
-        {/* <Link className='--styleLessLink' to={'cart'} > */}
         <div className="cart_div_icon_NHS">
           <i className="icofont-cart cart_icon_NHS" />
         </div>
         <div className="cart_count_NHS">0</div>
-        {/* </Link> */}
       </div>
 
       <div className="serch_container_NHS">
@@ -174,7 +203,7 @@ const NavHeader = () => {
         </div>
         <input type="text" className="serch_input_NHS" />
       </div>
-      <nav className="nav_NHS">
+      <nav className="nav_NHS sticky">
         <div className="nav_item_NHS" ref={divItemProNHS}>
           <button
             className="--styleLessBtn btn_NHS"

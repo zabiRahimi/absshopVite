@@ -18,13 +18,34 @@
     align-items: center;
     column-gap: 15px;
     box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 5px 0px;
-    position: relative;
     
+  
+    z-index: 100000000;
+    
+}
+
+.sticky_NHe {
+    position: sticky;
+    top: 0; /* چسبندگی در بالای صفحه */
+    background-color: white; /* پس‌زمینه */
+    padding: 10px;
+    transition: all 0.3s ease; /* انیمیشن برای تغییر */
+}
+
+.fixed_NHe {
+    position: fixed; /* ثابت در بالای صفحه */
+    top: 0;
+    left: 0;
+    width: 100%; /* عرض کامل */
+    background-color: white; /* پس‌زمینه */
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* سایه برای زیبایی */
 }
 
 .positionStatic{
     position: static !important;
 }
+
 
 
 .cart_container_NHS {
@@ -163,6 +184,8 @@
     z-index: 100;
 
 }
+
+
 
 @media screen and (min-width:768px) {
 

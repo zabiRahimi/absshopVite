@@ -8,7 +8,7 @@ const Home = () => {
   // useChengeDocumentTitle('خانه');
 
   return (
-    <div>
+    <div className="home">
       <Header />
       <Aside />
       <Main />
