@@ -172,8 +172,39 @@ const Nav = () => {
         </div>
         <input type="text" className="serch_input_NHS" />
       </div>
-      <nav className="nav_NHS sticky">
-        <div className="nav_item_NHS" ref={divItemProNHS}>
+      <nav className="nav_NHS">
+
+        <div className="menu_NHS">
+          <button
+            onClick={showVerticalMenu}
+            className="--styleLessBtn menubutton_NHS"
+            ref={btnMenu}
+          >
+            <i className="icofont-navigation-menu --block"></i>
+          </button>
+
+          {/* <VerticalSubmenu
+
+                        refBtn={btnMenu}
+                        ref={{ verticalMenu, verticalMenu_VMe }}
+
+                    /> */}
+
+          {/* <VerticalMenu
+
+                        refBtn={btnMenu}
+                        ref={{ verticalMenu, verticalMenu_VMe }}
+
+                    /> */}
+
+          <UseVerticalMenu
+            Menu={VerticalMenu}
+            hasBtn={true}
+            ref={{ refVerticalMenu }}
+          />
+        </div>
+
+        <div className="nav_item_NHS allPro_NHS" ref={divItemProNHS}>
           <button
             className="--styleLessBtn btn_NHS"
             onClick={() => (
@@ -188,11 +219,11 @@ const Nav = () => {
               ref.current.closeAllItemsChild()
             )}
           >
-            <i className="icofont-curved-down iDown_NHS" ref={downProNHS} />
+            {/* <i className="icofont-curved-down iDown_NHS" ref={downProNHS} />
             <i
               className="icofont-curved-up iUp_NHS --displayNone"
               ref={upProNHS}
-            />
+            /> */}
             <span>محصولات</span>
           </button>
         </div>
@@ -212,11 +243,11 @@ const Nav = () => {
               ref.current.closeAllItemsChild()
             )}
           >
-            <i className="icofont-curved-down iDown_NHS" ref={downMobileNHS} />
+            {/* <i className="icofont-curved-down iDown_NHS" ref={downMobileNHS} />
             <i
               className="icofont-curved-up iUp_NHS --displayNone"
               ref={upMobileNHS}
-            />
+            /> */}
             <span>موبایل</span>
           </button>
         </div>
@@ -276,35 +307,7 @@ const Nav = () => {
 
                 </div> */}
 
-        <div className="menu_NHS">
-          <button
-            onClick={showVerticalMenu}
-            className="--styleLessBtn menubutton_NHS"
-            ref={btnMenu}
-          >
-            <i className="icofont-navigation-menu --block"></i>
-          </button>
 
-          {/* <VerticalSubmenu
-
-                        refBtn={btnMenu}
-                        ref={{ verticalMenu, verticalMenu_VMe }}
-
-                    /> */}
-
-          {/* <VerticalMenu
-
-                        refBtn={btnMenu}
-                        ref={{ verticalMenu, verticalMenu_VMe }}
-
-                    /> */}
-
-          <UseVerticalMenu
-            Menu={VerticalMenu}
-            hasBtn={true}
-            ref={{ refVerticalMenu }}
-          />
-        </div>
       </nav>
     </div>
   );

@@ -5,49 +5,30 @@
     --font_size_cart_icon_s: clamp(28px, calc(28px + ((100vw - 240px) / 90)), 32px);
     --font_size_cart_icon_l: clamp(32px, calc(32px + ((100vw - 240px) / 80)), 38px);
 
-    --cart_count_top :clamp(5px, calc(5px + ((100vw - 240px) / 80)), 10px);
-    --cart_count_right:clamp(5px, calc(6px + ((100vw - 240px) / 80)), 10px);
+    --cart_count_top: clamp(5px, calc(5px + ((100vw - 240px) / 80)), 10px);
+    --cart_count_right: clamp(5px, calc(6px + ((100vw - 240px) / 80)), 10px);
 }
 
 
 .container_NHS {
     width: 100%;
     height: 40px;
-    padding: 0 var(--padding_nav_container_s) 4px;
+    padding: 6px var(--padding_nav_container_s) 4px;
     display: flex;
     align-items: center;
     column-gap: 15px;
     box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 5px 0px;
     position: sticky;
     top: 0;
-  
     z-index: 100000000;
-    
+    background-color: #fff;
+    border-bottom: 2px solid #ececec;
+
 }
 
-.sticky_NHe {
-    position: sticky;
-    top: 0; /* چسبندگی در بالای صفحه */
-    background-color: white; /* پس‌زمینه */
-    padding: 10px;
-    transition: all 0.3s ease; /* انیمیشن برای تغییر */
-}
-
-.fixed_NHe {
-    position: fixed; /* ثابت در بالای صفحه */
-    top: 0;
-    left: 0;
-    width: 100%; /* عرض کامل */
-    background-color: white; /* پس‌زمینه */
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* سایه برای زیبایی */
-}
-
-.positionStatic{
+.positionStatic {
     position: static !important;
 }
-
-
 
 .cart_container_NHS {
     display: inline-flex;
@@ -107,7 +88,8 @@
 .nav_NHS {
     margin-left: auto;
     display: inline-flex;
-    column-gap: 35px;
+    flex-direction: row-reverse;
+    column-gap: 15px;
     justify-items: center;
     align-items: center;
 }
@@ -116,20 +98,28 @@
 .nav_item_NHS {
 
     display: none;
+    font-size: clamp(16px, calc(16px + ((100vw - 768px) / 210)), 20px);
+    cursor: pointer;
+    font-family: IRANSansMedium;
     
 }
 
+.allPro_NHS {
+    display: block;
+}
 
-.btn_NHS{
+
+.btn_NHS {
     display: flex;
     align-items: center;
     font-size: 1rem;
-    font-weight: 700;
+    /* font-weight: 700; */
+    color: #555;
     column-gap: 3px;
 }
 
 
-.btn_NHS:hover{
+.btn_NHS:hover {
     color: var(--bs-gray-600);
 }
 
@@ -141,7 +131,7 @@
 }
 
 
-.iUp_NHS{
+.iUp_NHS {
     color: var(--colorBtnUp);
 }
 
@@ -161,11 +151,11 @@
 
 
 .menu_NHS button:hover {
-    color:var(--bs-gray-600);
+    color: var(--bs-gray-600);
 }
 
-.bgColorItem_NHS{
-    height: 40px; 
+.bgColorItem_NHS {
+    height: 40px;
     margin-top: 7px;
     padding: 0 6px;
     background-color: #fff;
@@ -173,11 +163,11 @@
     z-index: 101 !important;
     border-bottom: none;
     border-radius: 5px 5px 0 0;
-    
+
 }
 
 
-.subMenu_NHS{
+.subMenu_NHS {
 
     position: absolute;
     top: 40px;
@@ -186,31 +176,40 @@
 
 }
 
+@media screen and (min-width:320px) {
+    .nav_NHS {
+        column-gap: 25px;
+    }
+}
 
+@media screen and (min-width:560px) {
+    .nav_NHS {
+        column-gap: 35px;
+    }
+}
 
 @media screen and (min-width:768px) {
 
+
     .nav_item_NHS {
         display: inline-flex;
-        font-size: clamp(16px, calc(16px + ((100vw - 768px) / 210)), 20px);
-        font-weight: bold;
-        cursor:pointer;
+
         /* position: relative; */
     }
 
     .nav_item_NHS:hover {
-        color:var(--bs-gray-600);
+        color: var(--bs-gray-600);
     }
 
     .container_NHS {
-        padding: 0 var(--padding_nav_container_l) 4px;
+        padding: 6px var(--padding_nav_container_l) 4px;
     }
 
     .cart_div_icon_NHS {
         font-size: var(--font_size_cart_icon_l);
     }
 
-    .cart_count_NHS{
+    .cart_count_NHS {
         width: 20px;
         height: 20px;
     }
