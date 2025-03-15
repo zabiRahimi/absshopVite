@@ -224,9 +224,16 @@ const Nav = () => {
               className="icofont-curved-up iUp_NHS --displayNone"
               ref={upProNHS}
             /> */}
+            <i className="iCircle_NHS"></i>
             <span>محصولات</span>
+
           </button>
         </div>
+
+
+
+
+        <div className="border_NHS part1_NHS"> </div>
 
         <div className="nav_item_NHS" ref={divItemMobileNHS}>
           <button
@@ -267,28 +274,20 @@ const Nav = () => {
               ref.current.closeAllItemsChild()
             )}
           >
-            <i className="icofont-curved-down iDown_NHS" ref={downHomeNHS} />
-            <i
-              className="icofont-curved-up iUp_NHS --displayNone"
-              ref={upHomeNHS}
-            />
+
             <span>خانه و آشپزخانه</span>
           </button>
         </div>
+
+        <div className="border_NHS part2_NHS"></div>
+
 
         <div className="nav_item_NHS" ref={divItemSetOrderNHS}>
           <button
             className="--styleLessBtn btn_NHS"
             onClick={() => ref.current.closeAllItemsChild()}
           >
-            <i
-              className="icofont-curved-down iDown_NHS"
-              ref={downSetOrderNHS}
-            />
-            <i
-              className="icofont-curved-up iUp_NHS --displayNone"
-              ref={upSetOrderNHS}
-            />
+
             <span>راهنمای ثبت سفارش</span>
           </button>
         </div>
