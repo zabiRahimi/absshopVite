@@ -9,7 +9,6 @@
     --cart_count_right: clamp(5px, calc(6px + ((100vw - 240px) / 80)), 10px);
 }
 
-
 .container_NHS {
     width: 100%;
     height: 40px;
@@ -35,17 +34,14 @@
     cursor: pointer;
 }
 
-
 .cart_div_icon_NHS {
     font-size: var(--font_size_cart_icon_s);
 }
-
 
 .cart_container_NHS:hover .cart_icon_NHS {
     display: inline-block;
     color: var(--bs-gray-600);
 }
-
 
 .cart_count_NHS {
     display: inline-flex;
@@ -62,28 +58,23 @@
     font-size: 12px;
 }
 
-
 .serch_container_NHS {
     display: inline-flex;
 }
-
 
 .serch_icon_NHS {
     font-size: clamp(19px, calc(19px + ((100vw - 240px) / 145)), 26px);
     cursor: pointer;
 }
 
-
 .serch_icon_NHS:hover {
     display: inline-block;
     color: var(--bs-gray-600);
 }
 
-
 .serch_input_NHS {
     display: none;
 }
-
 
 .nav_NHS {
     margin-left: auto;
@@ -93,28 +84,24 @@
     align-items: center;
 }
 
-
 .nav_item_NHS {
-
     padding: 0 15px;
     display: none;
     font-size: clamp(16px, calc(16px + ((100vw - 768px) / 210)), 20px);
     cursor: pointer;
     font-family: IRANSansMedium;
-    
 }
 
 .allPro_NHS {
     display: block;
-   
+
 }
 
-.border_NHS{
+.border_NHS {
     height: 25px;
     border-left: 1px solid #9999a453;
-        
-}
 
+}
 
 .btn_NHS {
 
@@ -124,23 +111,80 @@
     color: #333355;
 }
 
-
-.btn_NHS:hover {
-    color: var(--bs-gray-600);
-}
-
-
 .iCircle_NHS {
     display: inline-block;
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    border: 2px solid #53c553;
-    /* outline: 1px green solid; */
-    background-color: green;
+    border: 2px solid transparent;
+    background-color: white;
     position: relative;
     top: -9px;
+    right: 4px;
+    overflow: hidden;
 }
+
+.iCircle_NHS::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: #53c553;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.35s ease-in-out;
+}
+
+.btn_NHS:hover,
+.btn-NHS.active {
+    color: #75758b;
+}
+
+.btn_NHS:hover .iCircle_NHS::after {
+    width: 100%;
+    height: 100%;
+}
+
+.btn_NHS:hover .iCircle_NHS {
+    animation: borderGlow 0.45s linear 0.35s forwards;
+}
+
+.active .iCircle_NHS::after {
+    width: 100%;
+    height: 100%;
+}
+
+.btn_NHS.active .iCircle_NHS {
+    animation: borderGlow 2s linear 0.35s forwards;
+}
+
+
+@keyframes borderGlow {
+    0% {
+        border-left-color: green;
+    }
+
+    25% {
+        border-bottom-color: green;
+    }
+
+    50% {
+        border-right-color: green;
+    }
+
+    75% {
+        border-top-color: green;
+    }
+
+    100% {
+        border-color: green;
+    }
+}
+
+
+
 
 
 .iUp_NHS {
@@ -163,7 +207,7 @@
 
 
 .menu_NHS button:hover {
-    color: var(--bs-gray-600);
+    /* color: var(--bs-gray-600); */
 }
 
 .bgColorItem_NHS {
@@ -189,16 +233,16 @@
 }
 
 @media screen and (min-width:320px) {
-   .allPro_NHS{
-    padding-right: 25px;
-   }
+    .allPro_NHS {
+        padding-right: 25px;
+    }
 
 }
 
 @media screen and (min-width:560px) {
-    .allPro_NHS{
+    .allPro_NHS {
         padding-right: 35px;
-       }
+    }
 }
 
 @media screen and (min-width:768px) {
