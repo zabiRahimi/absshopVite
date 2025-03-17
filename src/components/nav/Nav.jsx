@@ -157,6 +157,29 @@ const Nav = () => {
     divSubMenu.current.classList.add("--displayNone");
   };
 
+  // const [isActive, setIsActive] = useState(false);
+
+  /**
+   *  هنگامی که بر روی یکی از دکمه های ناوبری در صفحات لمسی، لمس می شود
+   * این متد فراخوانی می شود و با عث می شود که کلاس اکتیو اضافه شده و با توجه به
+   * استایلی که در فایل سی اس اس تعریف شده المان دایره ای سبز رنگ نمایش داده می شود
+   * @param {} e 
+   */
+  const handleTouchStart = (e) => {
+    e.currentTarget.classList.add("active");
+  };
+
+  /**
+   * این متد بر عکس متد
+   * handleTouchStart 
+   * عمل می کند
+   * @param {*} e 
+   */
+  const handleBlur = (e) => {
+    e.currentTarget.classList.remove("active");
+
+  }
+
   return (
     <div className={`container_NHS`} ref={container_NHS}>
       <div className="cart_container_NHS">
@@ -206,32 +229,15 @@ const Nav = () => {
 
         <div className="nav_item_NHS allPro_NHS" ref={divItemProNHS}>
           <button
-            className="--styleLessBtn btn_NHS"
-            onClick={() => (
-              showSupMenu(
-                "subMenu",
-                "products",
-                divItemProNHS,
-                downProNHS,
-                upProNHS,
-                proNHS
-              ),
-              ref.current.closeAllItemsChild()
-            )}
+            className="--styleLessBtn btn_NHS "
+            onTouchStart={(e) => handleTouchStart(e)}
+            onBlur={(e) => handleBlur(e)}
           >
-            {/* <i className="icofont-curved-down iDown_NHS" ref={downProNHS} />
-            <i
-              className="icofont-curved-up iUp_NHS --displayNone"
-              ref={upProNHS}
-            /> */}
             <i className="iCircle_NHS"></i>
             <span>محصولات</span>
 
           </button>
         </div>
-
-
-
 
         <div className="border_NHS part1_NHS"> </div>
 
@@ -250,11 +256,9 @@ const Nav = () => {
               ref.current.closeAllItemsChild()
             )}
           >
-            {/* <i className="icofont-curved-down iDown_NHS" ref={downMobileNHS} />
-            <i
-              className="icofont-curved-up iUp_NHS --displayNone"
-              ref={upMobileNHS}
-            /> */}
+
+            <i className="iCircle_NHS"></i>
+
             <span>موبایل</span>
           </button>
         </div>
@@ -274,6 +278,7 @@ const Nav = () => {
               ref.current.closeAllItemsChild()
             )}
           >
+            <i className="iCircle_NHS"></i>
 
             <span>خانه و آشپزخانه</span>
           </button>
@@ -287,6 +292,7 @@ const Nav = () => {
             className="--styleLessBtn btn_NHS"
             onClick={() => ref.current.closeAllItemsChild()}
           >
+            <i className="iCircle_NHS"></i>
 
             <span>راهنمای ثبت سفارش</span>
           </button>
