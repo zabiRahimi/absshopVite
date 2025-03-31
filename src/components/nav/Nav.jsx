@@ -4,6 +4,7 @@ import UseVerticalMenu from "../hooks/UseVerticalMenu";
 import "./nav.css";
 import SubMenuHorizontal from "./subMenuHorizontal/SubMenuHorizontal";
 import { Link, useNavigate } from "react-router-dom";
+import menu from './nav.json';
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -40,6 +41,10 @@ const Nav = () => {
 
   const [modelSubMenu, setModelSubMenu] = useState();
   const [arraySubMenu, setArraySubMenu] = useState();
+
+  const [items, setItems] = useState(
+
+  )
 
   /**
    * این متد، متدهای لازم برای نمایش منوی عمودی را فرخوانی میکند
@@ -177,7 +182,14 @@ const Nav = () => {
    */
   const handleBlur = (e) => {
     e.currentTarget.classList.remove("active");
+  }
 
+  const handleShowMenu = () => {
+    retrun(
+      <>
+
+      </>
+    );
   }
 
   return (
@@ -196,7 +208,6 @@ const Nav = () => {
         <input type="text" className="serch_input_NHS" />
       </div>
       <nav className="nav_NHS">
-
         <div className="menu_NHS">
           <button
             onClick={showVerticalMenu}
@@ -229,9 +240,10 @@ const Nav = () => {
 
         <div className="nav_item_NHS allPro_NHS" ref={divItemProNHS}>
           <button
-            className="--styleLessBtn btn_NHS "
+            className="--styleLessBtn btn_NHS cursorContextMenu"
             onTouchStart={(e) => handleTouchStart(e)}
             onBlur={(e) => handleBlur(e)}
+            onFocus={handleShowMenu()}
           >
             <i className="iCircle_NHS"></i>
             <span>محصولات</span>
@@ -255,6 +267,8 @@ const Nav = () => {
               ),
               ref.current.closeAllItemsChild()
             )}
+            onTouchStart={(e) => handleTouchStart(e)}
+            onBlur={(e) => handleBlur(e)}
           >
 
             <i className="iCircle_NHS"></i>
@@ -277,6 +291,8 @@ const Nav = () => {
               ),
               ref.current.closeAllItemsChild()
             )}
+            onTouchStart={(e) => handleTouchStart(e)}
+            onBlur={(e) => handleBlur(e)}
           >
             <i className="iCircle_NHS"></i>
 
@@ -291,6 +307,8 @@ const Nav = () => {
           <button
             className="--styleLessBtn btn_NHS"
             onClick={() => ref.current.closeAllItemsChild()}
+            onTouchStart={(e) => handleTouchStart(e)}
+            onBlur={(e) => handleBlur(e)}
           >
             <i className="iCircle_NHS"></i>
 

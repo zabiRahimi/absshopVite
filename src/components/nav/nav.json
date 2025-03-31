@@ -1,0 +1,61 @@
+[
+    {
+        "settings": {},
+        "items": [
+            {
+                "title": "موبایل",
+                "category": [
+                    {
+                        "label": "هوشمند",
+                        "subCategory": [
+                            {
+                                "name": "لمسی"
+                            },
+                            {
+                                "name": "دکمه ای"
+                            }
+                        ]
+                    },
+                    {
+                        "label": "ساده",
+                        "subCategory": [
+                            {
+                                "name": "کوچک"
+                            },
+                            {
+                                "name": "بزرگ"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "ورزش و سفر",
+                "category": [
+                    {
+                        "label": "ورزش",
+                        "subCategory": [
+                            {
+                                "name": "توپ"
+                            },
+                            {
+                                "name": "ابزار ورزشی"
+                            }
+                        ]
+                    },
+                    {
+                        "label": "سفر",
+                        "subCategory": [
+                            {
+                                "name": "چادر"
+                            },
+                            {
+                                "name": "وسایل ایمنی"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

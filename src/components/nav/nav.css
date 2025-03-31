@@ -97,6 +97,11 @@
 
 }
 
+.cursorContextMenu{
+    cursor: context-menu !important;
+    
+}
+
 .border_NHS {
     height: 25px;
     border-left: 1px solid #9999a453;
