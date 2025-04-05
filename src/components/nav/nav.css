@@ -82,38 +82,47 @@
     flex-direction: row-reverse;
     justify-items: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .nav_item_NHS {
     padding: 0 15px;
-    display: none;
     font-size: clamp(16px, calc(16px + ((100vw - 768px) / 210)), 20px);
     cursor: pointer;
     font-family: IRANSansMedium;
 }
 
 .allPro_NHS {
-    display: block;
+    display: none;
 
 }
 
-.cursorContextMenu{
+.flex_NHS {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.cursorCM_NHS {
     cursor: context-menu !important;
-    
 }
 
 .border_NHS {
-    height: 25px;
+    height: 28px;
     border-left: 1px solid #9999a453;
 
 }
 
 .btn_NHS {
-
+    min-height: 30px;
     display: flex;
     align-items: center;
     font-size: 1rem;
     color: #333355;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* padding-top: 5px; */
+    padding-left: 5px;
 }
 
 .iCircle_NHS {
@@ -238,8 +247,14 @@
 }
 
 @media screen and (min-width:320px) {
+    .nav_item_NHS {
+        /* display: inline-flex; */
+
+        /* position: relative; */
+    }
     .allPro_NHS {
         padding-right: 25px;
+        display: block;
     }
 
 }
@@ -253,11 +268,7 @@
 @media screen and (min-width:768px) {
 
 
-    .nav_item_NHS {
-        display: inline-flex;
-
-        /* position: relative; */
-    }
+   
 
     .nav_item_NHS:hover {
         color: var(--bs-gray-600);

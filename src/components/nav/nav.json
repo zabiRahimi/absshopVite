@@ -1,9 +1,18 @@
 [
     {
-        "settings": {},
+        "settings": {
+            "numberParts": 3,
+            "limitPart1": 4,
+            "limitPart2": 3,
+            "limitPart3": 3
+        },
         "items": [
             {
                 "title": "موبایل",
+                "part": 1,
+                "priority": 2,
+                "showOnMobile":true,
+                "behavior":"hoverOnly",
                 "category": [
                     {
                         "label": "هوشمند",
@@ -31,6 +40,11 @@
             },
             {
                 "title": "ورزش و سفر",
+                "part": 1,
+                "priority": 1,
+                "behavior":"clickAndHover",
+
+                "url": "",
                 "category": [
                     {
                         "label": "ورزش",
@@ -55,6 +69,57 @@
                         ]
                     }
                 ]
+            },
+            {
+                "title": "نحوه خرید",
+                "part": 2,
+                "url": "",
+                "behavior":"clickOnly"
+
+            },
+            {
+                "title": "بفروش",
+                "part": 3,
+                "url": "",
+                "behavior":"clickOnly"
+
+            },
+            {
+                "title": "تازها",
+                "part": 3,
+                "url": "",
+                "behavior":"clickOnly"
+
+            },
+            {
+                "title": "ردیابی خرید",
+                "part": 3,
+                "url": "",
+                "behavior":"clickOnly"
+
+            },
+            {
+                "title": "رضایت از ما",
+                "part": 2,
+                "url": "",
+                "behavior":"clickOnly"
+
+            }
+            ,
+            {
+                "title": "راهنما",
+                "part": 2,
+                "url": "",
+                "behavior":"clickOnly"
+
+            }
+            ,
+            {
+                "title": "مقررات",
+                "part": 2,
+                "url": "",
+                "behavior":"clickOnly"
+
             }
         ]
     }

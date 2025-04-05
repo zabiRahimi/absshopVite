@@ -39,6 +39,7 @@ const Nav = () => {
   const upSetOrderNHS = useRef(null);
   const setOrderNHS = useRef(null);
 
+  const [menuDisplay, setMenuDisplay] = useState();
   const [modelSubMenu, setModelSubMenu] = useState();
   const [arraySubMenu, setArraySubMenu] = useState();
 
@@ -111,7 +112,6 @@ const Nav = () => {
 
   //         // verticalMenu_VMe.current.classList.add('--width100');
   //         containerVerticalMenu.current.classList.add('--width100');
-  //         console.log(containerVerticalMenu.current);
 
   //     }, 2)
 
@@ -184,13 +184,176 @@ const Nav = () => {
     e.currentTarget.classList.remove("active");
   }
 
-  const handleShowMenu = () => {
-    retrun(
-      <>
+  const handleClick = (e, behavior) => {
+    if (["clickOnly", "clickAndHover"].includes(behavior)) {
+      // عمل مشترک
+    }
 
-      </>
-    );
   }
+
+  useEffect(() => {
+    setMenuDisplay(handleMenuDisplay())
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setMenuDisplay(handleMenuDisplay())
+
+    });
+  }, [])
+
+
+
+  // const handleMenuDisplay = () => {
+  //   const parts = menu[0].settings.parts;
+  //   let result = [];
+
+  //   for (let index = 0; index < parts; index++) {
+  //     result.push(
+  //       <div className="flex_NHS" key={index}>
+  //         <div className="border_NHS part1_NHS"> </div> 
+  //         {index + 1}
+  //       </div>
+  //     );
+  //   }
+
+  //   return <>{result}</>;
+  // };
+
+  const handleMenuDisplay = () => {
+    let device = getDeviceType();
+    if (device == 'xs_mobile') return;
+    const { numberParts } = menu[0].settings;
+    const parts = handleGetParts(numberParts, menu[0].items);
+    const { limitPart1, limitPart2, limitPart3 } = handleLimitParts(device, parts[0].length, parts[1].length, parts[2].length);
+    console.log(`limitParts = ${limitPart3}`);
+
+    let result = [];
+
+    for (let index = 0; index < numberParts; index++) {
+      // فیلتر کردن اعضا بر اساس مقدار part
+      const filteredItems = menu[0].items.filter(item => item.part === index + 1);
+      if (filteredItems.length === 0) {
+        continue;
+      }
+      // مرتب‌سازی اعضا بر اساس priority
+      const sortedItems = filteredItems.sort((a, b) => a.priority - b.priority);
+      // محدود کردن تعداد اعضای هر دسته بر اساس settings
+      const limit = menu[0].settings[`limitPart${index + 1}`] || sortedItems.length;
+      const limitedItems = sortedItems.slice(0, limit);
+
+      result.push(
+        <div className="flex_NHS" key={index}>
+          <div className="border_NHS"> </div>
+
+          {limitedItems.map((item, itemIndex) => (
+
+            <div className="nav_item_NHS" key={itemIndex}>
+              <button
+                className={`--styleLessBtn btn_NHS ${item.behavior == 'clickOnly' ? '' : 'cursorCM_NHS'}`}
+                onClick={(e) => handleClick(e, item.behavior)}
+                onTouchStart={(e) => handleTouchStart(e)}
+                onBlur={(e) => handleBlur(e)}
+              >
+                <i className="iCircle_NHS"></i>
+                <span>
+                  {item.title}
+                </span>
+              </button>
+
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return <>{result}</>;
+  };
+
+
+
+  const getDeviceType = () => {
+    const width = window.innerWidth;
+
+    if (width <= 450) return "xs_mobile";//extra small mobile
+    if (width <= 580) return "s_mobile";// samll mobile
+    if (width <= 680) return "m_mobile";//medium mobile
+    if (width <= 768) return "mobile";
+    if (width <= 948) return "tablet";
+    return "desktop";
+  };
+
+  const handleGetParts = (numberParts, items) => {
+    let parts = [];
+    for (let index = 0; index < numberParts; index++) {
+      const filteredItems = items.filter(item => item.part === index + 1);
+
+      // مرتب‌سازی اعضا بر اساس priority
+      const sortedItems = filteredItems.sort((a, b) => a.priority - b.priority);
+      parts.push(sortedItems)
+    }
+    return parts;
+  }
+  const handleLimitParts = (device, lengthPart1, lengthPart2, lengthPart3) => {
+    let limitPart1 = 0;
+    let limitPart2 = 0;
+    let limitPart3 = 0;
+
+    switch (device) {
+      case 's_mobile':
+        if (lengthPart3 >= 1) {
+          limitPart3 = 1;
+        } else if (lengthPart2 >= 1) {
+          limitPart2 = 1;
+        } else if (lengthPart1 >= 1) {
+          limitPart1 = 1;
+        }
+        break;
+      case 'm_mobile':
+        if (lengthPart3 >= 2) {
+          limitPart3 = 2;
+        } else if (lengthPart3 == 1) {
+          limitPart3 = 1;
+          if (lengthPart2 >= 1) {
+            limitPart2 = 1;
+          }
+          else if (lengthPart1 >= 1) {
+            limitPart1 = 1;
+          }
+        } else if (lengthPart2 >= 2) {
+          limitPart2 = 2;
+        } else if (lengthPart2 == 1) {
+          limitPart2 = 1;
+          if(lengthPart1 >= 1){
+
+            limitPart1= 1;
+          }
+        }
+        else if (lengthPart1 >= 2) {
+          limitPart1 = 2;
+
+        }
+        else if (lengthPart1 == 1) {
+          limitPart1 = 1;
+
+        }
+        break;
+      case 'mobile':
+
+        break;
+      case 'tablet':
+
+        break;
+      case 'desktop':
+
+        break;
+    }
+
+
+    return { limitPart1, limitPart2, limitPart3 };
+
+  }
+
 
   return (
     <div className={`container_NHS`} ref={container_NHS}>
@@ -240,20 +403,21 @@ const Nav = () => {
 
         <div className="nav_item_NHS allPro_NHS" ref={divItemProNHS}>
           <button
-            className="--styleLessBtn btn_NHS cursorContextMenu"
+            className="--styleLessBtn btn_NHS cursorCM_NHS"
             onTouchStart={(e) => handleTouchStart(e)}
             onBlur={(e) => handleBlur(e)}
-            onFocus={handleShowMenu()}
+          // onFocus={handleMenuDisplay()}
           >
             <i className="iCircle_NHS"></i>
             <span>محصولات</span>
 
           </button>
         </div>
+        {menuDisplay && menuDisplay}
 
-        <div className="border_NHS part1_NHS"> </div>
+        {/* <div className="border_NHS part1_NHS"> </div> */}
 
-        <div className="nav_item_NHS" ref={divItemMobileNHS}>
+        {/* <div className="nav_item_NHS" ref={divItemMobileNHS}>
           <button
             className="--styleLessBtn btn_NHS"
             onClick={() => (
@@ -275,9 +439,9 @@ const Nav = () => {
 
             <span>موبایل</span>
           </button>
-        </div>
+        </div> */}
 
-        <div className="nav_item_NHS" ref={divItemHomeNHS}>
+        {/* <div className="nav_item_NHS" ref={divItemHomeNHS}>
           <button
             className="--styleLessBtn btn_NHS"
             onClick={() => (
@@ -298,12 +462,12 @@ const Nav = () => {
 
             <span>خانه و آشپزخانه</span>
           </button>
-        </div>
+        </div> */}
 
-        <div className="border_NHS part2_NHS"></div>
+        {/* <div className="border_NHS part2_NHS"></div> */}
 
 
-        <div className="nav_item_NHS" ref={divItemSetOrderNHS}>
+        {/* <div className="nav_item_NHS" ref={divItemSetOrderNHS}>
           <button
             className="--styleLessBtn btn_NHS"
             onClick={() => ref.current.closeAllItemsChild()}
@@ -314,15 +478,15 @@ const Nav = () => {
 
             <span>راهنمای ثبت سفارش</span>
           </button>
-        </div>
+        </div> */}
 
-        <div className="subMenu_NHS --displayNone" ref={divSubMenu}>
+        {/* <div className="subMenu_NHS --displayNone" ref={divSubMenu}>
           <SubMenuHorizontal
             ref={ref}
             modelSubMenu={modelSubMenu}
             arraySubMenu={arraySubMenu}
           />
-        </div>
+        </div> */}
 
         {/* <div className='subMenu_NHS --displayNone' ref={proNHS}>
 
