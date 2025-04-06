@@ -225,23 +225,29 @@ const Nav = () => {
     if (device == 'xs_mobile') return;
     const { numberParts } = menu[0].settings;
     const parts = handleGetParts(numberParts, menu[0].items);
-    const { limitPart1, limitPart2, limitPart3 } = handleLimitParts(device, parts[0].length, parts[1].length, parts[2].length);
-    console.log(`limitParts = ${limitPart3}`);
+    // const { limitPart1, limitPart2, limitPart3 } = handleLimitParts(device, parts[0].length, parts[1].length, parts[2].length);
+    const limits = handleLimitParts(device, parts[0].length, parts[1].length, parts[2].length);
+    // console.log(`limitPart1 = ${limitPart1}`);
+    // console.log(`limitPart2 = ${limitPart2}`);
+    // console.log(`limitPart3 = ${limitPart3}`);
+
 
     let result = [];
 
-    for (let index = 0; index < numberParts; index++) {
-      // فیلتر کردن اعضا بر اساس مقدار part
-      const filteredItems = menu[0].items.filter(item => item.part === index + 1);
-      if (filteredItems.length === 0) {
-        continue;
-      }
-      // مرتب‌سازی اعضا بر اساس priority
-      const sortedItems = filteredItems.sort((a, b) => a.priority - b.priority);
-      // محدود کردن تعداد اعضای هر دسته بر اساس settings
-      const limit = menu[0].settings[`limitPart${index + 1}`] || sortedItems.length;
-      const limitedItems = sortedItems.slice(0, limit);
 
+
+
+    // پیمایش آرایه اصلی
+    parts.forEach((part, index) => {
+      // بررسی اینکه آیا آرایه فرزند حاوی مقدار است یا خالی است
+      if (part.length === 0) return; // از آرایه خالی رد می‌شود
+      const limitKey = `limitPart${index + 1}`;
+      const limitValue = limits[limitKey]; // مقدار محدودیت برای این پارت
+      // اعمال محدودیت‌ها و انتخاب اعضای مجاز
+      const limitedItems = part.slice(0, limitValue); // اعمال محدودیت تعداد اعضا
+      // console.log(limitedItems);
+      if (limitedItems.length == 0) return;
+      // اضافه کردن JSX به آرایه خالی
       result.push(
         <div className="flex_NHS" key={index}>
           <div className="border_NHS"> </div>
@@ -265,7 +271,52 @@ const Nav = () => {
           ))}
         </div>
       );
-    }
+    });
+
+
+
+
+
+
+
+
+
+    // for (let index = 0; index < numberParts; index++) {
+    //   // فیلتر کردن اعضا بر اساس مقدار part
+    //   const filteredItems = menu[0].items.filter(item => item.part === index + 1);
+    //   if (filteredItems.length === 0) {
+    //     continue;
+    //   }
+    //   // مرتب‌سازی اعضا بر اساس priority
+    //   const sortedItems = filteredItems.sort((a, b) => a.priority - b.priority);
+    //   // محدود کردن تعداد اعضای هر دسته بر اساس settings
+    //   const limit = menu[0].settings[`limitPart${index + 1}`] || sortedItems.length;
+    //   const limitedItems = sortedItems.slice(0, limit);
+
+    //   result.push(
+    //     <div className="flex_NHS" key={index}>
+    //       <div className="border_NHS"> </div>
+
+    //       {limitedItems.map((item, itemIndex) => (
+
+    //         <div className="nav_item_NHS" key={itemIndex}>
+    //           <button
+    //             className={`--styleLessBtn btn_NHS ${item.behavior == 'clickOnly' ? '' : 'cursorCM_NHS'}`}
+    //             onClick={(e) => handleClick(e, item.behavior)}
+    //             onTouchStart={(e) => handleTouchStart(e)}
+    //             onBlur={(e) => handleBlur(e)}
+    //           >
+    //             <i className="iCircle_NHS"></i>
+    //             <span>
+    //               {item.title}
+    //             </span>
+    //           </button>
+
+    //         </div>
+    //       ))}
+    //     </div>
+    //   );
+    // }
 
     return <>{result}</>;
   };
@@ -283,76 +334,440 @@ const Nav = () => {
     return "desktop";
   };
 
+  // const handleGetParts = (numberParts, items) => {
+  //   let parts = [];
+  //   for (let index = 0; index < numberParts; index++) {
+  //     const filteredItems = items.filter(item => item.part === index + 1);
+
+  //     // مرتب‌سازی اعضا بر اساس priority
+  //     const sortedItems = filteredItems.sort((a, b) => a.priority - b.priority);
+  //     parts.push(sortedItems)
+  //   }
+  //   return parts;
+  // }
+
   const handleGetParts = (numberParts, items) => {
-    let parts = [];
-    for (let index = 0; index < numberParts; index++) {
+    return Array.from({ length: numberParts }, (_, index) => {
       const filteredItems = items.filter(item => item.part === index + 1);
 
       // مرتب‌سازی اعضا بر اساس priority
-      const sortedItems = filteredItems.sort((a, b) => a.priority - b.priority);
-      parts.push(sortedItems)
-    }
-    return parts;
-  }
-  const handleLimitParts = (device, lengthPart1, lengthPart2, lengthPart3) => {
-    let limitPart1 = 0;
-    let limitPart2 = 0;
-    let limitPart3 = 0;
+      return filteredItems.sort((a, b) => a.priority - b.priority);
+    });
+  };
 
+
+
+  // const handleLimitParts = (device, lengthPart1, lengthPart2, lengthPart3) => {
+  //   let limitPart1 = 0;
+  //   let limitPart2 = 0;
+  //   let limitPart3 = 0;
+
+  //   switch (device) {
+  //     case 's_mobile':
+  //       if (lengthPart3 >= 1) {
+  //         limitPart3 = 1;
+  //       } else if (lengthPart2 >= 1) {
+  //         limitPart2 = 1;
+  //       } else if (lengthPart1 >= 1) {
+  //         limitPart1 = 1;
+  //       }
+  //       break;
+  //     case 'm_mobile':
+  //       if (lengthPart3 >= 2) {
+  //         limitPart3 = 2;
+  //       } else if (lengthPart3 == 1) {
+  //         limitPart3 = 1;
+  //         if (lengthPart2 >= 1) {
+  //           limitPart2 = 1;
+  //         }
+  //         else if (lengthPart1 >= 1) {
+  //           limitPart1 = 1;
+  //         }
+  //       } else if (lengthPart2 >= 2) {
+  //         limitPart2 = 2;
+  //       } else if (lengthPart2 == 1) {
+  //         limitPart2 = 1;
+  //         if (lengthPart1 >= 1) {
+
+  //           limitPart1 = 1;
+  //         }
+  //       }
+  //       else if (lengthPart1 >= 2) {
+  //         limitPart1 = 2;
+
+  //       }
+  //       else if (lengthPart1 == 1) {
+  //         limitPart1 = 1;
+
+  //       }
+  //       break;
+  //     case 'mobile':
+  //       if (lengthPart3 >= 3) {
+  //         limitPart3 = 3;
+
+  //       } else if (lengthPart3 == 2) {
+  //         limitPart3 = 2;
+  //         if (lengthPart2 >= 1) {
+  //           limitPart2 = 1;
+
+  //         } else {
+  //           limitPart1 = 1;
+  //         }
+  //       }
+  //       else if (lengthPart3 == 1) {
+  //         limitPart3 = 1;
+  //         if (lengthPart2 >= 2) {
+  //           limitPart2 = 2;
+  //         } else if (lengthPart2 == 1) {
+  //           limitPart2 = 1;
+  //           limitPart1 = 1;
+  //         } else {
+  //           limitPart1 = 1;
+  //         }
+  //       }
+  //       else if (lengthPart2 >= 3) {
+  //         limitPart2 = 3;
+  //       }
+  //       else if (lengthPart2 == 2) {
+  //         limitPart2 = 2;
+  //         limitPart1 = 1;
+  //       }
+  //       else if (lengthPart2 == 1) {
+  //         limitPart2 = 1;
+  //         limitPart1 = 2;
+  //       }
+  //       else {
+  //         limitPart1 = 2;
+
+  //       }
+  //       break;
+
+
+  //     case 'tablet':
+  //       if (lengthPart3 >= 3) {
+  //         limitPart3 = 3;
+  //         if (lengthPart3 >= 1) {
+  //           limitPart2 = 1;
+  //         } else {
+  //           limitPart1 = 1;
+  //         }
+
+  //       } else if (lengthPart3 == 2) {
+  //         limitPart3 = 2;
+  //         if (lengthPart2 >= 2) {
+  //           limitPart2 = 2;
+
+  //         } else if (lengthPart2 == 1) {
+  //           limitPart2 = 1;
+  //           limitPart1 = 1;
+  //         } else {
+  //           limitPart1 = 2;
+  //         }
+  //       }
+  //       else if (lengthPart3 == 1) {
+  //         limitPart3 = 1;
+  //         if (lengthPart2 >= 3) {
+  //           limitPart2 = 3;
+  //         } else if (lengthPart2 == 2) {
+  //           limitPart2 = 2;
+  //           limitPart1 = 1;
+  //         } else if (lengthPart2 == 1) {
+  //           limitPart2 = 1;
+  //           limitPart1 = 2;
+  //         } else {
+  //           limitPart1 = 3;
+  //         }
+  //       }
+  //       else if (lengthPart2 >= 3) {
+  //         limitPart2 = 3;
+  //         limitPart1 = 1;
+  //       }
+  //       else if (lengthPart2 == 2) {
+  //         limitPart2 = 2;
+  //         limitPart1 = 2;
+  //       }
+  //       else if (lengthPart2 == 1) {
+  //         limitPart2 = 1;
+  //         limitPart1 = 3;
+  //       }
+  //       else {
+  //         limitPart1 = 4;
+
+  //       }
+  //       break;
+
+
+  //     case 'desktop':
+  //       if (lengthPart3 >= 3) {
+  //         limitPart3 = 3;
+  //         if (lengthPart2 >= 3) {
+  //           limitPart2 = 3;
+  //         } else if (lengthPart2 == 2) {
+  //           limitPart2 = 2;
+  //           limitPart1 = 1;
+  //         } else if (lengthPart2 == 1) {
+  //           limitPart2 = 1;
+  //           limitPart1 = 2;
+  //         } else {
+  //           limitPart1 = 3;
+  //         }
+
+  //       } else if (lengthPart3 == 2) {
+  //         limitPart3 = 2;
+  //         if (lengthPart2 >= 3) {
+  //           limitPart2 = 3;
+  //           limitPart1 = 1;
+  //         } else if (lengthPart2 == 2) {
+  //           limitPart2 = 2;
+  //           limitPart1 = 2;
+  //         } else if (lengthPart2 == 1) {
+  //           limitPart2 = 1;
+  //           limitPart1 = 3;
+  //         } else {
+  //           limitPart1 = 4;
+  //         }
+  //       }
+  //       else if (lengthPart3 == 1) {
+  //         limitPart3 = 1;
+  //         if (lengthPart2 >= 3) {
+  //           limitPart2 = 3;
+  //           limitPart1 = 2;
+  //         } else if (lengthPart2 == 2) {
+  //           limitPart2 = 2;
+  //           limitPart1 = 3;
+  //         } else if (lengthPart2 == 1) {
+  //           limitPart2 = 1;
+  //           limitPart1 = 4;
+  //         } else {
+  //           limitPart1 = 5;
+  //         }
+  //       }
+  //       else if (lengthPart2 >= 3) {
+  //         limitPart2 = 3;
+  //         limitPart1 = 3;
+  //       }
+  //       else if (lengthPart2 == 2) {
+  //         limitPart2 = 2;
+  //         limitPart1 = 4;
+  //       }
+  //       else if (lengthPart2 == 1) {
+  //         limitPart2 = 1;
+  //         limitPart1 = 5;
+  //       }
+  //       else {
+  //         limitPart1 = 6;
+
+  //       }
+  //       break;
+  //   }
+
+
+  //   return { limitPart1, limitPart2, limitPart3 };
+
+  // }
+
+  // تابع کمکی برای s_mobile
+  const limitForS_mobile = (L1, L2, L3) => {
+    let lim1 = 0, lim2 = 0, lim3 = 0;
+    if (L3 >= 1) {
+      lim3 = 1;
+    } else if (L2 >= 1) {
+      lim2 = 1;
+    } else if (L1 >= 1) {
+      lim1 = 1;
+    }
+    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
+  };
+
+  // تابع کمکی برای m_mobile
+  const limitForM_mobile = (L1, L2, L3) => {
+    let lim1 = 0, lim2 = 0, lim3 = 0;
+    if (L3 >= 2) {
+      lim3 = 2;
+    } else if (L3 === 1) {
+      lim3 = 1;
+      if (L2 >= 1) {
+        lim2 = 1;
+      } else if (L1 >= 1) {
+        lim1 = 1;
+      }
+    } else if (L2 >= 2) {
+      lim2 = 2;
+    } else if (L2 === 1) {
+      lim2 = 1;
+      if (L1 >= 1) {
+        lim1 = 1;
+      }
+    } else if (L1 >= 2) {
+      lim1 = 2;
+    } else if (L1 === 1) {
+      lim1 = 1;
+    }
+    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
+  };
+
+  // تابع کمکی برای mobile
+  const limitForMobile = (L1, L2, L3) => {
+    let lim1 = 0, lim2 = 0, lim3 = 0;
+    if (L3 >= 3) {
+      lim3 = 3;
+    } else if (L3 === 2) {
+      lim3 = 2;
+      if (L2 >= 1) {
+        lim2 = 1;
+      } else {
+        lim1 = 1;
+      }
+    } else if (L3 === 1) {
+      lim3 = 1;
+      if (L2 >= 2) {
+        lim2 = 2;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 1;
+      } else {
+        lim1 = 1;
+      }
+    } else if (L2 >= 3) {
+      lim2 = 3;
+    } else if (L2 === 2) {
+      lim2 = 2;
+      lim1 = 1;
+    } else if (L2 === 1) {
+      lim2 = 1;
+      lim1 = 2;
+    } else {
+      lim1 = 2;
+    }
+    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
+  };
+
+  // تابع کمکی برای tablet
+  const limitForTablet = (L1, L2, L3) => {
+    let lim1 = 0, lim2 = 0, lim3 = 0;
+    if (L3 >= 3) {
+      lim3 = 3;
+      // فرض می‌کنیم در اینجا همیشه آیتمی از بخش 2 وجود دارد؛ در غیر این صورت، بخش 1 را مقداردهی می‌کنیم.
+      if (L2 >= 1) {
+        lim2 = 1;
+      } else {
+        lim1 = 1;
+      }
+    } else if (L3 === 2) {
+      lim3 = 2;
+      if (L2 >= 2) {
+        lim2 = 2;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 1;
+      } else {
+        lim1 = 2;
+      }
+    } else if (L3 === 1) {
+      lim3 = 1;
+      if (L2 >= 3) {
+        lim2 = 3;
+      } else if (L2 === 2) {
+        lim2 = 2;
+        lim1 = 1;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 2;
+      } else {
+        lim1 = 3;
+      }
+    } else if (L2 >= 3) {
+      lim2 = 3;
+      lim1 = 1;
+    } else if (L2 === 2) {
+      lim2 = 2;
+      lim1 = 2;
+    } else if (L2 === 1) {
+      lim2 = 1;
+      lim1 = 3;
+    } else {
+      lim1 = 4;
+    }
+    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
+  };
+
+  // تابع کمکی برای desktop
+  const limitForDesktop = (L1, L2, L3) => {
+    let lim1 = 0, lim2 = 0, lim3 = 0;
+    if (L3 >= 3) {
+      lim3 = 3;
+      if (L2 >= 3) {
+        lim2 = 3;
+      } else if (L2 === 2) {
+        lim2 = 2;
+        lim1 = 1;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 2;
+      } else {
+        lim1 = 3;
+      }
+    } else if (L3 === 2) {
+      lim3 = 2;
+      if (L2 >= 3) {
+        lim2 = 3;
+        lim1 = 1;
+      } else if (L2 === 2) {
+        lim2 = 2;
+        lim1 = 2;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 3;
+      } else {
+        lim1 = 4;
+      }
+    } else if (L3 === 1) {
+      lim3 = 1;
+      if (L2 >= 3) {
+        lim2 = 3;
+        lim1 = 2;
+      } else if (L2 === 2) {
+        lim2 = 2;
+        lim1 = 3;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 4;
+      } else {
+        lim1 = 5;
+      }
+    } else if (L2 >= 3) {
+      lim2 = 3;
+      lim1 = 3;
+    } else if (L2 === 2) {
+      lim2 = 2;
+      lim1 = 4;
+    } else if (L2 === 1) {
+      lim2 = 1;
+      lim1 = 5;
+    } else {
+      lim1 = 6;
+    }
+    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
+  };
+
+  // نسخه اصلی تابع که بر اساس نوع دستگاه، تابع مناسب را فراخوانی می‌کند
+  const handleLimitParts = (device, lengthPart1, lengthPart2, lengthPart3) => {
     switch (device) {
       case 's_mobile':
-        if (lengthPart3 >= 1) {
-          limitPart3 = 1;
-        } else if (lengthPart2 >= 1) {
-          limitPart2 = 1;
-        } else if (lengthPart1 >= 1) {
-          limitPart1 = 1;
-        }
-        break;
+        return limitForS_mobile(lengthPart1, lengthPart2, lengthPart3);
       case 'm_mobile':
-        if (lengthPart3 >= 2) {
-          limitPart3 = 2;
-        } else if (lengthPart3 == 1) {
-          limitPart3 = 1;
-          if (lengthPart2 >= 1) {
-            limitPart2 = 1;
-          }
-          else if (lengthPart1 >= 1) {
-            limitPart1 = 1;
-          }
-        } else if (lengthPart2 >= 2) {
-          limitPart2 = 2;
-        } else if (lengthPart2 == 1) {
-          limitPart2 = 1;
-          if(lengthPart1 >= 1){
-
-            limitPart1= 1;
-          }
-        }
-        else if (lengthPart1 >= 2) {
-          limitPart1 = 2;
-
-        }
-        else if (lengthPart1 == 1) {
-          limitPart1 = 1;
-
-        }
-        break;
+        return limitForM_mobile(lengthPart1, lengthPart2, lengthPart3);
       case 'mobile':
-
-        break;
+        return limitForMobile(lengthPart1, lengthPart2, lengthPart3);
       case 'tablet':
-
-        break;
+        return limitForTablet(lengthPart1, lengthPart2, lengthPart3);
       case 'desktop':
-
-        break;
+        return limitForDesktop(lengthPart1, lengthPart2, lengthPart3);
+      default:
+        return { limitPart1: 0, limitPart2: 0, limitPart3: 0 };
     }
+  };
 
-
-    return { limitPart1, limitPart2, limitPart3 };
-
-  }
 
 
   return (
