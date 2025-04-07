@@ -1,10 +1,7 @@
 [
     {
         "settings": {
-            "numberParts": 3,
-            "limitPart1": 4,
-            "limitPart2": 3,
-            "limitPart3": 3
+            "numberParts": 3
         },
         "items": [
             {
@@ -13,14 +10,18 @@
                 "priority": 2,
                 "showOnMobile":true,
                 "behavior":"hoverOnly",
+                "id":1,
                 "category": [
                     {
                         "label": "هوشمند",
+                        "categoryId":1,
                         "subCategory": [
                             {
+                                "subCategoryId":1,
                                 "name": "لمسی"
                             },
                             {
+                                "subCategoryId":2,
                                 "name": "دکمه ای"
                             }
                         ]
@@ -29,9 +30,11 @@
                         "label": "ساده",
                         "subCategory": [
                             {
+                                "subCategoryId":3,
                                 "name": "کوچک"
                             },
                             {
+                                "subCategoryId":4,
                                 "name": "بزرگ"
                             }
                         ]
@@ -39,9 +42,82 @@
                 ]
             },
             {
-                "title": "ورزش و سفر",
+                "id":2,
+                "title": "کیف و کفش",
+                "part": 1,
+                "priority": 3,
+                "showOnMobile":true,
+                "behavior":"hoverOnly",
+                "category": [
+                    {
+                        "label": "هوشمند",
+                        "subCategory": [
+                            {
+                                "subCategoryId":5,
+                                "name": "لمسی"
+                            },
+                            {
+                                "subCategoryId":6,
+                                "name": "دکمه ای"
+                            }
+                        ]
+                    },
+                    {
+                        "label": "ساده",
+                        "subCategory": [
+                            {
+                                "subCategoryId":7,
+                                "name": "کوچک"
+                            },
+                            {
+                                "subCategoryId":8,
+                                "name": "بزرگ"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id":3,
+                "title": "سوپر مارکت",
                 "part": 1,
                 "priority": 1,
+                "showOnMobile":true,
+                "behavior":"hoverOnly",
+                "category": [
+                    {
+                        "label": "هوشمند",
+                        "subCategory": [
+                            {
+                                "subCategoryId":9,
+                                "name": "لمسی"
+                            },
+                            {
+                                "subCategoryId":10,
+                                "name": "دکمه ای"
+                            }
+                        ]
+                    },
+                    {
+                        "label": "ساده",
+                        "subCategory": [
+                            {
+                                "subCategoryId":11,
+                                "name": "کوچک"
+                            },
+                            {
+                                "subCategoryId":12,
+                                "name": "بزرگ"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id":4,
+                "title": "ورزش و سفر",
+                "part": 1,
+                "priority": 4,
                 "behavior":"clickAndHover",
 
                 "url": "",
@@ -50,9 +126,11 @@
                         "label": "ورزش",
                         "subCategory": [
                             {
+                                "subCategoryId":13,
                                 "name": "توپ"
                             },
                             {
+                                "subCategoryId":14,
                                 "name": "ابزار ورزشی"
                             }
                         ]
@@ -61,9 +139,11 @@
                         "label": "سفر",
                         "subCategory": [
                             {
+                                "subCategoryId":15,
                                 "name": "چادر"
                             },
                             {
+                                "subCategoryId":16,
                                 "name": "وسایل ایمنی"
                             }
                         ]
@@ -71,52 +151,66 @@
                 ]
             },
             {
+                "id":5,
                 "title": "نحوه خرید",
                 "part": 2,
+                "priority": 1,
                 "url": "",
                 "behavior":"clickOnly"
 
             },
             {
+                "id":6,
                 "title": "بفروش",
                 "part": 3,
+                "priority": 1,
                 "url": "",
                 "behavior":"clickOnly"
 
             },
             {
+                "id":7,
                 "title": "تازها",
-                "part": 4,
+                "part": 3,
+                "priority": 2,
                 "url": "",
                 "behavior":"clickOnly"
 
             },
             {
+                "id":8,
                 "title": "ردیابی خرید",
-                "part": 4,
+                "part": 3,
+                "priority": 1,
                 "url": "",
                 "behavior":"clickOnly"
 
             },
             {
+                "id":9,
                 "title": "رضایت از ما",
-                "part": 2,
+                "part": 20,
+                "priority": 4,
                 "url": "",
                 "behavior":"clickOnly"
 
             }
             ,
             {
+                "id":10,
                 "title": "راهنما",
-                "part": 2,
+                "part": 20,
+                "priority": 2,
                 "url": "",
                 "behavior":"clickOnly"
 
             }
             ,
             {
+                "id":11,
                 "title": "مقررات",
-                "part": 2,
+                "part": 20,
+                "priority": 3,
                 "url": "",
                 "behavior":"clickOnly"
 

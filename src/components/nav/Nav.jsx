@@ -38,10 +38,15 @@ const Nav = () => {
   const downSetOrderNHS = useRef(null);
   const upSetOrderNHS = useRef(null);
   const setOrderNHS = useRef(null);
+  const containerRef = useRef(null);
+
 
   const [menuDisplay, setMenuDisplay] = useState();
   const [modelSubMenu, setModelSubMenu] = useState();
   const [arraySubMenu, setArraySubMenu] = useState();
+  const [activeBtn, setActiveBtn] = useState(false);
+  const [subDisplay, setSubDisplay] = useState('none');
+  const [hoverStyle, setHoverStyle] = useState({ width: 0, left: 0 }); // مدیریت استایل خط
 
   const [items, setItems] = useState(
 
@@ -162,8 +167,6 @@ const Nav = () => {
     divSubMenu.current.classList.add("--displayNone");
   };
 
-  // const [isActive, setIsActive] = useState(false);
-
   /**
    *  هنگامی که بر روی یکی از دکمه های ناوبری در صفحات لمسی، لمس می شود
    * این متد فراخوانی می شود و با عث می شود که کلاس اکتیو اضافه شده و با توجه به
@@ -171,6 +174,7 @@ const Nav = () => {
    * @param {} e 
    */
   const handleTouchStart = (e) => {
+    e.stopPropagation();
     e.currentTarget.classList.add("active");
   };
 
@@ -198,134 +202,68 @@ const Nav = () => {
   useEffect(() => {
     window.addEventListener("resize", () => {
       setMenuDisplay(handleMenuDisplay())
-
     });
-  }, [])
-
-
-
-  // const handleMenuDisplay = () => {
-  //   const parts = menu[0].settings.parts;
-  //   let result = [];
-
-  //   for (let index = 0; index < parts; index++) {
-  //     result.push(
-  //       <div className="flex_NHS" key={index}>
-  //         <div className="border_NHS part1_NHS"> </div> 
-  //         {index + 1}
-  //       </div>
-  //     );
-  //   }
-
-  //   return <>{result}</>;
-  // };
+  }, []);
 
   const handleMenuDisplay = () => {
-    let device = getDeviceType();
-    if (device == 'xs_mobile') return;
-    const { numberParts } = menu[0].settings;
-    const parts = handleGetParts(numberParts, menu[0].items);
-    // const { limitPart1, limitPart2, limitPart3 } = handleLimitParts(device, parts[0].length, parts[1].length, parts[2].length);
-    const limits = handleLimitParts(device, parts[0].length, parts[1].length, parts[2].length);
-    // console.log(`limitPart1 = ${limitPart1}`);
-    // console.log(`limitPart2 = ${limitPart2}`);
-    // console.log(`limitPart3 = ${limitPart3}`);
 
+    let device = getDeviceType();
+
+    if (device == 'xs_mobile') return;
+
+    const { numberParts } = menu[0].settings;
+
+    const parts = handleGetParts(numberParts, menu[0].items);
+
+    const limits = handleLimitParts(device, parts[0].length, parts[1].length, parts[2].length);
 
     let result = [];
 
-
-
-
-    // پیمایش آرایه اصلی
     parts.forEach((part, index) => {
-      // بررسی اینکه آیا آرایه فرزند حاوی مقدار است یا خالی است
-      if (part.length === 0) return; // از آرایه خالی رد می‌شود
+      if (part.length === 0) return;
       const limitKey = `limitPart${index + 1}`;
-      const limitValue = limits[limitKey]; // مقدار محدودیت برای این پارت
-      // اعمال محدودیت‌ها و انتخاب اعضای مجاز
+      const limitValue = limits[limitKey];
       const limitedItems = part.slice(0, limitValue); // اعمال محدودیت تعداد اعضا
-      // console.log(limitedItems);
       if (limitedItems.length == 0) return;
-      // اضافه کردن JSX به آرایه خالی
       result.push(
-        <div className="flex_NHS" key={index}>
+        <div className="flex_NHS" key={index} >
           <div className="border_NHS"> </div>
-
           {limitedItems.map((item, itemIndex) => (
-
             <div className="nav_item_NHS" key={itemIndex}>
               <button
                 className={`--styleLessBtn btn_NHS ${item.behavior == 'clickOnly' ? '' : 'cursorCM_NHS'}`}
                 onClick={(e) => handleClick(e, item.behavior)}
-                onTouchStart={(e) => handleTouchStart(e)}
-                onBlur={(e) => handleBlur(e)}
+                onTouchStart={(e) => {
+                  handleTouchStart(e);
+                  handleShowLine(e);
+                }}
+                data-active="true"
+                onBlur={(e) => { handleBlur(e);}}
+                // onBlur={(e) => {
+                //   handleBlur(e);
+                //   setHoverStyle({ width: 0, left: 0 });
+                //   setSubDisplay('none');
+                //   setActiveBtn(false)
+                // }}
               >
                 <i className="iCircle_NHS"></i>
                 <span>
                   {item.title}
                 </span>
               </button>
-
+              <div className="line">ss</div>
             </div>
           ))}
         </div>
       );
     });
 
-
-
-
-
-
-
-
-
-    // for (let index = 0; index < numberParts; index++) {
-    //   // فیلتر کردن اعضا بر اساس مقدار part
-    //   const filteredItems = menu[0].items.filter(item => item.part === index + 1);
-    //   if (filteredItems.length === 0) {
-    //     continue;
-    //   }
-    //   // مرتب‌سازی اعضا بر اساس priority
-    //   const sortedItems = filteredItems.sort((a, b) => a.priority - b.priority);
-    //   // محدود کردن تعداد اعضای هر دسته بر اساس settings
-    //   const limit = menu[0].settings[`limitPart${index + 1}`] || sortedItems.length;
-    //   const limitedItems = sortedItems.slice(0, limit);
-
-    //   result.push(
-    //     <div className="flex_NHS" key={index}>
-    //       <div className="border_NHS"> </div>
-
-    //       {limitedItems.map((item, itemIndex) => (
-
-    //         <div className="nav_item_NHS" key={itemIndex}>
-    //           <button
-    //             className={`--styleLessBtn btn_NHS ${item.behavior == 'clickOnly' ? '' : 'cursorCM_NHS'}`}
-    //             onClick={(e) => handleClick(e, item.behavior)}
-    //             onTouchStart={(e) => handleTouchStart(e)}
-    //             onBlur={(e) => handleBlur(e)}
-    //           >
-    //             <i className="iCircle_NHS"></i>
-    //             <span>
-    //               {item.title}
-    //             </span>
-    //           </button>
-
-    //         </div>
-    //       ))}
-    //     </div>
-    //   );
-    // }
-
     return <>{result}</>;
+
   };
-
-
 
   const getDeviceType = () => {
     const width = window.innerWidth;
-
     if (width <= 450) return "xs_mobile";//extra small mobile
     if (width <= 580) return "s_mobile";// samll mobile
     if (width <= 680) return "m_mobile";//medium mobile
@@ -349,13 +287,9 @@ const Nav = () => {
   const handleGetParts = (numberParts, items) => {
     return Array.from({ length: numberParts }, (_, index) => {
       const filteredItems = items.filter(item => item.part === index + 1);
-
-      // مرتب‌سازی اعضا بر اساس priority
-      return filteredItems.sort((a, b) => a.priority - b.priority);
+      return filteredItems.sort((a, b) => a.priority - b.priority);//مرتب سازی
     });
   };
-
-
 
   // const handleLimitParts = (device, lengthPart1, lengthPart2, lengthPart3) => {
   //   let limitPart1 = 0;
@@ -579,7 +513,6 @@ const Nav = () => {
     return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
   };
 
-  // تابع کمکی برای m_mobile
   const limitForM_mobile = (L1, L2, L3) => {
     let lim1 = 0, lim2 = 0, lim3 = 0;
     if (L3 >= 2) {
@@ -606,7 +539,6 @@ const Nav = () => {
     return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
   };
 
-  // تابع کمکی برای mobile
   const limitForMobile = (L1, L2, L3) => {
     let lim1 = 0, lim2 = 0, lim3 = 0;
     if (L3 >= 3) {
@@ -642,7 +574,6 @@ const Nav = () => {
     return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
   };
 
-  // تابع کمکی برای tablet
   const limitForTablet = (L1, L2, L3) => {
     let lim1 = 0, lim2 = 0, lim3 = 0;
     if (L3 >= 3) {
@@ -691,7 +622,6 @@ const Nav = () => {
     return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
   };
 
-  // تابع کمکی برای desktop
   const limitForDesktop = (L1, L2, L3) => {
     let lim1 = 0, lim2 = 0, lim3 = 0;
     if (L3 >= 3) {
@@ -750,7 +680,6 @@ const Nav = () => {
     return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
   };
 
-  // نسخه اصلی تابع که بر اساس نوع دستگاه، تابع مناسب را فراخوانی می‌کند
   const handleLimitParts = (device, lengthPart1, lengthPart2, lengthPart3) => {
     switch (device) {
       case 's_mobile':
@@ -768,7 +697,64 @@ const Nav = () => {
     }
   };
 
+  const waitForBlur = async () => {
+    // if (!activeBtn) {
+    //   return;
+    // }
+    // حلقه‌ای که منتظر `activeBtn` شود تا به false تبدیل شود
+    while (activeBtn) {
+      await new Promise((resolve) => setTimeout(resolve, 50)); // تأخیر 50 میلی‌ثانیه
+    }
+  };
 
+  const handleShowLine = async (e) => {
+  
+
+    e.stopPropagation();
+    
+    
+    const target = e.currentTarget.getBoundingClientRect();
+    const newWidth = target.width;
+    const newLeft = target.left;
+    setHoverStyle({ width: newWidth, left: newLeft });
+    setSubDisplay('block');
+    setActiveBtn(true);
+    
+    
+
+  }
+
+  // اضافه کردن رویداد تاچ روی داکیومنت برای تشخیص لمس خارج از container
+  useEffect(() => {
+    const handleTouchOutside = (event) => {
+      if (containerRef.current) {
+        // اگر لمس در داخل containerRef اتفاق افتاده باشد
+        if (containerRef.current.contains(event.target)) {
+          // اگر لمس روی دکمه نباشد، activeButton ریست شود
+          if (!event.target.closest('button[data-active]')) {
+            setActiveBtn(null);
+            setSubDisplay('none');
+          }
+        } else {
+          // اگر خارج از containerRef باشد نیز حالت ریست شود
+          setActiveBtn(null);
+          setSubDisplay('none')
+        }
+      }
+    };
+    // const handleTouchOutside = (event) => {
+    //   if (containerRef.current && !containerRef.current.contains(event.target)) {
+    //     setActiveBtn(null);
+    //     setSubDisplay('none')
+    //   }
+    // };
+
+    document.addEventListener("touchstart", handleTouchOutside);
+
+    return () => {
+      document.removeEventListener("touchstart", handleTouchOutside);
+    };
+  }, []);
 
   return (
     <div className={`container_NHS`} ref={container_NHS}>
@@ -785,7 +771,7 @@ const Nav = () => {
         </div>
         <input type="text" className="serch_input_NHS" />
       </div>
-      <nav className="nav_NHS">
+      <nav className="nav_NHS" ref={containerRef}>
         <div className="menu_NHS">
           <button
             onClick={showVerticalMenu}
@@ -796,17 +782,14 @@ const Nav = () => {
           </button>
 
           {/* <VerticalSubmenu
-
                         refBtn={btnMenu}
                         ref={{ verticalMenu, verticalMenu_VMe }}
 
                     /> */}
 
           {/* <VerticalMenu
-
                         refBtn={btnMenu}
                         ref={{ verticalMenu, verticalMenu_VMe }}
-
                     /> */}
 
           <UseVerticalMenu
@@ -819,16 +802,29 @@ const Nav = () => {
         <div className="nav_item_NHS allPro_NHS" ref={divItemProNHS}>
           <button
             className="--styleLessBtn btn_NHS cursorCM_NHS"
-            onTouchStart={(e) => handleTouchStart(e)}
-            onBlur={(e) => handleBlur(e)}
-          // onFocus={handleMenuDisplay()}
+            onTouchStart={(e) => { handleTouchStart(e); handleShowLine(e); }}
+            onBlur={(e) => { handleBlur(e);}}
+            onMouseEnter={e => handleShowLine(e)}
+            data-active="true"
+          // onMouseLeave={() => setHoverStyle({ width: 0, left: 0 })}
           >
             <i className="iCircle_NHS"></i>
             <span>محصولات</span>
-
           </button>
         </div>
+        <div
+          className="sub_allPro_NHS"
+          style={{ display: subDisplay }}
+        >
+          <span>zabi</span>
+        </div>
+
         {menuDisplay && menuDisplay}
+        <span className="menuLine_NHS" style={{
+          display:subDisplay,
+          width: `${hoverStyle.width}px`,
+          left: `${hoverStyle.left}px`,
+        }}></span>
 
         {/* <div className="border_NHS part1_NHS"> </div> */}
 
