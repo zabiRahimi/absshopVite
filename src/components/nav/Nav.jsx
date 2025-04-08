@@ -39,12 +39,16 @@ const Nav = () => {
   const upSetOrderNHS = useRef(null);
   const setOrderNHS = useRef(null);
   const containerRef = useRef(null);
+  const allProRef = useRef(null);
+  const buttonRefs = useRef({});
+  const underlineRef = useRef(null);
+  const subMenuRef = useRef(null);
 
 
   const [menuDisplay, setMenuDisplay] = useState();
   const [modelSubMenu, setModelSubMenu] = useState();
   const [arraySubMenu, setArraySubMenu] = useState();
-  const [activeBtn, setActiveBtn] = useState(false);
+  const [activeBtn, setActiveBtn] = useState(null);
   const [subDisplay, setSubDisplay] = useState('none');
   const [hoverStyle, setHoverStyle] = useState({ width: 0, left: 0 }); // مدیریت استایل خط
 
@@ -128,8 +132,6 @@ const Nav = () => {
     if (!hasClass) {
       setModelSubMenu(model);
       setArraySubMenu(array);
-
-      // positionStatic(false);
       closeAllSubMenu();
 
       divItem.current.classList.add("bgColorItem_NHS");
@@ -186,6 +188,9 @@ const Nav = () => {
    */
   const handleBlur = (e) => {
     e.currentTarget.classList.remove("active");
+    setSubDisplay('none')
+    console.log('none');
+
   }
 
   const handleClick = (e, behavior) => {
@@ -231,20 +236,27 @@ const Nav = () => {
           {limitedItems.map((item, itemIndex) => (
             <div className="nav_item_NHS" key={itemIndex}>
               <button
+                ref={(el) => (buttonRefs.current[item.id] = el)}
+
                 className={`--styleLessBtn btn_NHS ${item.behavior == 'clickOnly' ? '' : 'cursorCM_NHS'}`}
                 onClick={(e) => handleClick(e, item.behavior)}
                 onTouchStart={(e) => {
                   handleTouchStart(e);
-                  handleShowLine(e);
+                  handleShowLine(e, item.id);
+
                 }}
                 data-active="true"
-                onBlur={(e) => { handleBlur(e);}}
-                // onBlur={(e) => {
-                //   handleBlur(e);
-                //   setHoverStyle({ width: 0, left: 0 });
-                //   setSubDisplay('none');
-                //   setActiveBtn(false)
-                // }}
+                onBlur={(e) => { handleBlur(e); }}
+
+
+                onMouseEnter={e => handleShowLine(e)}
+                onMouseLeave={(e) => handleMouseLeave(e)}
+              // onBlur={(e) => {
+              //   handleBlur(e);
+              //   setHoverStyle({ width: 0, left: 0 });
+              //   setSubDisplay('none');
+              //   setActiveBtn(false)
+              // }}
               >
                 <i className="iCircle_NHS"></i>
                 <span>
@@ -697,32 +709,112 @@ const Nav = () => {
     }
   };
 
-  const waitForBlur = async () => {
-    // if (!activeBtn) {
-    //   return;
-    // }
-    // حلقه‌ای که منتظر `activeBtn` شود تا به false تبدیل شود
-    while (activeBtn) {
-      await new Promise((resolve) => setTimeout(resolve, 50)); // تأخیر 50 میلی‌ثانیه
-    }
-  };
 
-  const handleShowLine = async (e) => {
-  
 
+  const handleShowLine = async (e, id) => {
     e.stopPropagation();
-    
-    
     const target = e.currentTarget.getBoundingClientRect();
     const newWidth = target.width;
     const newLeft = target.left;
     setHoverStyle({ width: newWidth, left: newLeft });
     setSubDisplay('block');
-    setActiveBtn(true);
-    
-    
+    setActiveBtn(id);
+    console.log(`id ${id}`);
 
   }
+
+  const handleMouseLeave = (event) => {
+    // بررسی اینکه آیا ماوس وارد زیر منو یا خط شده است
+    const relatedElement = event.relatedTarget;
+
+    if (
+      underlineRef.current &&
+      underlineRef.current.contains(relatedElement)
+    ) {
+      // ماوس وارد خط شده است، خروج از دکمه مدیریت نمی‌شود
+      return;
+    }
+
+    if (
+      subMenuRef.current &&
+      subMenuRef.current.contains(relatedElement)
+    ) {
+      return;
+    }
+
+    // اگر ماوس کاملاً از دکمه خارج شد
+    setActiveBtn(null);
+    setSubDisplay('none')
+  };
+
+ 
+
+  // useEffect(() => {
+  //   const updateUnderlinePosition = () => {
+
+  //     if (activeBtn && (buttonRefs.current[activeBtn] || allProRef.current)) {
+  //       console.log(activeBtn);
+
+  //       if ((activeBtn!='allPro' && !buttonRefs.current[activeBtn])) {
+  //         setSubDisplay('none');
+  //       }else{
+  //         const buttonRect = activeBtn != 'allPro' ? buttonRefs.current[activeBtn].getBoundingClientRect() : allProRef.current.getBoundingClientRect();
+  //         const underline = underlineRef.current;
+  //         console.log(buttonRect.width);
+
+  //         if (underline && buttonRect.width>0) {
+  //           setHoverStyle({ width: buttonRect.width, left: buttonRect.left });
+
+  //         }else{
+  //           setSubDisplay('none');
+  //         }
+  //       }
+
+  //     }
+  //   }
+  //   window.addEventListener('resize', updateUnderlinePosition);
+
+  //   return () => {
+  //     window.removeEventListener('resize', updateUnderlinePosition);
+  //   };
+  // }, [activeBtn]);
+
+  useEffect(() => {
+    const updateUnderlinePosition = () => {
+      // اطمینان از وجود activeBtn و مرجع‌های مرتبط
+      if (!activeBtn || (!buttonRefs.current[activeBtn] && activeBtn !== "allPro")) {
+        setSubDisplay("none");
+        return;
+      }
+
+      // دریافت مختصات دکمه یا allPro
+      const reference =
+        activeBtn === "allPro"
+          ? allProRef.current
+          : buttonRefs.current[activeBtn];
+
+      if (reference) {
+        const buttonRect = reference.getBoundingClientRect();
+
+        // بررسی ابعاد و تنظیم استایل
+        if (buttonRect.width > 0) {
+          setHoverStyle({ width: buttonRect.width, left: buttonRect.left });
+        } else {
+          setSubDisplay("none");
+        }
+      } else {
+        setSubDisplay("none");
+      }
+    };
+
+    // updateUnderlinePosition();
+    window.addEventListener("resize", updateUnderlinePosition); // مدیریت تغییر اندازه
+
+    return () => {
+      window.removeEventListener("resize", updateUnderlinePosition); // پاک‌سازی
+    };
+  }, [activeBtn]);
+
 
   // اضافه کردن رویداد تاچ روی داکیومنت برای تشخیص لمس خارج از container
   useEffect(() => {
@@ -802,11 +894,12 @@ const Nav = () => {
         <div className="nav_item_NHS allPro_NHS" ref={divItemProNHS}>
           <button
             className="--styleLessBtn btn_NHS cursorCM_NHS"
-            onTouchStart={(e) => { handleTouchStart(e); handleShowLine(e); }}
-            onBlur={(e) => { handleBlur(e);}}
+            onTouchStart={(e) => { handleTouchStart(e); handleShowLine(e, 'allPro'); }}
+            // onBlur={(e) => { handleBlur(e, 'allPro'); }}
             onMouseEnter={e => handleShowLine(e)}
             data-active="true"
-          // onMouseLeave={() => setHoverStyle({ width: 0, left: 0 })}
+            ref={allProRef}
+            onMouseLeave={(e) => handleMouseLeave(e)}
           >
             <i className="iCircle_NHS"></i>
             <span>محصولات</span>
@@ -815,16 +908,22 @@ const Nav = () => {
         <div
           className="sub_allPro_NHS"
           style={{ display: subDisplay }}
+          ref={subMenuRef}
         >
           <span>zabi</span>
         </div>
 
         {menuDisplay && menuDisplay}
-        <span className="menuLine_NHS" style={{
-          display:subDisplay,
-          width: `${hoverStyle.width}px`,
-          left: `${hoverStyle.left}px`,
-        }}></span>
+        <span
+          className="menuLine_NHS"
+          style={{
+            display: subDisplay,
+            width: `${hoverStyle.width}px`,
+            left: `${hoverStyle.left}px`,
+          }}
+          ref={underlineRef}
+        >
+        </span>
 
         {/* <div className="border_NHS part1_NHS"> </div> */}
 

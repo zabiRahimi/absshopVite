@@ -19,9 +19,9 @@
     box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 5px 0px;
     position: sticky;
     top: 0;
-    z-index: 100000000;
     background-color: #fff;
     border-bottom: 2px solid #ececec;
+    z-index: 100;
 }
 
 .positionStatic {
@@ -86,11 +86,12 @@
 
 .nav_item_NHS {
     height: auto;
-    padding: 0 15px;
+    /* padding: 0 15px; */
     font-size: clamp(16px, calc(16px + ((100vw - 768px) / 210)), 20px);
-    cursor: pointer;
+    /* cursor: pointer; */
     font-family: IRANSansMedium;
     position: relative;
+    /* background-color: green; */
 }
 
 .allPro_NHS {
@@ -113,12 +114,12 @@
 
 .btn_NHS {
     min-height: 30px;
-    padding: 0 7px;
+    padding: 0 13px;
     display: flex;
     align-items: center;
     font-size: 1rem;
     color: #333355;
-    /* overflow: hidden; */
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     position: relative;
@@ -232,7 +233,7 @@
 
 .menuLine_NHS {
     position: absolute;
-    bottom: -3px; 
+    bottom: -1px; 
     height: 4px; /* ارتفاع خط */
     /* background-color: transparent;  */
     background-color: #cacaca;
