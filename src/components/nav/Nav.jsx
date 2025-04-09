@@ -176,6 +176,23 @@ const Nav = () => {
    * @param {} e 
    */
   const handleTouchStart = (e) => {
+    // در صورت وجود دکمه انتخاب شده، ابتدا آن دکمه را ار حالت انتخاب خارج میکند
+    allProRef.current.classList.remove("active")
+    if (buttonRefs.current) {
+      for (const key in buttonRefs.current) {
+        const button = buttonRefs.current[key];
+        // اطمینان از اینکه مرجع معتبر و موجود باشد
+        if (button && button.classList.contains("active")) {
+          button.classList.remove("active");
+        }
+      }
+      // const reference =
+      // activeBtn === "allPro"
+      // ? allProRef.current
+      // : buttonRefs.current[activeBtn];
+      // reference.classList.remove("active");
+      
+    }
     e.stopPropagation();
     e.currentTarget.classList.add("active");
   };
@@ -189,7 +206,6 @@ const Nav = () => {
   const handleBlur = (e) => {
     e.currentTarget.classList.remove("active");
     setSubDisplay('none')
-    console.log('none');
 
   }
 
@@ -246,11 +262,11 @@ const Nav = () => {
 
                 }}
                 data-active="true"
-                onBlur={(e) => { handleBlur(e); }}
+                // onBlur={(e) => { handleBlur(e); }}
 
 
-                onMouseEnter={e => handleShowLine(e)}
-                onMouseLeave={(e) => handleMouseLeave(e)}
+                onMouseEnter={e => handleShowLine(e, item.id)}
+                onMouseLeave={(e) => handleMouseLeave(e, item.id)}
               // onBlur={(e) => {
               //   handleBlur(e);
               //   setHoverStyle({ width: 0, left: 0 });
@@ -713,19 +729,28 @@ const Nav = () => {
 
   const handleShowLine = async (e, id) => {
     e.stopPropagation();
+    console.log(`show ${id}`);
+    
+    e.currentTarget.classList.add('active')
     const target = e.currentTarget.getBoundingClientRect();
     const newWidth = target.width;
     const newLeft = target.left;
     setHoverStyle({ width: newWidth, left: newLeft });
     setSubDisplay('block');
     setActiveBtn(id);
-    console.log(`id ${id}`);
 
   }
+console.log(`activeBtn ${activeBtn}`);
+const activeBtnRef = useRef(activeBtn);
 
-  const handleMouseLeave = (event) => {
+useEffect(() => {
+  activeBtnRef.current = activeBtn; // به‌روزرسانی مقدار ref هنگام تغییر state
+}, [activeBtn]);
+
+
+  const handleMouseLeave = (e, id) => {
     // بررسی اینکه آیا ماوس وارد زیر منو یا خط شده است
-    const relatedElement = event.relatedTarget;
+    const relatedElement = e.relatedTarget;
 
     if (
       underlineRef.current &&
@@ -741,26 +766,33 @@ const Nav = () => {
     ) {
       return;
     }
-
+    console.log(`idLeave ${id}`);
+    
+    console.log(`leave ${activeBtnRef.current}`);
+    
     // اگر ماوس کاملاً از دکمه خارج شد
+    setSubDisplay('none');
+    const reference =
+    activeBtn === "allPro"
+    ? allProRef.current
+    : buttonRefs.current[activeBtnRef.current];
+    reference.classList.remove('active')
     setActiveBtn(null);
-    setSubDisplay('none')
+
   };
 
- 
+
 
   // useEffect(() => {
   //   const updateUnderlinePosition = () => {
 
   //     if (activeBtn && (buttonRefs.current[activeBtn] || allProRef.current)) {
-  //       console.log(activeBtn);
 
   //       if ((activeBtn!='allPro' && !buttonRefs.current[activeBtn])) {
   //         setSubDisplay('none');
   //       }else{
   //         const buttonRect = activeBtn != 'allPro' ? buttonRefs.current[activeBtn].getBoundingClientRect() : allProRef.current.getBoundingClientRect();
   //         const underline = underlineRef.current;
-  //         console.log(buttonRect.width);
 
   //         if (underline && buttonRect.width>0) {
   //           setHoverStyle({ width: buttonRect.width, left: buttonRect.left });
@@ -819,20 +851,33 @@ const Nav = () => {
   // اضافه کردن رویداد تاچ روی داکیومنت برای تشخیص لمس خارج از container
   useEffect(() => {
     const handleTouchOutside = (event) => {
-      if (containerRef.current) {
-        // اگر لمس در داخل containerRef اتفاق افتاده باشد
-        if (containerRef.current.contains(event.target)) {
-          // اگر لمس روی دکمه نباشد، activeButton ریست شود
-          if (!event.target.closest('button[data-active]')) {
+      if (activeBtn) {
+        const reference =
+          activeBtn === "allPro"
+            ? allProRef.current
+            : buttonRefs.current[activeBtn];
+        if (containerRef.current) {
+          // اگر لمس در داخل containerRef اتفاق افتاده باشد
+          if (containerRef.current.contains(event.target)) {
+            // اگر لمس روی دکمه نباشد، activeButton ریست شود
+            if (!event.target.closest('button[data-active]')) {
+              reference.classList.remove("active");
+              setActiveBtn(null);
+              setSubDisplay('none');
+
+            }
+          } else {
+
+
+            reference.classList.remove("active");
+            // اگر خارج از containerRef باشد نیز حالت ریست شود
             setActiveBtn(null);
-            setSubDisplay('none');
+            setSubDisplay('none')
+
           }
-        } else {
-          // اگر خارج از containerRef باشد نیز حالت ریست شود
-          setActiveBtn(null);
-          setSubDisplay('none')
         }
       }
+
     };
     // const handleTouchOutside = (event) => {
     //   if (containerRef.current && !containerRef.current.contains(event.target)) {
@@ -846,7 +891,7 @@ const Nav = () => {
     return () => {
       document.removeEventListener("touchstart", handleTouchOutside);
     };
-  }, []);
+  }, [activeBtn]);
 
   return (
     <div className={`container_NHS`} ref={container_NHS}>
@@ -896,10 +941,11 @@ const Nav = () => {
             className="--styleLessBtn btn_NHS cursorCM_NHS"
             onTouchStart={(e) => { handleTouchStart(e); handleShowLine(e, 'allPro'); }}
             // onBlur={(e) => { handleBlur(e, 'allPro'); }}
-            onMouseEnter={e => handleShowLine(e)}
+            onMouseEnter={e => handleShowLine(e,'allPro')}
             data-active="true"
             ref={allProRef}
             onMouseLeave={(e) => handleMouseLeave(e)}
+
           >
             <i className="iCircle_NHS"></i>
             <span>محصولات</span>
@@ -909,6 +955,8 @@ const Nav = () => {
           className="sub_allPro_NHS"
           style={{ display: subDisplay }}
           ref={subMenuRef}
+          onMouseLeave={(e) => { handleMouseLeave(e) }}
+
         >
           <span>zabi</span>
         </div>

@@ -151,7 +151,11 @@
     transition: all 0.35s ease-in-out;
 }
 
-.btn_NHS:hover,
+.btnHover_NHS{
+    color: #75758b;
+}
+
+/* .btn_NHS:hover, */
 .btn_NHS.active{
     color: #75758b;
 }
@@ -240,6 +244,8 @@
     transition: background-color 0.3s ease; /* افکت برای زمانی که hover می‌شود */
     z-index: 1101;
     border-radius: 3px 3px 0 0;
+    border-right: 2px solid green;
+    border-left: 2px solid green;
   }
   
   .btn_NHS:hover .menuLine_NHS{
@@ -251,13 +257,14 @@
     margin: 0 1%;
     padding: 15px 10px;
     position: absolute;
-    top: 40px;
+    top: 39px;
     left: 0;
     background-color: #fff;
     border: 1px solid #cacaca;
     border-radius: 3px;
     z-index: 1000;
 }
+
 .line{
     position: absolute;
     z-index: 2000;
@@ -265,6 +272,7 @@
     top: 25px;
     left: 0;
 }
+
 @media screen and (min-width:320px) {
     .allPro_NHS {
         padding-right: 25px;
