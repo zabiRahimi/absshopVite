@@ -151,12 +151,12 @@
     transition: all 0.35s ease-in-out;
 }
 
-.btnHover_NHS{
+.btnHover_NHS {
     color: #75758b;
 }
 
 /* .btn_NHS:hover, */
-.btn_NHS.active{
+.btn_NHS.active {
     color: #75758b;
 }
 
@@ -237,22 +237,25 @@
 
 .menuLine_NHS {
     position: absolute;
-    bottom: -1px; 
-    height: 4px; /* ارتفاع خط */
+    bottom: -1px;
+    height: 4px;
+    /* ارتفاع خط */
     /* background-color: transparent;  */
     background-color: #cacaca;
-    transition: background-color 0.3s ease; /* افکت برای زمانی که hover می‌شود */
+    transition: background-color 0.3s ease;
+    /* افکت برای زمانی که hover می‌شود */
     z-index: 1101;
     border-radius: 3px 3px 0 0;
     border-right: 2px solid green;
     border-left: 2px solid green;
-  }
-  
-  .btn_NHS:hover .menuLine_NHS{
-    background-color: #000; /* نمایش خط هنگام hover */
-  }
+}
 
-.sub_allPro_NHS{
+.btn_NHS:hover .menuLine_NHS {
+    background-color: #000;
+    /* نمایش خط هنگام hover */
+}
+
+.sub_allPro_NHS {
     width: 98%;
     margin: 0 1%;
     padding: 15px 10px;
@@ -265,12 +268,14 @@
     z-index: 1000;
 }
 
-.line{
-    position: absolute;
-    z-index: 2000;
-    color: red;
-    top: 25px;
-    left: 0;
+.link_NHS{
+    color: #0d6efd;
+}
+
+.enterIcon_NHS {
+    position: relative;
+    top: 2px;
+    right: 6px;
 }
 
 @media screen and (min-width:320px) {

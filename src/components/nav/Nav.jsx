@@ -5,6 +5,10 @@ import "./nav.css";
 import SubMenuHorizontal from "./subMenuHorizontal/SubMenuHorizontal";
 import { Link, useNavigate } from "react-router-dom";
 import menu from './nav.json';
+import EnterIcon from "../svg/EnterIcon";
+// import {ReactComponent as InterIcon} from '../../assets/images/icon/interIcon.svg';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -55,6 +59,7 @@ const Nav = () => {
   const [items, setItems] = useState(
 
   )
+  const [title, setTitle] = useState(null);
 
   /**
    * این متد، متدهای لازم برای نمایش منوی عمودی را فرخوانی میکند
@@ -191,7 +196,7 @@ const Nav = () => {
       // ? allProRef.current
       // : buttonRefs.current[activeBtn];
       // reference.classList.remove("active");
-      
+
     }
     e.stopPropagation();
     e.currentTarget.classList.add("active");
@@ -258,14 +263,13 @@ const Nav = () => {
                 onClick={(e) => handleClick(e, item.behavior)}
                 onTouchStart={(e) => {
                   handleTouchStart(e);
-                  handleShowLine(e, item.id);
-
+                  handleLineDisplay(e, item.id, item.behavior, item.title);
                 }}
                 data-active="true"
                 // onBlur={(e) => { handleBlur(e); }}
 
 
-                onMouseEnter={e => handleShowLine(e, item.id)}
+                onMouseEnter={e => handleLineDisplay(e, item.id, item.behavior, item.title)}
                 onMouseLeave={(e) => handleMouseLeave(e, item.id)}
               // onBlur={(e) => {
               //   handleBlur(e);
@@ -279,7 +283,7 @@ const Nav = () => {
                   {item.title}
                 </span>
               </button>
-              <div className="line">ss</div>
+              {/* <div className="line"></div> */}
             </div>
           ))}
         </div>
@@ -727,28 +731,36 @@ const Nav = () => {
 
 
 
-  const handleShowLine = async (e, id) => {
+  const handleLineDisplay = async (e, id, behavior, title) => {
     e.stopPropagation();
-    console.log(`show ${id}`);
-    
-    e.currentTarget.classList.add('active')
+    e.currentTarget.classList.add('active');
+    if (behavior == 'clickOnly') {
+      setSubDisplay('none');
+      setActiveBtn(id);
+      return
+    };
+    if (behavior == "hoverOlny" || title == 'محصولات') {
+
+      setTitle('hoverOnly')
+    } else {
+      setTitle(title)
+    }
     const target = e.currentTarget.getBoundingClientRect();
     const newWidth = target.width;
     const newLeft = target.left;
     setHoverStyle({ width: newWidth, left: newLeft });
     setSubDisplay('block');
     setActiveBtn(id);
-
+    handleItemsDisplay(id);
   }
-console.log(`activeBtn ${activeBtn}`);
-const activeBtnRef = useRef(activeBtn);
 
-useEffect(() => {
-  activeBtnRef.current = activeBtn; // به‌روزرسانی مقدار ref هنگام تغییر state
-}, [activeBtn]);
+  const activeBtnRef = useRef(activeBtn);
 
+  useEffect(() => {
+    activeBtnRef.current = activeBtn; // به‌روزرسانی مقدار ref هنگام تغییر state
+  }, [activeBtn]);
 
-  const handleMouseLeave = (e, id) => {
+  const handleMouseLeave = (e) => {
     // بررسی اینکه آیا ماوس وارد زیر منو یا خط شده است
     const relatedElement = e.relatedTarget;
 
@@ -756,7 +768,6 @@ useEffect(() => {
       underlineRef.current &&
       underlineRef.current.contains(relatedElement)
     ) {
-      // ماوس وارد خط شده است، خروج از دکمه مدیریت نمی‌شود
       return;
     }
 
@@ -766,19 +777,16 @@ useEffect(() => {
     ) {
       return;
     }
-    console.log(`idLeave ${id}`);
-    
-    console.log(`leave ${activeBtnRef.current}`);
-    
+    if (!activeBtnRef.current) return;
+
     // اگر ماوس کاملاً از دکمه خارج شد
     setSubDisplay('none');
     const reference =
-    activeBtn === "allPro"
-    ? allProRef.current
-    : buttonRefs.current[activeBtnRef.current];
+      activeBtn === "allPro"
+        ? allProRef.current
+        : buttonRefs.current[activeBtnRef.current];
     reference.classList.remove('active')
     setActiveBtn(null);
-
   };
 
 
@@ -893,6 +901,18 @@ useEffect(() => {
     };
   }, [activeBtn]);
 
+  const handleItemsDisplay = (id) => {
+    let item;
+    if (id == 'allPro') {
+      item = menu[0].items.filter(item => item.product === true);
+    } else {
+      item = menu[0].items.find(item => item.id === id);
+    }
+
+
+
+
+  }
   return (
     <div className={`container_NHS`} ref={container_NHS}>
       <div className="cart_container_NHS">
@@ -935,13 +955,12 @@ useEffect(() => {
             ref={{ refVerticalMenu }}
           />
         </div>
-
         <div className="nav_item_NHS allPro_NHS" ref={divItemProNHS}>
           <button
             className="--styleLessBtn btn_NHS cursorCM_NHS"
-            onTouchStart={(e) => { handleTouchStart(e); handleShowLine(e, 'allPro'); }}
+            onTouchStart={(e) => { handleTouchStart(e); handleLineDisplay(e, 'allPro', 'hoverOnly', 'محصولات'); }}
             // onBlur={(e) => { handleBlur(e, 'allPro'); }}
-            onMouseEnter={e => handleShowLine(e,'allPro')}
+            onMouseEnter={e => handleLineDisplay(e, 'allPro', 'hoverOnly', "محصولات")}
             data-active="true"
             ref={allProRef}
             onMouseLeave={(e) => handleMouseLeave(e)}
@@ -958,7 +977,29 @@ useEffect(() => {
           onMouseLeave={(e) => { handleMouseLeave(e) }}
 
         >
-          <span>zabi</span>
+          <div className="rigthSub_NHS"></div>
+          <div className="leftSub_NHS">
+            {
+              title ?
+                title != 'hoverOnly' &&
+                <Link to="" className="--styleLessLink link_NHS">
+                  <i className="enterIcon_NHS">
+                    <EnterIcon />
+                  </i>
+                  مشاهده همه {title}
+                </Link> : <Skeleton
+                  count={1}
+                  duration={1.6}
+                  width={200}
+                  height={20}
+                  highlightColor="#9c9b9b"
+                />
+            }
+
+
+
+
+          </div>
         </div>
 
         {menuDisplay && menuDisplay}

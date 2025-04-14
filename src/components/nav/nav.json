@@ -8,20 +8,21 @@
                 "title": "موبایل",
                 "part": 1,
                 "priority": 2,
-                "showOnMobile":true,
-                "behavior":"hoverOnly",
-                "id":1,
+                "showOnMobile": true,
+                "behavior": "hoverOnly",
+                "product": true,
+                "id": 1,
                 "category": [
                     {
                         "label": "هوشمند",
-                        "categoryId":1,
+                        "categoryId": 1,
                         "subCategory": [
                             {
-                                "subCategoryId":1,
+                                "subCategoryId": 1,
                                 "name": "لمسی"
                             },
                             {
-                                "subCategoryId":2,
+                                "subCategoryId": 2,
                                 "name": "دکمه ای"
                             }
                         ]
@@ -30,11 +31,11 @@
                         "label": "ساده",
                         "subCategory": [
                             {
-                                "subCategoryId":3,
+                                "subCategoryId": 3,
                                 "name": "کوچک"
                             },
                             {
-                                "subCategoryId":4,
+                                "subCategoryId": 4,
                                 "name": "بزرگ"
                             }
                         ]
@@ -42,22 +43,23 @@
                 ]
             },
             {
-                "id":2,
+                "id": 2,
                 "title": "کیف و کفش",
                 "part": 1,
                 "priority": 3,
-                "showOnMobile":true,
-                "behavior":"hoverOnly",
+                "showOnMobile": true,
+                "behavior": "hoverOnly",
+                "product": true,
                 "category": [
                     {
                         "label": "هوشمند",
                         "subCategory": [
                             {
-                                "subCategoryId":5,
+                                "subCategoryId": 5,
                                 "name": "لمسی"
                             },
                             {
-                                "subCategoryId":6,
+                                "subCategoryId": 6,
                                 "name": "دکمه ای"
                             }
                         ]
@@ -66,11 +68,11 @@
                         "label": "ساده",
                         "subCategory": [
                             {
-                                "subCategoryId":7,
+                                "subCategoryId": 7,
                                 "name": "کوچک"
                             },
                             {
-                                "subCategoryId":8,
+                                "subCategoryId": 8,
                                 "name": "بزرگ"
                             }
                         ]
@@ -78,22 +80,23 @@
                 ]
             },
             {
-                "id":3,
+                "id": 3,
                 "title": "سوپر مارکت",
                 "part": 1,
                 "priority": 1,
-                "showOnMobile":true,
-                "behavior":"hoverOnly",
+                "showOnMobile": true,
+                "behavior": "hoverOnly",
+                "product": true,
                 "category": [
                     {
                         "label": "هوشمند",
                         "subCategory": [
                             {
-                                "subCategoryId":9,
+                                "subCategoryId": 9,
                                 "name": "لمسی"
                             },
                             {
-                                "subCategoryId":10,
+                                "subCategoryId": 10,
                                 "name": "دکمه ای"
                             }
                         ]
@@ -102,11 +105,11 @@
                         "label": "ساده",
                         "subCategory": [
                             {
-                                "subCategoryId":11,
+                                "subCategoryId": 11,
                                 "name": "کوچک"
                             },
                             {
-                                "subCategoryId":12,
+                                "subCategoryId": 12,
                                 "name": "بزرگ"
                             }
                         ]
@@ -114,23 +117,23 @@
                 ]
             },
             {
-                "id":4,
+                "id": 4,
                 "title": "ورزش و سفر",
                 "part": 1,
                 "priority": 4,
-                "behavior":"clickAndHover",
-
+                "behavior": "clickAndHover",
+                "product": true,
                 "url": "",
                 "category": [
                     {
                         "label": "ورزش",
                         "subCategory": [
                             {
-                                "subCategoryId":13,
+                                "subCategoryId": 13,
                                 "name": "توپ"
                             },
                             {
-                                "subCategoryId":14,
+                                "subCategoryId": 14,
                                 "name": "ابزار ورزشی"
                             }
                         ]
@@ -139,11 +142,11 @@
                         "label": "سفر",
                         "subCategory": [
                             {
-                                "subCategoryId":15,
+                                "subCategoryId": 15,
                                 "name": "چادر"
                             },
                             {
-                                "subCategoryId":16,
+                                "subCategoryId": 16,
                                 "name": "وسایل ایمنی"
                             }
                         ]
@@ -151,69 +154,60 @@
                 ]
             },
             {
-                "id":5,
+                "id": 5,
                 "title": "نحوه خرید",
                 "part": 2,
                 "priority": 1,
                 "url": "",
-                "behavior":"clickOnly"
-
+                "behavior": "clickOnly"
             },
             {
-                "id":6,
+                "id": 6,
                 "title": "بفروش",
                 "part": 3,
                 "priority": 1,
                 "url": "",
-                "behavior":"clickOnly"
-
+                "behavior": "clickOnly"
             },
             {
-                "id":7,
+                "id": 7,
                 "title": "تازها",
                 "part": 3,
                 "priority": 2,
                 "url": "",
-                "behavior":"clickOnly"
-
+                "behavior": "clickOnly"
             },
             {
-                "id":8,
+                "id": 8,
                 "title": "ردیابی خرید",
                 "part": 3,
                 "priority": 1,
                 "url": "",
-                "behavior":"clickOnly"
-
+                "behavior": "clickOnly"
             },
             {
-                "id":9,
+                "id": 9,
                 "title": "رضایت از ما",
                 "part": 20,
                 "priority": 4,
                 "url": "",
-                "behavior":"clickOnly"
-
-            }
-            ,
+                "behavior": "clickOnly"
+            },
             {
-                "id":10,
+                "id": 10,
                 "title": "راهنما",
                 "part": 20,
                 "priority": 2,
                 "url": "",
-                "behavior":"clickOnly"
-
-            }
-            ,
+                "behavior": "clickOnly"
+            },
             {
-                "id":11,
+                "id": 11,
                 "title": "مقررات",
                 "part": 20,
                 "priority": 3,
                 "url": "",
-                "behavior":"clickOnly"
-
+                "behavior": "clickOnly"
             }
         ]
     }
