@@ -95,7 +95,7 @@
 }
 
 .allPro_NHS {
-    display: none;
+    /* display: none; */
 }
 
 .flex_NHS {
@@ -258,17 +258,68 @@
 .sub_allPro_NHS {
     width: 98%;
     margin: 0 1%;
-    padding: 15px 10px;
+    /* padding: 15px 10px; */
     position: absolute;
     top: 39px;
     left: 0;
-    background-color: #fff;
+    background-color: #f7f7f7;
     border: 1px solid #cacaca;
     border-radius: 3px;
     z-index: 1000;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
-.link_NHS{
+.rigthSub_NHS {
+    width: 22%;
+}
+
+.leftSub_NHS {
+    flex-grow: 1;
+}
+
+.btnRightSub_NHS {
+    width: 100%;
+    min-height: 45px;
+    border-bottom: 1px solid #bebdbd;
+    border-left: 1px solid #bebdbd;
+    background-color: #e6e5e5;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.spanSubBtn_NHS{
+    flex-grow: 1;
+    height: auto;
+   display: flex;
+   align-items: center;
+   justify-content: right;
+   padding-right: 3px;
+}
+
+.lineSubBtn_NHS{
+    width: 7px;
+    height: auto;
+    background-color: #f7f7f7;
+    border-radius: 0 6px 6px 0;
+    border: 1px solid #cacaca;
+    border-left: none;
+    display: none;
+}
+
+.BRSHover_NHS{
+    background-color: #fff;
+    border-right: 2px solid green;
+    border-radius: 0 3px 3px 0;
+    border-left: none;
+}
+
+.BRSHover_NHS .lineSubBtn_NHS {
+    display: block;
+}
+
+.link_NHS {
     color: #0d6efd;
 }
 

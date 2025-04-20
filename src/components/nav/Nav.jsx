@@ -749,7 +749,7 @@ const Nav = () => {
     const newWidth = target.width;
     const newLeft = target.left;
     setHoverStyle({ width: newWidth, left: newLeft });
-    setSubDisplay('block');
+    setSubDisplay('flex');
     setActiveBtn(id);
     handleItemsDisplay(id);
   }
@@ -908,10 +908,16 @@ const Nav = () => {
     } else {
       item = menu[0].items.find(item => item.id === id);
     }
+  }
 
-
-
-
+  const handleSubMenuDisplay= (e) => {
+    const elements= document.getElementsByClassName('btnRightSub_NHS');
+    Array.from(elements).forEach(element => {
+      element.classList.remove('BRSHover_NHS');
+    });
+    
+    e.currentTarget.classList.add('BRSHover_NHS')
+    
   }
   return (
     <div className={`container_NHS`} ref={container_NHS}>
@@ -977,28 +983,86 @@ const Nav = () => {
           onMouseLeave={(e) => { handleMouseLeave(e) }}
 
         >
-          <div className="rigthSub_NHS"></div>
+          <div className="rigthSub_NHS">
+            <button className="--styleLessBtn btnRightSub_NHS BRSHover_NHS"
+            onTouchStart={e =>handleSubMenuDisplay(e)}
+            >
+              <span className="spanSubBtn_NHS">
+                موبایل
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                کیف و کفش
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS "
+            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                وسایل خودور
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                ورزش و سفر
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                آرایشی بهداشتی
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                خانه و آشپزخانه
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                مبل و مان
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                لباس مردانه
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+          </div>
           <div className="leftSub_NHS">
-            {
+            {/* {
               title ?
-                title != 'hoverOnly' &&
-                <Link to="" className="--styleLessLink link_NHS">
-                  <i className="enterIcon_NHS">
-                    <EnterIcon />
-                  </i>
-                  مشاهده همه {title}
-                </Link> : <Skeleton
+                title != 'hoverOnly' && */}
+            <Link to="" className="--styleLessLink link_NHS">
+              <i className="enterIcon_NHS">
+                <EnterIcon />
+              </i>
+              {/* مشاهده همه {title} */}
+              مشاهده همه موبایل
+            </Link>
+            {/* :
+                <Skeleton
                   count={1}
                   duration={1.6}
                   width={200}
                   height={20}
                   highlightColor="#9c9b9b"
                 />
-            }
-
-
-
-
+            } */}
           </div>
         </div>
 
