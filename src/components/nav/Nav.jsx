@@ -13,7 +13,6 @@ import 'react-loading-skeleton/dist/skeleton.css';
 const Nav = () => {
   const navigate = useNavigate();
 
-  const ref = useRef();
   const container_NHS = useRef(null);
   const btnMenu = useRef(null);
 
@@ -47,19 +46,305 @@ const Nav = () => {
   const buttonRefs = useRef({});
   const underlineRef = useRef(null);
   const subMenuRef = useRef(null);
-
+  const hoveredRef = useRef(false);
 
   const [menuDisplay, setMenuDisplay] = useState();
   const [modelSubMenu, setModelSubMenu] = useState();
   const [arraySubMenu, setArraySubMenu] = useState();
   const [activeBtn, setActiveBtn] = useState(null);
   const [subDisplay, setSubDisplay] = useState('none');
-  const [hoverStyle, setHoverStyle] = useState({ width: 0, left: 0 }); // مدیریت استایل خط
+  const [underlineStyle, setUnderlineStyle] = useState({ width: 0, left: 0 }); // مدیریت استایل خط
 
   const [items, setItems] = useState(
 
   )
   const [title, setTitle] = useState(null);
+
+
+  useEffect(() => {
+    setMenuDisplay(handleMenuDisplay())
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setMenuDisplay(handleMenuDisplay())
+    });
+  }, []);
+
+  const handleMenuDisplay = () => {
+    let device = getDeviceType();
+    if (device == 'xs_mobile') return;
+    const { numberParts } = menu[0].settings;
+    const parts = handleGetParts(numberParts, menu[0].items);
+    const limits = handleLimitParts(device, parts[0].length, parts[1].length, parts[2].length);
+    let result = [];
+    parts.forEach((part, index) => {
+      if (part.length === 0) return;
+      const limitKey = `limitPart${index + 1}`;
+      const limitValue = limits[limitKey];
+      const limitedItems = part.slice(0, limitValue); // اعمال محدودیت تعداد اعضا
+      if (limitedItems.length == 0) return;
+      result.push(
+        <div className="flex_NHS" key={index} >
+          <div className="border_NHS"> </div>
+          {limitedItems.map((item, itemIndex) => (
+            <div className="nav_item_NHS" key={itemIndex}>
+              <button
+                ref={(el) => (buttonRefs.current[item.id] = el)}
+                className={`--styleLessBtn btn_NHS ${item.behavior == 'clickOnly' ? '' : 'cursorCM_NHS'}`}
+                onClick={(e) => {
+                  if (!hoveredRef.current) {
+                    handleBtnAction(e, item.id, item.behavior, item.title);
+                  }
+                }}
+                data-active="true"
+                onMouseEnter={e => {
+                  handleBtnAction(e, item.id, item.behavior, item.title);
+                  hoveredRef.current = true
+                }}
+                onMouseLeave={(e) => {
+                  handleBtnLeave(e, item.id);
+                  hoveredRef.current = false
+                }}
+              >
+                <i className="iCircle_NHS"></i>
+                <span>
+                  {item.title}
+                </span>
+              </button>
+            </div>
+          ))}
+        </div>
+      );
+    });
+
+    return <>{result}</>;
+
+  };
+
+  const getDeviceType = () => {
+    const width = window.innerWidth;
+    if (width <= 450) return "xs_mobile";//extra small mobile
+    if (width <= 580) return "s_mobile";// samll mobile
+    if (width <= 680) return "m_mobile";//medium mobile
+    if (width <= 768) return "mobile";
+    if (width <= 948) return "tablet";
+    return "desktop";
+  };
+
+  const handleGetParts = (numberParts, items) => {
+    return Array.from({ length: numberParts }, (_, index) => {
+      const filteredItems = items.filter(item => item.part === index + 1);
+      return filteredItems.sort((a, b) => a.priority - b.priority);//مرتب سازی
+    });
+  };
+
+  const limitForS_mobile = (L1, L2, L3) => {
+    let lim1 = 0, lim2 = 0, lim3 = 0;
+    if (L3 >= 1) {
+      lim3 = 1;
+    } else if (L2 >= 1) {
+      lim2 = 1;
+    } else if (L1 >= 1) {
+      lim1 = 1;
+    }
+    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
+  };
+
+  const limitForM_mobile = (L1, L2, L3) => {
+    let lim1 = 0, lim2 = 0, lim3 = 0;
+    if (L3 >= 2) {
+      lim3 = 2;
+    } else if (L3 === 1) {
+      lim3 = 1;
+      if (L2 >= 1) {
+        lim2 = 1;
+      } else if (L1 >= 1) {
+        lim1 = 1;
+      }
+    } else if (L2 >= 2) {
+      lim2 = 2;
+    } else if (L2 === 1) {
+      lim2 = 1;
+      if (L1 >= 1) {
+        lim1 = 1;
+      }
+    } else if (L1 >= 2) {
+      lim1 = 2;
+    } else if (L1 === 1) {
+      lim1 = 1;
+    }
+    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
+  };
+
+  const limitForMobile = (L1, L2, L3) => {
+    let lim1 = 0, lim2 = 0, lim3 = 0;
+    if (L3 >= 3) {
+      lim3 = 3;
+    } else if (L3 === 2) {
+      lim3 = 2;
+      if (L2 >= 1) {
+        lim2 = 1;
+      } else {
+        lim1 = 1;
+      }
+    } else if (L3 === 1) {
+      lim3 = 1;
+      if (L2 >= 2) {
+        lim2 = 2;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 1;
+      } else {
+        lim1 = 1;
+      }
+    } else if (L2 >= 3) {
+      lim2 = 3;
+    } else if (L2 === 2) {
+      lim2 = 2;
+      lim1 = 1;
+    } else if (L2 === 1) {
+      lim2 = 1;
+      lim1 = 2;
+    } else {
+      lim1 = 2;
+    }
+    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
+  };
+
+  const limitForTablet = (L1, L2, L3) => {
+    let lim1 = 0, lim2 = 0, lim3 = 0;
+    if (L3 >= 3) {
+      lim3 = 3;
+      if (L2 >= 1) {
+        lim2 = 1;
+      } else {
+        lim1 = 1;
+      }
+    } else if (L3 === 2) {
+      lim3 = 2;
+      if (L2 >= 2) {
+        lim2 = 2;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 1;
+      } else {
+        lim1 = 2;
+      }
+    } else if (L3 === 1) {
+      lim3 = 1;
+      if (L2 >= 3) {
+        lim2 = 3;
+      } else if (L2 === 2) {
+        lim2 = 2;
+        lim1 = 1;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 2;
+      } else {
+        lim1 = 3;
+      }
+    } else if (L2 >= 3) {
+      lim2 = 3;
+      lim1 = 1;
+    } else if (L2 === 2) {
+      lim2 = 2;
+      lim1 = 2;
+    } else if (L2 === 1) {
+      lim2 = 1;
+      lim1 = 3;
+    } else {
+      lim1 = 4;
+    }
+    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
+  };
+
+  const limitForDesktop = (L1, L2, L3) => {
+    let lim1 = 0, lim2 = 0, lim3 = 0;
+    if (L3 >= 3) {
+      lim3 = 3;
+      if (L2 >= 3) {
+        lim2 = 3;
+      } else if (L2 === 2) {
+        lim2 = 2;
+        lim1 = 1;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 2;
+      } else {
+        lim1 = 3;
+      }
+    } else if (L3 === 2) {
+      lim3 = 2;
+      if (L2 >= 3) {
+        lim2 = 3;
+        lim1 = 1;
+      } else if (L2 === 2) {
+        lim2 = 2;
+        lim1 = 2;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 3;
+      } else {
+        lim1 = 4;
+      }
+    } else if (L3 === 1) {
+      lim3 = 1;
+      if (L2 >= 3) {
+        lim2 = 3;
+        lim1 = 2;
+      } else if (L2 === 2) {
+        lim2 = 2;
+        lim1 = 3;
+      } else if (L2 === 1) {
+        lim2 = 1;
+        lim1 = 4;
+      } else {
+        lim1 = 5;
+      }
+    } else if (L2 >= 3) {
+      lim2 = 3;
+      lim1 = 3;
+    } else if (L2 === 2) {
+      lim2 = 2;
+      lim1 = 4;
+    } else if (L2 === 1) {
+      lim2 = 1;
+      lim1 = 5;
+    } else {
+      lim1 = 6;
+    }
+    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
+  };
+
+  /**
+   * تعداد نمایش منو در منوی خطی
+   * فرض بر این است که منوی خطی به سه قسمت تقسیم گردد که با خط عمودی از هم جدا میشوند
+   * حالا بر اساس دیوایس مشخص میشود که در هر دیوایس منو چند قسمت شود و هر قسمت چند
+   * آیتم داشته باشد
+   * @param {*} device 
+   * @param {*} lengthPart1 
+   * @param {*} lengthPart2 
+   * @param {*} lengthPart3 
+   * @returns 
+   */
+  const handleLimitParts = (device, lengthPart1, lengthPart2, lengthPart3) => {
+    switch (device) {
+      case 's_mobile':
+        return limitForS_mobile(lengthPart1, lengthPart2, lengthPart3);
+      case 'm_mobile':
+        return limitForM_mobile(lengthPart1, lengthPart2, lengthPart3);
+      case 'mobile':
+        return limitForMobile(lengthPart1, lengthPart2, lengthPart3);
+      case 'tablet':
+        return limitForTablet(lengthPart1, lengthPart2, lengthPart3);
+      case 'desktop':
+        return limitForDesktop(lengthPart1, lengthPart2, lengthPart3);
+      default:
+        return { limitPart1: 0, limitPart2: 0, limitPart3: 0 };
+    }
+  };
+
 
   /**
    * این متد، متدهای لازم برای نمایش منوی عمودی را فرخوانی میکند
@@ -174,13 +459,25 @@ const Nav = () => {
     divSubMenu.current.classList.add("--displayNone");
   };
 
+  const handleBtnAction = (e, id, behavior, title) => {
+    handleBtnActivation(e);
+    handleLineDisplay(e, id, behavior, title);
+
+
+    if (["clickOnly", "clickAndHover"].includes(behavior)) {
+      // عمل مشترک
+    }
+
+  }
+
   /**
    *  هنگامی که بر روی یکی از دکمه های ناوبری در صفحات لمسی، لمس می شود
    * این متد فراخوانی می شود و با عث می شود که کلاس اکتیو اضافه شده و با توجه به
    * استایلی که در فایل سی اس اس تعریف شده المان دایره ای سبز رنگ نمایش داده می شود
    * @param {} e 
    */
-  const handleTouchStart = (e) => {
+  const handleBtnActivation = (e) => {
+
     // در صورت وجود دکمه انتخاب شده، ابتدا آن دکمه را ار حالت انتخاب خارج میکند
     allProRef.current.classList.remove("active")
     if (buttonRefs.current) {
@@ -191,552 +488,19 @@ const Nav = () => {
           button.classList.remove("active");
         }
       }
-      // const reference =
-      // activeBtn === "allPro"
-      // ? allProRef.current
-      // : buttonRefs.current[activeBtn];
-      // reference.classList.remove("active");
-
     }
     e.stopPropagation();
     e.currentTarget.classList.add("active");
   };
 
-  /**
-   * این متد بر عکس متد
-   * handleTouchStart 
-   * عمل می کند
-   * @param {*} e 
-   */
-  const handleBlur = (e) => {
-    e.currentTarget.classList.remove("active");
-    setSubDisplay('none')
-
-  }
-
-  const handleClick = (e, behavior) => {
-    if (["clickOnly", "clickAndHover"].includes(behavior)) {
-      // عمل مشترک
-    }
-
-  }
-
-  useEffect(() => {
-    setMenuDisplay(handleMenuDisplay())
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      setMenuDisplay(handleMenuDisplay())
-    });
-  }, []);
-
-  const handleMenuDisplay = () => {
-
-    let device = getDeviceType();
-
-    if (device == 'xs_mobile') return;
-
-    const { numberParts } = menu[0].settings;
-
-    const parts = handleGetParts(numberParts, menu[0].items);
-
-    const limits = handleLimitParts(device, parts[0].length, parts[1].length, parts[2].length);
-
-    let result = [];
-
-    parts.forEach((part, index) => {
-      if (part.length === 0) return;
-      const limitKey = `limitPart${index + 1}`;
-      const limitValue = limits[limitKey];
-      const limitedItems = part.slice(0, limitValue); // اعمال محدودیت تعداد اعضا
-      if (limitedItems.length == 0) return;
-      result.push(
-        <div className="flex_NHS" key={index} >
-          <div className="border_NHS"> </div>
-          {limitedItems.map((item, itemIndex) => (
-            <div className="nav_item_NHS" key={itemIndex}>
-              <button
-                ref={(el) => (buttonRefs.current[item.id] = el)}
-
-                className={`--styleLessBtn btn_NHS ${item.behavior == 'clickOnly' ? '' : 'cursorCM_NHS'}`}
-                onClick={(e) => handleClick(e, item.behavior)}
-                onTouchStart={(e) => {
-                  handleTouchStart(e);
-                  handleLineDisplay(e, item.id, item.behavior, item.title);
-                }}
-                data-active="true"
-                // onBlur={(e) => { handleBlur(e); }}
-
-
-                onMouseEnter={e => handleLineDisplay(e, item.id, item.behavior, item.title)}
-                onMouseLeave={(e) => handleMouseLeave(e, item.id)}
-              // onBlur={(e) => {
-              //   handleBlur(e);
-              //   setHoverStyle({ width: 0, left: 0 });
-              //   setSubDisplay('none');
-              //   setActiveBtn(false)
-              // }}
-              >
-                <i className="iCircle_NHS"></i>
-                <span>
-                  {item.title}
-                </span>
-              </button>
-              {/* <div className="line"></div> */}
-            </div>
-          ))}
-        </div>
-      );
-    });
-
-    return <>{result}</>;
-
-  };
-
-  const getDeviceType = () => {
-    const width = window.innerWidth;
-    if (width <= 450) return "xs_mobile";//extra small mobile
-    if (width <= 580) return "s_mobile";// samll mobile
-    if (width <= 680) return "m_mobile";//medium mobile
-    if (width <= 768) return "mobile";
-    if (width <= 948) return "tablet";
-    return "desktop";
-  };
-
-  // const handleGetParts = (numberParts, items) => {
-  //   let parts = [];
-  //   for (let index = 0; index < numberParts; index++) {
-  //     const filteredItems = items.filter(item => item.part === index + 1);
-
-  //     // مرتب‌سازی اعضا بر اساس priority
-  //     const sortedItems = filteredItems.sort((a, b) => a.priority - b.priority);
-  //     parts.push(sortedItems)
-  //   }
-  //   return parts;
-  // }
-
-  const handleGetParts = (numberParts, items) => {
-    return Array.from({ length: numberParts }, (_, index) => {
-      const filteredItems = items.filter(item => item.part === index + 1);
-      return filteredItems.sort((a, b) => a.priority - b.priority);//مرتب سازی
-    });
-  };
-
-  // const handleLimitParts = (device, lengthPart1, lengthPart2, lengthPart3) => {
-  //   let limitPart1 = 0;
-  //   let limitPart2 = 0;
-  //   let limitPart3 = 0;
-
-  //   switch (device) {
-  //     case 's_mobile':
-  //       if (lengthPart3 >= 1) {
-  //         limitPart3 = 1;
-  //       } else if (lengthPart2 >= 1) {
-  //         limitPart2 = 1;
-  //       } else if (lengthPart1 >= 1) {
-  //         limitPart1 = 1;
-  //       }
-  //       break;
-  //     case 'm_mobile':
-  //       if (lengthPart3 >= 2) {
-  //         limitPart3 = 2;
-  //       } else if (lengthPart3 == 1) {
-  //         limitPart3 = 1;
-  //         if (lengthPart2 >= 1) {
-  //           limitPart2 = 1;
-  //         }
-  //         else if (lengthPart1 >= 1) {
-  //           limitPart1 = 1;
-  //         }
-  //       } else if (lengthPart2 >= 2) {
-  //         limitPart2 = 2;
-  //       } else if (lengthPart2 == 1) {
-  //         limitPart2 = 1;
-  //         if (lengthPart1 >= 1) {
-
-  //           limitPart1 = 1;
-  //         }
-  //       }
-  //       else if (lengthPart1 >= 2) {
-  //         limitPart1 = 2;
-
-  //       }
-  //       else if (lengthPart1 == 1) {
-  //         limitPart1 = 1;
-
-  //       }
-  //       break;
-  //     case 'mobile':
-  //       if (lengthPart3 >= 3) {
-  //         limitPart3 = 3;
-
-  //       } else if (lengthPart3 == 2) {
-  //         limitPart3 = 2;
-  //         if (lengthPart2 >= 1) {
-  //           limitPart2 = 1;
-
-  //         } else {
-  //           limitPart1 = 1;
-  //         }
-  //       }
-  //       else if (lengthPart3 == 1) {
-  //         limitPart3 = 1;
-  //         if (lengthPart2 >= 2) {
-  //           limitPart2 = 2;
-  //         } else if (lengthPart2 == 1) {
-  //           limitPart2 = 1;
-  //           limitPart1 = 1;
-  //         } else {
-  //           limitPart1 = 1;
-  //         }
-  //       }
-  //       else if (lengthPart2 >= 3) {
-  //         limitPart2 = 3;
-  //       }
-  //       else if (lengthPart2 == 2) {
-  //         limitPart2 = 2;
-  //         limitPart1 = 1;
-  //       }
-  //       else if (lengthPart2 == 1) {
-  //         limitPart2 = 1;
-  //         limitPart1 = 2;
-  //       }
-  //       else {
-  //         limitPart1 = 2;
-
-  //       }
-  //       break;
-
-
-  //     case 'tablet':
-  //       if (lengthPart3 >= 3) {
-  //         limitPart3 = 3;
-  //         if (lengthPart3 >= 1) {
-  //           limitPart2 = 1;
-  //         } else {
-  //           limitPart1 = 1;
-  //         }
-
-  //       } else if (lengthPart3 == 2) {
-  //         limitPart3 = 2;
-  //         if (lengthPart2 >= 2) {
-  //           limitPart2 = 2;
-
-  //         } else if (lengthPart2 == 1) {
-  //           limitPart2 = 1;
-  //           limitPart1 = 1;
-  //         } else {
-  //           limitPart1 = 2;
-  //         }
-  //       }
-  //       else if (lengthPart3 == 1) {
-  //         limitPart3 = 1;
-  //         if (lengthPart2 >= 3) {
-  //           limitPart2 = 3;
-  //         } else if (lengthPart2 == 2) {
-  //           limitPart2 = 2;
-  //           limitPart1 = 1;
-  //         } else if (lengthPart2 == 1) {
-  //           limitPart2 = 1;
-  //           limitPart1 = 2;
-  //         } else {
-  //           limitPart1 = 3;
-  //         }
-  //       }
-  //       else if (lengthPart2 >= 3) {
-  //         limitPart2 = 3;
-  //         limitPart1 = 1;
-  //       }
-  //       else if (lengthPart2 == 2) {
-  //         limitPart2 = 2;
-  //         limitPart1 = 2;
-  //       }
-  //       else if (lengthPart2 == 1) {
-  //         limitPart2 = 1;
-  //         limitPart1 = 3;
-  //       }
-  //       else {
-  //         limitPart1 = 4;
-
-  //       }
-  //       break;
-
-
-  //     case 'desktop':
-  //       if (lengthPart3 >= 3) {
-  //         limitPart3 = 3;
-  //         if (lengthPart2 >= 3) {
-  //           limitPart2 = 3;
-  //         } else if (lengthPart2 == 2) {
-  //           limitPart2 = 2;
-  //           limitPart1 = 1;
-  //         } else if (lengthPart2 == 1) {
-  //           limitPart2 = 1;
-  //           limitPart1 = 2;
-  //         } else {
-  //           limitPart1 = 3;
-  //         }
-
-  //       } else if (lengthPart3 == 2) {
-  //         limitPart3 = 2;
-  //         if (lengthPart2 >= 3) {
-  //           limitPart2 = 3;
-  //           limitPart1 = 1;
-  //         } else if (lengthPart2 == 2) {
-  //           limitPart2 = 2;
-  //           limitPart1 = 2;
-  //         } else if (lengthPart2 == 1) {
-  //           limitPart2 = 1;
-  //           limitPart1 = 3;
-  //         } else {
-  //           limitPart1 = 4;
-  //         }
-  //       }
-  //       else if (lengthPart3 == 1) {
-  //         limitPart3 = 1;
-  //         if (lengthPart2 >= 3) {
-  //           limitPart2 = 3;
-  //           limitPart1 = 2;
-  //         } else if (lengthPart2 == 2) {
-  //           limitPart2 = 2;
-  //           limitPart1 = 3;
-  //         } else if (lengthPart2 == 1) {
-  //           limitPart2 = 1;
-  //           limitPart1 = 4;
-  //         } else {
-  //           limitPart1 = 5;
-  //         }
-  //       }
-  //       else if (lengthPart2 >= 3) {
-  //         limitPart2 = 3;
-  //         limitPart1 = 3;
-  //       }
-  //       else if (lengthPart2 == 2) {
-  //         limitPart2 = 2;
-  //         limitPart1 = 4;
-  //       }
-  //       else if (lengthPart2 == 1) {
-  //         limitPart2 = 1;
-  //         limitPart1 = 5;
-  //       }
-  //       else {
-  //         limitPart1 = 6;
-
-  //       }
-  //       break;
-  //   }
-
-
-  //   return { limitPart1, limitPart2, limitPart3 };
-
-  // }
-
-  // تابع کمکی برای s_mobile
-  const limitForS_mobile = (L1, L2, L3) => {
-    let lim1 = 0, lim2 = 0, lim3 = 0;
-    if (L3 >= 1) {
-      lim3 = 1;
-    } else if (L2 >= 1) {
-      lim2 = 1;
-    } else if (L1 >= 1) {
-      lim1 = 1;
-    }
-    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
-  };
-
-  const limitForM_mobile = (L1, L2, L3) => {
-    let lim1 = 0, lim2 = 0, lim3 = 0;
-    if (L3 >= 2) {
-      lim3 = 2;
-    } else if (L3 === 1) {
-      lim3 = 1;
-      if (L2 >= 1) {
-        lim2 = 1;
-      } else if (L1 >= 1) {
-        lim1 = 1;
-      }
-    } else if (L2 >= 2) {
-      lim2 = 2;
-    } else if (L2 === 1) {
-      lim2 = 1;
-      if (L1 >= 1) {
-        lim1 = 1;
-      }
-    } else if (L1 >= 2) {
-      lim1 = 2;
-    } else if (L1 === 1) {
-      lim1 = 1;
-    }
-    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
-  };
-
-  const limitForMobile = (L1, L2, L3) => {
-    let lim1 = 0, lim2 = 0, lim3 = 0;
-    if (L3 >= 3) {
-      lim3 = 3;
-    } else if (L3 === 2) {
-      lim3 = 2;
-      if (L2 >= 1) {
-        lim2 = 1;
-      } else {
-        lim1 = 1;
-      }
-    } else if (L3 === 1) {
-      lim3 = 1;
-      if (L2 >= 2) {
-        lim2 = 2;
-      } else if (L2 === 1) {
-        lim2 = 1;
-        lim1 = 1;
-      } else {
-        lim1 = 1;
-      }
-    } else if (L2 >= 3) {
-      lim2 = 3;
-    } else if (L2 === 2) {
-      lim2 = 2;
-      lim1 = 1;
-    } else if (L2 === 1) {
-      lim2 = 1;
-      lim1 = 2;
-    } else {
-      lim1 = 2;
-    }
-    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
-  };
-
-  const limitForTablet = (L1, L2, L3) => {
-    let lim1 = 0, lim2 = 0, lim3 = 0;
-    if (L3 >= 3) {
-      lim3 = 3;
-      // فرض می‌کنیم در اینجا همیشه آیتمی از بخش 2 وجود دارد؛ در غیر این صورت، بخش 1 را مقداردهی می‌کنیم.
-      if (L2 >= 1) {
-        lim2 = 1;
-      } else {
-        lim1 = 1;
-      }
-    } else if (L3 === 2) {
-      lim3 = 2;
-      if (L2 >= 2) {
-        lim2 = 2;
-      } else if (L2 === 1) {
-        lim2 = 1;
-        lim1 = 1;
-      } else {
-        lim1 = 2;
-      }
-    } else if (L3 === 1) {
-      lim3 = 1;
-      if (L2 >= 3) {
-        lim2 = 3;
-      } else if (L2 === 2) {
-        lim2 = 2;
-        lim1 = 1;
-      } else if (L2 === 1) {
-        lim2 = 1;
-        lim1 = 2;
-      } else {
-        lim1 = 3;
-      }
-    } else if (L2 >= 3) {
-      lim2 = 3;
-      lim1 = 1;
-    } else if (L2 === 2) {
-      lim2 = 2;
-      lim1 = 2;
-    } else if (L2 === 1) {
-      lim2 = 1;
-      lim1 = 3;
-    } else {
-      lim1 = 4;
-    }
-    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
-  };
-
-  const limitForDesktop = (L1, L2, L3) => {
-    let lim1 = 0, lim2 = 0, lim3 = 0;
-    if (L3 >= 3) {
-      lim3 = 3;
-      if (L2 >= 3) {
-        lim2 = 3;
-      } else if (L2 === 2) {
-        lim2 = 2;
-        lim1 = 1;
-      } else if (L2 === 1) {
-        lim2 = 1;
-        lim1 = 2;
-      } else {
-        lim1 = 3;
-      }
-    } else if (L3 === 2) {
-      lim3 = 2;
-      if (L2 >= 3) {
-        lim2 = 3;
-        lim1 = 1;
-      } else if (L2 === 2) {
-        lim2 = 2;
-        lim1 = 2;
-      } else if (L2 === 1) {
-        lim2 = 1;
-        lim1 = 3;
-      } else {
-        lim1 = 4;
-      }
-    } else if (L3 === 1) {
-      lim3 = 1;
-      if (L2 >= 3) {
-        lim2 = 3;
-        lim1 = 2;
-      } else if (L2 === 2) {
-        lim2 = 2;
-        lim1 = 3;
-      } else if (L2 === 1) {
-        lim2 = 1;
-        lim1 = 4;
-      } else {
-        lim1 = 5;
-      }
-    } else if (L2 >= 3) {
-      lim2 = 3;
-      lim1 = 3;
-    } else if (L2 === 2) {
-      lim2 = 2;
-      lim1 = 4;
-    } else if (L2 === 1) {
-      lim2 = 1;
-      lim1 = 5;
-    } else {
-      lim1 = 6;
-    }
-    return { limitPart1: lim1, limitPart2: lim2, limitPart3: lim3 };
-  };
-
-  const handleLimitParts = (device, lengthPart1, lengthPart2, lengthPart3) => {
-    switch (device) {
-      case 's_mobile':
-        return limitForS_mobile(lengthPart1, lengthPart2, lengthPart3);
-      case 'm_mobile':
-        return limitForM_mobile(lengthPart1, lengthPart2, lengthPart3);
-      case 'mobile':
-        return limitForMobile(lengthPart1, lengthPart2, lengthPart3);
-      case 'tablet':
-        return limitForTablet(lengthPart1, lengthPart2, lengthPart3);
-      case 'desktop':
-        return limitForDesktop(lengthPart1, lengthPart2, lengthPart3);
-      default:
-        return { limitPart1: 0, limitPart2: 0, limitPart3: 0 };
-    }
-  };
-
-
 
   const handleLineDisplay = async (e, id, behavior, title) => {
     e.stopPropagation();
-    e.currentTarget.classList.add('active');
+    setActiveBtn(id);
+
     if (behavior == 'clickOnly') {
       setSubDisplay('none');
-      setActiveBtn(id);
+      // setActiveBtn(id);
       return
     };
     if (behavior == "hoverOlny" || title == 'محصولات') {
@@ -748,19 +512,21 @@ const Nav = () => {
     const target = e.currentTarget.getBoundingClientRect();
     const newWidth = target.width;
     const newLeft = target.left;
-    setHoverStyle({ width: newWidth, left: newLeft });
+    setUnderlineStyle({ width: newWidth, left: newLeft });
     setSubDisplay('flex');
-    setActiveBtn(id);
+    // setActiveBtn(id);
     handleItemsDisplay(id);
   }
-
+  
   const activeBtnRef = useRef(activeBtn);
 
   useEffect(() => {
     activeBtnRef.current = activeBtn; // به‌روزرسانی مقدار ref هنگام تغییر state
   }, [activeBtn]);
 
-  const handleMouseLeave = (e) => {
+  const handleBtnLeave = (e) => {
+    console.log('leave');
+    
     // بررسی اینکه آیا ماوس وارد زیر منو یا خط شده است
     const relatedElement = e.relatedTarget;
 
@@ -789,36 +555,6 @@ const Nav = () => {
     setActiveBtn(null);
   };
 
-
-
-  // useEffect(() => {
-  //   const updateUnderlinePosition = () => {
-
-  //     if (activeBtn && (buttonRefs.current[activeBtn] || allProRef.current)) {
-
-  //       if ((activeBtn!='allPro' && !buttonRefs.current[activeBtn])) {
-  //         setSubDisplay('none');
-  //       }else{
-  //         const buttonRect = activeBtn != 'allPro' ? buttonRefs.current[activeBtn].getBoundingClientRect() : allProRef.current.getBoundingClientRect();
-  //         const underline = underlineRef.current;
-
-  //         if (underline && buttonRect.width>0) {
-  //           setHoverStyle({ width: buttonRect.width, left: buttonRect.left });
-
-  //         }else{
-  //           setSubDisplay('none');
-  //         }
-  //       }
-
-  //     }
-  //   }
-  //   window.addEventListener('resize', updateUnderlinePosition);
-
-  //   return () => {
-  //     window.removeEventListener('resize', updateUnderlinePosition);
-  //   };
-  // }, [activeBtn]);
-
   useEffect(() => {
     const updateUnderlinePosition = () => {
       // اطمینان از وجود activeBtn و مرجع‌های مرتبط
@@ -838,7 +574,7 @@ const Nav = () => {
 
         // بررسی ابعاد و تنظیم استایل
         if (buttonRect.width > 0) {
-          setHoverStyle({ width: buttonRect.width, left: buttonRect.left });
+          setUnderlineStyle({ width: buttonRect.width, left: buttonRect.left });
         } else {
           setSubDisplay("none");
         }
@@ -858,7 +594,11 @@ const Nav = () => {
 
   // اضافه کردن رویداد تاچ روی داکیومنت برای تشخیص لمس خارج از container
   useEffect(() => {
+    if (!activeBtn) return;
     const handleTouchOutside = (event) => {
+      if (subMenuRef.current && subMenuRef.current.contains(event.target)) {
+        return;
+      }
       if (activeBtn) {
         const reference =
           activeBtn === "allPro"
@@ -872,30 +612,17 @@ const Nav = () => {
               reference.classList.remove("active");
               setActiveBtn(null);
               setSubDisplay('none');
-
             }
           } else {
-
-
             reference.classList.remove("active");
             // اگر خارج از containerRef باشد نیز حالت ریست شود
             setActiveBtn(null);
             setSubDisplay('none')
-
           }
         }
       }
-
     };
-    // const handleTouchOutside = (event) => {
-    //   if (containerRef.current && !containerRef.current.contains(event.target)) {
-    //     setActiveBtn(null);
-    //     setSubDisplay('none')
-    //   }
-    // };
-
     document.addEventListener("touchstart", handleTouchOutside);
-
     return () => {
       document.removeEventListener("touchstart", handleTouchOutside);
     };
@@ -910,15 +637,14 @@ const Nav = () => {
     }
   }
 
-  const handleSubMenuDisplay= (e) => {
-    const elements= document.getElementsByClassName('btnRightSub_NHS');
+  const handleSubMenuDisplay = (e) => {
+    const elements = document.getElementsByClassName('btnRightSub_NHS');
     Array.from(elements).forEach(element => {
       element.classList.remove('BRSHover_NHS');
     });
-    
     e.currentTarget.classList.add('BRSHover_NHS')
-    
   }
+
   return (
     <div className={`container_NHS`} ref={container_NHS}>
       <div className="cart_container_NHS">
@@ -964,12 +690,21 @@ const Nav = () => {
         <div className="nav_item_NHS allPro_NHS" ref={divItemProNHS}>
           <button
             className="--styleLessBtn btn_NHS cursorCM_NHS"
-            onTouchStart={(e) => { handleTouchStart(e); handleLineDisplay(e, 'allPro', 'hoverOnly', 'محصولات'); }}
-            // onBlur={(e) => { handleBlur(e, 'allPro'); }}
-            onMouseEnter={e => handleLineDisplay(e, 'allPro', 'hoverOnly', "محصولات")}
+
+            onClick={(e) => {
+              if (!hoveredRef.current) {
+                handleBtnAction(e, 'allPro', 'hoverOnly', 'محصولات');
+              }
+            }}
+
+            onMouseEnter={e => {
+              handleBtnAction(e, 'allPro', 'hoverOnly', "محصولات");
+              hoveredRef.current = true
+            }}
+
             data-active="true"
             ref={allProRef}
-            onMouseLeave={(e) => handleMouseLeave(e)}
+            onMouseLeave={(e) => handleBtnLeave(e)}
 
           >
             <i className="iCircle_NHS"></i>
@@ -980,12 +715,12 @@ const Nav = () => {
           className="sub_allPro_NHS"
           style={{ display: subDisplay }}
           ref={subMenuRef}
-          onMouseLeave={(e) => { handleMouseLeave(e) }}
+          onMouseLeave={(e) => { handleBtnLeave(e) }}
 
         >
           <div className="rigthSub_NHS">
             <button className="--styleLessBtn btnRightSub_NHS BRSHover_NHS"
-            onTouchStart={e =>handleSubMenuDisplay(e)}
+              onTouchStart={e => handleSubMenuDisplay(e)}
             >
               <span className="spanSubBtn_NHS">
                 موبایل
@@ -994,49 +729,49 @@ const Nav = () => {
 
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              onTouchStart={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 کیف و کفش
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS "
-            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              onTouchStart={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 وسایل خودور
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              onTouchStart={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 ورزش و سفر
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              onTouchStart={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 آرایشی بهداشتی
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              onTouchStart={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 خانه و آشپزخانه
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              onTouchStart={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 مبل و مان
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-            onTouchStart={e =>handleSubMenuDisplay(e)}>
+              onTouchStart={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 لباس مردانه
               </span>
@@ -1068,11 +803,11 @@ const Nav = () => {
 
         {menuDisplay && menuDisplay}
         <span
-          className="menuLine_NHS"
+          className="menuUnderline_NHS"
           style={{
             display: subDisplay,
-            width: `${hoverStyle.width}px`,
-            left: `${hoverStyle.left}px`,
+            width: `${underlineStyle.width}px`,
+            left: `${underlineStyle.left}px`,
           }}
           ref={underlineRef}
         >
@@ -1094,7 +829,7 @@ const Nav = () => {
               ),
               ref.current.closeAllItemsChild()
             )}
-            onTouchStart={(e) => handleTouchStart(e)}
+            onTouchStart={(e) => handleBtnActivation(e)}
             onBlur={(e) => handleBlur(e)}
           >
 
@@ -1118,7 +853,7 @@ const Nav = () => {
               ),
               ref.current.closeAllItemsChild()
             )}
-            onTouchStart={(e) => handleTouchStart(e)}
+            onTouchStart={(e) => handleBtnActivation(e)}
             onBlur={(e) => handleBlur(e)}
           >
             <i className="iCircle_NHS"></i>
@@ -1134,7 +869,7 @@ const Nav = () => {
           <button
             className="--styleLessBtn btn_NHS"
             onClick={() => ref.current.closeAllItemsChild()}
-            onTouchStart={(e) => handleTouchStart(e)}
+            onTouchStart={(e) => handleBtnActivation(e)}
             onBlur={(e) => handleBlur(e)}
           >
             <i className="iCircle_NHS"></i>

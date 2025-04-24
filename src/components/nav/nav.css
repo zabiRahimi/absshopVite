@@ -159,7 +159,7 @@
 .btn_NHS.active {
     color: #75758b;
 }
-
+/* 
 .btn_NHS:hover .iCircle_NHS::after {
     width: 100%;
     height: 100%;
@@ -167,7 +167,7 @@
 
 .btn_NHS:hover .iCircle_NHS {
     animation: borderGlow 0.45s linear 0.35s forwards;
-}
+} */
 
 .active .iCircle_NHS::after {
     width: 100%;
@@ -235,25 +235,22 @@
     z-index: 100;
 }
 
-.menuLine_NHS {
+.menuUnderline_NHS {
     position: absolute;
     bottom: -1px;
     height: 4px;
-    /* ارتفاع خط */
-    /* background-color: transparent;  */
     background-color: #cacaca;
     transition: background-color 0.3s ease;
-    /* افکت برای زمانی که hover می‌شود */
     z-index: 1101;
     border-radius: 3px 3px 0 0;
-    border-right: 2px solid green;
-    border-left: 2px solid green;
+    border-right: 2px solid #008000;
+    border-left: 2px solid #008000;
 }
 
-.btn_NHS:hover .menuLine_NHS {
+/* .btn_NHS:hover .menuUnderline_NHS {
     background-color: #000;
-    /* نمایش خط هنگام hover */
-}
+   
+} */
 
 .sub_allPro_NHS {
     width: 98%;
