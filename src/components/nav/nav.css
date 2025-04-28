@@ -112,7 +112,8 @@
     border-left: 1px solid #9999a453;
 }
 
-.btn_NHS {
+.btn_NHS,
+.linkBtn_NHS {
     min-height: 30px;
     padding: 0 13px;
     display: flex;
@@ -155,9 +156,13 @@
     color: #75758b;
 }
 
-/* .btn_NHS:hover, */
-.btn_NHS.active {
+.btn_NHS.active, 
+.linkBtn_NHS:hover{
     color: #75758b;
+}
+
+.linkBtn_NHS:active{
+    color: #d6d6e7;
 }
 /* 
 .btn_NHS:hover .iCircle_NHS::after {

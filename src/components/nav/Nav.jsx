@@ -10,8 +10,12 @@ import EnterIcon from "../svg/EnterIcon";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
+import useRipple from "../hooks/useRipple";
+import '../hooks/useRipple.css';
+
 const Nav = () => {
   const navigate = useNavigate();
+  useRipple();
 
   const container_NHS = useRef(null);
   const btnMenu = useRef(null);
@@ -53,7 +57,7 @@ const Nav = () => {
   const [arraySubMenu, setArraySubMenu] = useState();
   const [activeBtn, setActiveBtn] = useState(null);
   const [subDisplay, setSubDisplay] = useState('none');
-  const [underlineStyle, setUnderlineStyle] = useState({ width: 0, left: 0 }); // مدیریت استایل خط
+  const [underlineStyle, setUnderlineStyle] = useState({ width: 0, left: 0 });
 
   const [items, setItems] = useState(
 
@@ -72,56 +76,67 @@ const Nav = () => {
   }, []);
 
   const handleMenuDisplay = () => {
-    let device = getDeviceType();
-    if (device == 'xs_mobile') return;
+    const device = getDeviceType();
+    if (device === 'xs_mobile') return null;
+  
     const { numberParts } = menu[0].settings;
     const parts = handleGetParts(numberParts, menu[0].items);
-    const limits = handleLimitParts(device, parts[0].length, parts[1].length, parts[2].length);
-    let result = [];
-    parts.forEach((part, index) => {
-      if (part.length === 0) return;
+    const limits = handleLimitParts(
+      device,
+      parts[0].length,
+      parts[1].length,
+      parts[2].length
+    );
+  
+    const result = parts.map((part, index) => {
+      if (part.length === 0) return null;
       const limitKey = `limitPart${index + 1}`;
       const limitValue = limits[limitKey];
-      const limitedItems = part.slice(0, limitValue); // اعمال محدودیت تعداد اعضا
-      if (limitedItems.length == 0) return;
-      result.push(
-        <div className="flex_NHS" key={index} >
-          <div className="border_NHS"> </div>
+      const limitedItems = part.slice(0, limitValue);
+      if (limitedItems.length === 0) return null;
+      return (
+        <div className="flex_NHS" key={index}>
+          <div className="border_NHS" />
           {limitedItems.map((item, itemIndex) => (
             <div className="nav_item_NHS" key={itemIndex}>
-              <button
-                ref={(el) => (buttonRefs.current[item.id] = el)}
-                className={`--styleLessBtn btn_NHS ${item.behavior == 'clickOnly' ? '' : 'cursorCM_NHS'}`}
-                onClick={(e) => {
-                  if (!hoveredRef.current) {
+              {item.behavior!='clickOnly' ? (
+                <button
+                  ref={(el) => (buttonRefs.current[item.id] = el)}
+                  className={`--styleLessBtn btn_NHS ${
+                    item.behavior === 'clickOnly' ? '' : 'cursorCM_NHS'
+                  }`}
+                  onClick={(e) => {
+                    if (!hoveredRef.current) {
+                      handleBtnAction(e, item.id, item.behavior, item.title);
+                    }
+                  }}
+                  data-active="true"
+                  onMouseEnter={(e) => {
                     handleBtnAction(e, item.id, item.behavior, item.title);
-                  }
-                }}
-                data-active="true"
-                onMouseEnter={e => {
-                  handleBtnAction(e, item.id, item.behavior, item.title);
-                  hoveredRef.current = true
-                }}
-                onMouseLeave={(e) => {
-                  handleBtnLeave(e, item.id);
-                  hoveredRef.current = false
-                }}
-              >
-                <i className="iCircle_NHS"></i>
-                <span>
-                  {item.title}
-                </span>
-              </button>
+                    hoveredRef.current = true;
+                  }}
+                  onMouseLeave={(e) => {
+                    handleBtnLeave(e, item.id);
+                    hoveredRef.current = false;
+                  }}
+                >
+                  <i className="iCircle_NHS"></i>
+                  <span>{item.title}</span>
+                </button>
+              ) : (
+                <Link className="--styleLessLink  linkBtn_NHS  ripple-btn"
+                //  onClick={(e)=>{e.currentTarget.blur()}}
+                 >{item.title}</Link>
+              )}
             </div>
           ))}
         </div>
       );
     });
-
+  
     return <>{result}</>;
-
   };
-
+  
   const getDeviceType = () => {
     const width = window.innerWidth;
     if (width <= 450) return "xs_mobile";//extra small mobile
@@ -461,13 +476,11 @@ const Nav = () => {
 
   const handleBtnAction = (e, id, behavior, title) => {
     handleBtnActivation(e);
-    handleLineDisplay(e, id, behavior, title);
-
-
-    if (["clickOnly", "clickAndHover"].includes(behavior)) {
-      // عمل مشترک
-    }
-
+    handleUnderlineDisplay(e);
+    handleSetTitle(behavior, title);
+    setActiveBtn(id);
+    setSubDisplay('flex');
+    handleItemsDisplay(id);
   }
 
   /**
@@ -494,30 +507,27 @@ const Nav = () => {
   };
 
 
-  const handleLineDisplay = async (e, id, behavior, title) => {
+  const handleUnderlineDisplay = async (e) => {
     e.stopPropagation();
-    setActiveBtn(id);
-
-    if (behavior == 'clickOnly') {
-      setSubDisplay('none');
-      // setActiveBtn(id);
-      return
-    };
-    if (behavior == "hoverOlny" || title == 'محصولات') {
-
-      setTitle('hoverOnly')
-    } else {
-      setTitle(title)
-    }
     const target = e.currentTarget.getBoundingClientRect();
     const newWidth = target.width;
     const newLeft = target.left;
     setUnderlineStyle({ width: newWidth, left: newLeft });
-    setSubDisplay('flex');
-    // setActiveBtn(id);
-    handleItemsDisplay(id);
   }
-  
+
+  /**
+   * برای استفاده در لینک زیر منو
+   * لینکی که همه محصول مربرط به منو را در یک صفحه جداگانه نمایش می دهد
+   * @param {*} title 
+   */
+  const handleSetTitle = (behavior, title) => {
+    if (behavior == "hoverOlny" || title == 'محصولات') {
+      setTitle('hoverOnly')
+    } else {
+      setTitle(title)
+    }
+  }
+
   const activeBtnRef = useRef(activeBtn);
 
   useEffect(() => {
@@ -526,7 +536,7 @@ const Nav = () => {
 
   const handleBtnLeave = (e) => {
     console.log('leave');
-    
+
     // بررسی اینکه آیا ماوس وارد زیر منو یا خط شده است
     const relatedElement = e.relatedTarget;
 
@@ -644,6 +654,29 @@ const Nav = () => {
     });
     e.currentTarget.classList.add('BRSHover_NHS')
   }
+
+
+  // document.querySelectorAll('.ripple-btn').forEach((button) => {
+  //   button.addEventListener('click', function (e) {
+  //     // ایجاد عنصر موج
+      
+  //     const ripple = document.createElement('span');
+  //     ripple.classList.add('ripple');
+      
+  //     // قرار دادن موج در وسط دکمه
+  //     ripple.style.left = '50%';
+  //     ripple.style.top = '50%';
+      
+  //     // اضافه کردن موج به دکمه
+  //     this.appendChild(ripple);
+      
+  //     // پس از پایان انیمیشن، موج حذف شود
+  //     ripple.addEventListener('animationend', () => {
+  //       ripple.remove();
+  //     });
+  //   });
+  // });
+  
 
   return (
     <div className={`container_NHS`} ref={container_NHS}>

@@ -1,0 +1,134 @@
+/* @keyframes ripple-animation {
+    to {
+      transform: scale(1);
+      opacity: 0;
+    }
+  } */
+
+  
+  .rippleBtn {
+    position: relative;
+    overflow: hidden;
+    /* border: none;
+    background-color: #6200ee;
+    color: #fff;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 4px; */
+    outline: none; /* حذف حاشیه‌ی متمرکز – به نطر نیاز می‌توانید تنظیم کنید */
+    /* cursor: pointer; */
+  }
+
+  /* ایجاد یک pseudo-element برای افکت موج */
+  .rippleBtn::after {
+    /* content: '';
+    position: absolute;
+    background: #718a8db3;
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transform: translate(-2%, -2%); */
+    content: '';
+    position: absolute;
+    top: 50%;                  /* موج از وسط عمودی شروع شود */
+    left: 50%;                 /* موج از وسط افقی شروع شود */
+    width: 20px;               /* اندازه اولیه موج (دایره کوچک) */
+    height: 20px;
+    background: #718a8db3;
+    border-radius: 50%;
+    /* انتقال به گونه‌ای که نقطه‌ی مرکزی دایره، در نقطه‌ی وسط عنصر باشد */
+    transform: translate(0, -50%) scale(0);
+    /* انتقال نرم هنگام تغییر transform و opacity */
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  }
+
+  /* فعال شدن افکت در حالت :active یا :focus */
+  /* .rippleBtn:active::after,
+  .rippleBtn:focus::after { */
+  .rippleBtn:active::after {
+    /* animation: ripple-effect 0.9s forwards; */
+    /* transform: translate(0, 0) scale(15); */
+    opacity: 0;
+  }
+
+  /* تعریف انیمیشن موج */
+  /* @keyframes ripple-effect {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: 0.7;
+    }
+    100% {
+      width: 300px;     
+      height: 300px;
+      opacity: 0;
+    }
+  } */
+
+
+
+
+  .ripple-btn {
+    position: relative;
+    overflow: hidden;
+    /* سایر استایل‌های دکمه یا لینک */
+  }
+  
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: #ebecec;
+    transform: translate(-50%, -50%) scale(5);
+    animation: ripple-animation 0.7s linear forwards;
+    pointer-events: none;
+    width: 5px;    /* اندازه اولیه کوچک موج */
+      height: 5px;
+      opacity: 0.8;
+      display: inline-block;
+  }
+  
+  /* @keyframes ripple-animation {
+    from {
+      transform: translate(-50%, -50%) scale(5);
+      opacity: 0.3;
+    background: #3a979794;
+
+    }
+    to {
+      transform: translate(-50%, -50%) scale(15);
+      opacity: 0;
+    background: #61473594;
+
+    }
+  } */
+
+  @keyframes ripple-animation {
+    /* نقطه شروع */
+    0% {
+      transform: translate(-50%, -50%) scale(2);
+      opacity: 0.8;
+    }
+    /* نکته میانی اول */
+    30% {
+      transform: translate(-50%, -50%) scale(2);
+      opacity: 0.5;
+      background: #cedada;
+    }
+    /* نکته میانی دوم */
+    60% {
+      transform: translate(-50%, -50%) scale(5);
+      opacity: 0.25;
+      background: #dcdfdfec;
+    }
+    /* نقطه پایان */
+    100% {
+      /* transform: translate(-50%, -50%) scale(12); */
+      transform: translate(-50%, -50%) scale(var(--scale-factor, 15));
+      opacity: 0.6;
+    }
+  }
+  
+  
