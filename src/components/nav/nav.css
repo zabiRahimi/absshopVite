@@ -259,8 +259,8 @@
 
 .sub_allPro_NHS {
     width: 98%;
+    max-height: calc(100vh - 45px);
     margin: 0 1%;
-    /* padding: 15px 10px; */
     position: absolute;
     top: 39px;
     left: 0;
@@ -270,10 +270,17 @@
     z-index: 1000;
     display: flex;
     flex-direction: row-reverse;
+    align-items: stretch;
+}
+
+.rigthSub_NHS,
+.leftSub_NHS{
+    max-height: calc(100vh - 45px);
+    overflow: auto;
 }
 
 .rigthSub_NHS {
-    width: 22%;
+    width: 23%;
 }
 
 .leftSub_NHS {
@@ -283,6 +290,7 @@
 .btnRightSub_NHS {
     width: 100%;
     min-height: 45px;
+    padding-right: 4px;
     border-bottom: 1px solid #bebdbd;
     border-left: 1px solid #bebdbd;
     background-color: #e6e5e5;

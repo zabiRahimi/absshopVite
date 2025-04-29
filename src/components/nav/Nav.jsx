@@ -52,6 +52,7 @@ const Nav = () => {
   const subMenuRef = useRef(null);
   const hoveredRef = useRef(false);
 
+  const [isSticky, setIsSticky] = useState(false);//
   const [menuDisplay, setMenuDisplay] = useState();
   const [modelSubMenu, setModelSubMenu] = useState();
   const [arraySubMenu, setArraySubMenu] = useState();
@@ -78,7 +79,7 @@ const Nav = () => {
   const handleMenuDisplay = () => {
     const device = getDeviceType();
     if (device === 'xs_mobile') return null;
-  
+
     const { numberParts } = menu[0].settings;
     const parts = handleGetParts(numberParts, menu[0].items);
     const limits = handleLimitParts(
@@ -87,7 +88,7 @@ const Nav = () => {
       parts[1].length,
       parts[2].length
     );
-  
+
     const result = parts.map((part, index) => {
       if (part.length === 0) return null;
       const limitKey = `limitPart${index + 1}`;
@@ -99,15 +100,19 @@ const Nav = () => {
           <div className="border_NHS" />
           {limitedItems.map((item, itemIndex) => (
             <div className="nav_item_NHS" key={itemIndex}>
-              {item.behavior!='clickOnly' ? (
+              {item.behavior != 'clickOnly' ? (
                 <button
                   ref={(el) => (buttonRefs.current[item.id] = el)}
-                  className={`--styleLessBtn btn_NHS ${
-                    item.behavior === 'clickOnly' ? '' : 'cursorCM_NHS'
-                  }`}
+                  className={`--styleLessBtn btn_NHS ${item.behavior === 'clickOnly' ? '' : 'cursorCM_NHS'
+                    }`}
                   onClick={(e) => {
                     if (!hoveredRef.current) {
-                      handleBtnAction(e, item.id, item.behavior, item.title);
+                      //شرط زیر یک حالت toggle ایجاد می کند
+                      if (activeBtnRef.current != item.id) {
+                        handleBtnAction(e, item.id, item.behavior, item.title);
+                      } else {
+                        handleBtnLeave(e)
+                      }
                     }
                   }}
                   data-active="true"
@@ -116,7 +121,7 @@ const Nav = () => {
                     hoveredRef.current = true;
                   }}
                   onMouseLeave={(e) => {
-                    handleBtnLeave(e, item.id);
+                    handleBtnLeave(e);
                     hoveredRef.current = false;
                   }}
                 >
@@ -126,17 +131,17 @@ const Nav = () => {
               ) : (
                 <Link className="--styleLessLink  linkBtn_NHS  ripple-btn"
                 //  onClick={(e)=>{e.currentTarget.blur()}}
-                 >{item.title}</Link>
+                >{item.title}</Link>
               )}
             </div>
           ))}
         </div>
       );
     });
-  
+
     return <>{result}</>;
   };
-  
+
   const getDeviceType = () => {
     const width = window.innerWidth;
     if (width <= 450) return "xs_mobile";//extra small mobile
@@ -475,6 +480,9 @@ const Nav = () => {
   };
 
   const handleBtnAction = (e, id, behavior, title) => {
+
+    isSticky && (document.body.style.overflow = "hidden");
+
     handleBtnActivation(e);
     handleUnderlineDisplay(e);
     handleSetTitle(behavior, title);
@@ -535,11 +543,9 @@ const Nav = () => {
   }, [activeBtn]);
 
   const handleBtnLeave = (e) => {
-    console.log('leave');
 
     // بررسی اینکه آیا ماوس وارد زیر منو یا خط شده است
     const relatedElement = e.relatedTarget;
-
     if (
       underlineRef.current &&
       underlineRef.current.contains(relatedElement)
@@ -563,6 +569,7 @@ const Nav = () => {
         : buttonRefs.current[activeBtnRef.current];
     reference.classList.remove('active')
     setActiveBtn(null);
+    document.body.style.overflow = "auto";
   };
 
   useEffect(() => {
@@ -648,6 +655,8 @@ const Nav = () => {
   }
 
   const handleSubMenuDisplay = (e) => {
+    console.log('uuuu');
+    
     const elements = document.getElementsByClassName('btnRightSub_NHS');
     Array.from(elements).forEach(element => {
       element.classList.remove('BRSHover_NHS');
@@ -656,27 +665,33 @@ const Nav = () => {
   }
 
 
-  // document.querySelectorAll('.ripple-btn').forEach((button) => {
-  //   button.addEventListener('click', function (e) {
-  //     // ایجاد عنصر موج
-      
-  //     const ripple = document.createElement('span');
-  //     ripple.classList.add('ripple');
-      
-  //     // قرار دادن موج در وسط دکمه
-  //     ripple.style.left = '50%';
-  //     ripple.style.top = '50%';
-      
-  //     // اضافه کردن موج به دکمه
-  //     this.appendChild(ripple);
-      
-  //     // پس از پایان انیمیشن، موج حذف شود
-  //     ripple.addEventListener('animationend', () => {
-  //       ripple.remove();
-  //     });
-  //   });
-  // });
-  
+  useEffect(() => {
+    const handleScroll = () => {
+      if (container_NHS.current) {
+        const { top } = container_NHS.current.getBoundingClientRect();
+        if (top <= 0 && !isSticky) {
+          setIsSticky(true);
+          if (activeBtn) {
+            document.body.style.overflow = "hidden";
+
+          }
+          // عملیات دلخواه هنگام ثابت شدن منو
+        } else if (top > 0 && isSticky) {
+          setIsSticky(false);
+
+          // عملیات دلخواه هنگام غیر ثابت شدن منو (در صورت نیاز)
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isSticky, activeBtn]);
+  console.log(isSticky);
+
 
   return (
     <div className={`container_NHS`} ref={container_NHS}>
@@ -726,7 +741,12 @@ const Nav = () => {
 
             onClick={(e) => {
               if (!hoveredRef.current) {
-                handleBtnAction(e, 'allPro', 'hoverOnly', 'محصولات');
+                //شرط زیر یک حالت toggle ایجاد می کند
+                if (activeBtn != 'allPro') {
+                  handleBtnAction(e, 'allPro', 'hoverOnly', 'محصولات');
+                } else {
+                  handleBtnLeave(e)
+                }
               }
             }}
 
@@ -753,58 +773,65 @@ const Nav = () => {
         >
           <div className="rigthSub_NHS">
             <button className="--styleLessBtn btnRightSub_NHS BRSHover_NHS"
-              onTouchStart={e => handleSubMenuDisplay(e)}
+              onClick={(e) => {
+                if (!hoveredRef.current) {
+                  handleSubMenuDisplay(e)
+                }
+              }}
+              onMouseEnter={e =>handleSubMenuDisplay(e)}
             >
               <span className="spanSubBtn_NHS">
-                موبایل
+                موبیایل
               </span>
               <div className="lineSubBtn_NHS"></div>
 
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-              onTouchStart={e => handleSubMenuDisplay(e)}>
+              onClick={e => handleSubMenuDisplay(e)}
+              onMouseEnter={e =>handleSubMenuDisplay(e)}
+              >
               <span className="spanSubBtn_NHS">
                 کیف و کفش
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS "
-              onTouchStart={e => handleSubMenuDisplay(e)}>
+              onClick={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 وسایل خودور
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-              onTouchStart={e => handleSubMenuDisplay(e)}>
+              onClick={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 ورزش و سفر
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-              onTouchStart={e => handleSubMenuDisplay(e)}>
+              onClick={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 آرایشی بهداشتی
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-              onTouchStart={e => handleSubMenuDisplay(e)}>
+              onClick={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 خانه و آشپزخانه
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-              onTouchStart={e => handleSubMenuDisplay(e)}>
+              onClick={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 مبل و مان
               </span>
               <div className="lineSubBtn_NHS"></div>
             </button>
             <button className="--styleLessBtn btnRightSub_NHS"
-              onTouchStart={e => handleSubMenuDisplay(e)}>
+              onClick={e => handleSubMenuDisplay(e)}>
               <span className="spanSubBtn_NHS">
                 لباس مردانه
               </span>
