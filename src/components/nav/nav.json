@@ -89,28 +89,28 @@
                 "product": true,
                 "category": [
                     {
-                        "label": "هوشمند",
+                        "label": "پنیر",
                         "subCategory": [
                             {
                                 "subCategoryId": 9,
-                                "name": "لمسی"
+                                "name": "ارژن"
                             },
                             {
                                 "subCategoryId": 10,
-                                "name": "دکمه ای"
+                                "name": "دایتی"
                             }
                         ]
                     },
                     {
-                        "label": "ساده",
+                        "label": "برنج",
                         "subCategory": [
                             {
                                 "subCategoryId": 11,
-                                "name": "کوچک"
+                                "name": "شمالی"
                             },
                             {
                                 "subCategoryId": 12,
-                                "name": "بزرگ"
+                                "name": "عنبر بود"
                             }
                         ]
                     }
@@ -208,6 +208,43 @@
                 "priority": 3,
                 "url": "",
                 "behavior": "clickOnly"
+            },
+            {
+                "id": 12,
+                "title": "خانه و آشپزخانه",
+                "part": 1,
+                "priority": 3,
+                "showOnMobile": true,
+                "behavior": "hoverOnly",
+                "product": true,
+                "category": [
+                    {
+                        "label": "یخچال",
+                        "subCategory": [
+                            {
+                                "subCategoryId": 17,
+                                "name": "دو در"
+                            },
+                            {
+                                "subCategoryId": 18,
+                                "name": "یک در"
+                            }
+                        ]
+                    },
+                    {
+                        "label": "اجاق گاز",
+                        "subCategory": [
+                            {
+                                "subCategoryId": 19,
+                                "name": "فردار"
+                            },
+                            {
+                                "subCategoryId": 20,
+                                "name": "شعله ای"
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }

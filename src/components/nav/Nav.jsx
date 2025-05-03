@@ -54,6 +54,8 @@ const Nav = () => {
 
   const [isSticky, setIsSticky] = useState(false);//
   const [menuDisplay, setMenuDisplay] = useState();
+  const [submenuDisplay, setSubmenuDisplay] = useState();
+  const [categoryDisplay, setCategoryDisplay] = useState();
   const [modelSubMenu, setModelSubMenu] = useState();
   const [arraySubMenu, setArraySubMenu] = useState();
   const [activeBtn, setActiveBtn] = useState(null);
@@ -485,10 +487,13 @@ const Nav = () => {
 
     handleBtnActivation(e);
     handleUnderlineDisplay(e);
-    handleSetTitle(behavior, title);
+    // handleSetTitle(behavior, title);
     setActiveBtn(id);
     setSubDisplay('flex');
-    handleItemsDisplay(id);
+    handleGetSubmenu(e, id);
+    setTitle(null)
+
+
   }
 
   /**
@@ -569,7 +574,11 @@ const Nav = () => {
         : buttonRefs.current[activeBtnRef.current];
     reference.classList.remove('active')
     setActiveBtn(null);
+    // setTitle(null);
+    // console.log(title);
+    
     document.body.style.overflow = "auto";
+    hoveredRef.current = false;
   };
 
   useEffect(() => {
@@ -600,7 +609,6 @@ const Nav = () => {
       }
     };
 
-    // updateUnderlinePosition();
     window.addEventListener("resize", updateUnderlinePosition); // مدیریت تغییر اندازه
 
     return () => {
@@ -645,25 +653,81 @@ const Nav = () => {
     };
   }, [activeBtn]);
 
-  const handleItemsDisplay = (id) => {
-    let item;
+  const handleGetSubmenu = (e, id) => {
+    let submenus;
     if (id == 'allPro') {
-      item = menu[0].items.filter(item => item.product === true);
+      submenus = menu[0].items.filter(item => item.product === true);
     } else {
-      item = menu[0].items.find(item => item.id === id);
+      submenus = menu[0].items.find(item => item.id === id);
+      submenus = submenus.category;
     }
+
+    handleSubmenuDisplay(e, submenus, id)
+
   }
 
-  const handleSubMenuDisplay = (e) => {
-    console.log('uuuu');
-    
+  const handleSubmenuDisplay = (e, submenus, id) => {
+    let result = [];
+    result = submenus.map((submenu, i) => (
+      <button key={i} className="--styleLessBtn btnRightSub_NHS"
+        onClick={(e) => {
+          if (!hoveredRef.current) {
+            handleGetCategory(e)
+          }
+        }}
+        onMouseEnter={e => handleGetCategory(e)}
+      >
+        <span className="spanSubBtn_NHS">
+          {id == 'allPro' ? submenu.title : submenu.label}
+        </span>
+        <div className="lineSubBtn_NHS"></div>
+
+      </button>
+    ))
+    setSubmenuDisplay(null);
+    setTimeout(() => {
+      setSubmenuDisplay(result);
+      setTimeout(() => {
+        handleActivateAndFetchFirstSubmenuItem(submenus[0], id);
+      }, 10);
+    }, 220);
+  }
+
+  function handleActivateAndFetchFirstSubmenuItem(firstItme, id) {
+
+    activateFirstSubmenuItem();
+    setTimeout(() => {
+      setTitle(id == 'allPro' ? firstItme.title : firstItme.label)
+    }, 150);
+
+    // در نهایت واکشی داده‌های مرتبط با اولین آیتم
+    fetchAndDisplaySubmenuDetails(firstItme, id);
+  }
+
+  const activateFirstSubmenuItem = () => {
+    const elements = document.getElementsByClassName('btnRightSub_NHS');
+    Array.from(elements).forEach(element => {
+      element.classList.remove('BRSHover_NHS');
+    });
+    elements[0].classList.add('BRSHover_NHS');
+  }
+
+  const fetchAndDisplaySubmenuDetails = (firstItme, id) => {
+    // console.log(firstItme);
+
+  }
+
+  const handleGetCategory = (e) => {
+    handleSetSubmenuStyle(e);
+  }
+
+  const handleSetSubmenuStyle = (e) => {
     const elements = document.getElementsByClassName('btnRightSub_NHS');
     Array.from(elements).forEach(element => {
       element.classList.remove('BRSHover_NHS');
     });
     e.currentTarget.classList.add('BRSHover_NHS')
   }
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -673,13 +737,9 @@ const Nav = () => {
           setIsSticky(true);
           if (activeBtn) {
             document.body.style.overflow = "hidden";
-
           }
-          // عملیات دلخواه هنگام ثابت شدن منو
         } else if (top > 0 && isSticky) {
           setIsSticky(false);
-
-          // عملیات دلخواه هنگام غیر ثابت شدن منو (در صورت نیاز)
         }
       }
     };
@@ -690,7 +750,6 @@ const Nav = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [isSticky, activeBtn]);
-  console.log(isSticky);
 
 
   return (
@@ -746,6 +805,7 @@ const Nav = () => {
                   handleBtnAction(e, 'allPro', 'hoverOnly', 'محصولات');
                 } else {
                   handleBtnLeave(e)
+
                 }
               }
             }}
@@ -764,104 +824,9 @@ const Nav = () => {
             <span>محصولات</span>
           </button>
         </div>
-        <div
-          className="sub_allPro_NHS"
-          style={{ display: subDisplay }}
-          ref={subMenuRef}
-          onMouseLeave={(e) => { handleBtnLeave(e) }}
-
-        >
-          <div className="rigthSub_NHS">
-            <button className="--styleLessBtn btnRightSub_NHS BRSHover_NHS"
-              onClick={(e) => {
-                if (!hoveredRef.current) {
-                  handleSubMenuDisplay(e)
-                }
-              }}
-              onMouseEnter={e =>handleSubMenuDisplay(e)}
-            >
-              <span className="spanSubBtn_NHS">
-                موبیایل
-              </span>
-              <div className="lineSubBtn_NHS"></div>
-
-            </button>
-            <button className="--styleLessBtn btnRightSub_NHS"
-              onClick={e => handleSubMenuDisplay(e)}
-              onMouseEnter={e =>handleSubMenuDisplay(e)}
-              >
-              <span className="spanSubBtn_NHS">
-                کیف و کفش
-              </span>
-              <div className="lineSubBtn_NHS"></div>
-            </button>
-            <button className="--styleLessBtn btnRightSub_NHS "
-              onClick={e => handleSubMenuDisplay(e)}>
-              <span className="spanSubBtn_NHS">
-                وسایل خودور
-              </span>
-              <div className="lineSubBtn_NHS"></div>
-            </button>
-            <button className="--styleLessBtn btnRightSub_NHS"
-              onClick={e => handleSubMenuDisplay(e)}>
-              <span className="spanSubBtn_NHS">
-                ورزش و سفر
-              </span>
-              <div className="lineSubBtn_NHS"></div>
-            </button>
-            <button className="--styleLessBtn btnRightSub_NHS"
-              onClick={e => handleSubMenuDisplay(e)}>
-              <span className="spanSubBtn_NHS">
-                آرایشی بهداشتی
-              </span>
-              <div className="lineSubBtn_NHS"></div>
-            </button>
-            <button className="--styleLessBtn btnRightSub_NHS"
-              onClick={e => handleSubMenuDisplay(e)}>
-              <span className="spanSubBtn_NHS">
-                خانه و آشپزخانه
-              </span>
-              <div className="lineSubBtn_NHS"></div>
-            </button>
-            <button className="--styleLessBtn btnRightSub_NHS"
-              onClick={e => handleSubMenuDisplay(e)}>
-              <span className="spanSubBtn_NHS">
-                مبل و مان
-              </span>
-              <div className="lineSubBtn_NHS"></div>
-            </button>
-            <button className="--styleLessBtn btnRightSub_NHS"
-              onClick={e => handleSubMenuDisplay(e)}>
-              <span className="spanSubBtn_NHS">
-                لباس مردانه
-              </span>
-              <div className="lineSubBtn_NHS"></div>
-            </button>
-          </div>
-          <div className="leftSub_NHS">
-            {/* {
-              title ?
-                title != 'hoverOnly' && */}
-            <Link to="" className="--styleLessLink link_NHS">
-              <i className="enterIcon_NHS">
-                <EnterIcon />
-              </i>
-              {/* مشاهده همه {title} */}
-              مشاهده همه موبایل
-            </Link>
-            {/* :
-                <Skeleton
-                  count={1}
-                  duration={1.6}
-                  width={200}
-                  height={20}
-                  highlightColor="#9c9b9b"
-                />
-            } */}
-          </div>
-        </div>
 
         {menuDisplay && menuDisplay}
+
         <span
           className="menuUnderline_NHS"
           style={{
@@ -870,8 +835,115 @@ const Nav = () => {
             left: `${underlineStyle.left}px`,
           }}
           ref={underlineRef}
+          onMouseLeave={(e) => { handleBtnLeave(e) }}
         >
         </span>
+
+        <div
+          className="sub_allPro_NHS"
+          style={{ display: subDisplay }}
+          ref={subMenuRef}
+          onMouseLeave={(e) => { handleBtnLeave(e) }}
+
+        >
+          <div className="rigthSub_NHS">
+            {submenuDisplay ? submenuDisplay :
+              <Skeleton
+                count={3}
+                duration={1.6}
+                containerClassName="skeleton_containerSubmenuItem"
+                className="skeleton_submenuItem"
+              />
+            }
+
+            {/* <button className="--styleLessBtn btnRightSub_NHS BRSHover_NHS"
+              onClick={(e) => {
+                if (!hoveredRef.current) {
+                  handleSubmenuDisplay(e)
+                }
+              }}
+              onMouseEnter={e =>handleSubmenuDisplay(e)}
+            >
+              <span className="spanSubBtn_NHS">
+                موبیایل
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+              onClick={e => handleSubmenuDisplay(e)}
+              onMouseEnter={e =>handleSubmenuDisplay(e)}
+              >
+              <span className="spanSubBtn_NHS">
+                کیف و کفش
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS "
+              onClick={e => handleSubmenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                وسایل خودور
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+              onClick={e => handleSubmenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                ورزش و سفر
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+              onClick={e => handleSubmenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                آرایشی بهداشتی
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+              onClick={e => handleSubmenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                خانه و آشپزخانه
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+              onClick={e => handleSubmenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                مبل و مان
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button>
+            <button className="--styleLessBtn btnRightSub_NHS"
+              onClick={e => handleSubmenuDisplay(e)}>
+              <span className="spanSubBtn_NHS">
+                لباس مردانه
+              </span>
+              <div className="lineSubBtn_NHS"></div>
+            </button> */}
+          </div>
+          <div className="leftSub_NHS">
+            {
+              title ?
+                // title != 'hoverOnly' && 
+                <Link to="" className="--styleLessLink link_NHS">
+                  <i className="enterIcon_NHS">
+                    <EnterIcon />
+                  </i>
+                  مشاهده همه {title}
+                </Link>
+                :
+                <Skeleton
+                  count={1}
+                  duration={1.6}
+                  containerClassName="skeleton_containerSubmenuLinkTitle_NHS"
+                  className="skeleton_submenuLinkTitle_NHS"
+                />
+            }
+          </div>
+        </div>
+
+
 
         {/* <div className="border_NHS part1_NHS"> </div> */}
 
