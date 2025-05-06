@@ -293,25 +293,25 @@
     font-size: 0.81rem;
     display: flex;
     flex-direction: row-reverse;
+    align-items: center;
 }
 
 .spanSubBtn_NHS {
     flex-grow: 1;
     height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: right;
     padding-right: 4px;
+    text-align: right;
 }
 
 .lineSubBtn_NHS {
     width: 7px;
-    height: auto;
     background-color: #fbffff;
     border-radius: 0 6px 6px 0;
     border: 1px solid #cacaca;
     border-left: none;
     display: none;
+    align-self: stretch;
+
 }
 
 .BRSHover_NHS {
@@ -388,6 +388,7 @@
 .titleCategory_NHS{
     font-size: 1.2rem;
     display: flex;
+    justify-content: center;
 }
 
 .titleItmeCategory_NHS{
@@ -415,6 +416,23 @@
     color: #059c05;
 }
 
+.skeletonContainer_categoryTitle_NHS{
+
+}
+
+.skeleton_categoryTitle_NHS{
+    height: 25px;
+}
+
+.skeletonContainer_categoryItem_NHS{
+
+}
+
+.skeleton_categoryItem_NHS{
+    width: 80% !important;
+}
+
+
 
 
 @media screen and (min-width:260px) {
@@ -422,6 +440,9 @@
         gap: 2px;
        row-gap: 12px;
         grid-template-columns: repeat(2, 1fr);
+    }
+    .titleCategory_NHS{
+        justify-content: right;
     }
     .catepory_NHS{
         text-align: right;
@@ -492,6 +513,13 @@
         padding-right: 25px;
     }
 
+    .skeleton_categoryTitle_NHS{
+        height: 30px;
+    }
+    .skeleton_categoryItem_NHS{
+        height: 22px;
+        
+    }
    
 }
 

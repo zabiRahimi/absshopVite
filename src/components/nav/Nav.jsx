@@ -51,11 +51,12 @@ const Nav = () => {
   const underlineRef = useRef(null);
   const subMenuRef = useRef(null);
   const hoveredRef = useRef(false);
+  const leftSubRef = useRef(null);
 
   const [isSticky, setIsSticky] = useState(false);//
   const [menuDisplay, setMenuDisplay] = useState();
   const [submenuDisplay, setSubmenuDisplay] = useState();
-  const [categoryDisplay, setCategoryDisplay] = useState(false);
+  const [categoryDisplay, setCategoryDisplay] = useState();
   const [modelSubMenu, setModelSubMenu] = useState();
   const [arraySubMenu, setArraySubMenu] = useState();
   const [activeBtn, setActiveBtn] = useState(null);
@@ -491,9 +492,8 @@ const Nav = () => {
     setActiveBtn(id);
     setSubDisplay('flex');
     handleGetSubmenu(e, id);
-    setTitle(null)
-
-
+    setTitle(null);
+    setCategoryDisplay(null);
   }
 
   /**
@@ -575,7 +575,6 @@ const Nav = () => {
     reference.classList.remove('active')
     setActiveBtn(null);
     // setTitle(null);
-    // console.log(title);
 
     document.body.style.overflow = "auto";
     hoveredRef.current = false;
@@ -655,27 +654,34 @@ const Nav = () => {
 
   const handleGetSubmenu = (e, id) => {
     let submenus;
+    let type;
     if (id == 'allPro') {
       submenus = menu[0].items.filter(item => item.product === true);
+      type = 'items';
     } else {
+
       submenus = menu[0].items.find(item => item.id === id);
       submenus = submenus.category;
+      type = 'category';
     }
 
-    handleSubmenuDisplay(e, submenus, id)
+    handleSubmenuDisplay(e, submenus, id, type)
 
   }
 
-  const handleSubmenuDisplay = (e, submenus, id) => {
+  const handleSubmenuDisplay = (e, submenus, id, type) => {
+
     let result = [];
     result = submenus.map((submenu, i) => (
       <button key={i} className="--styleLessBtn btnRightSub_NHS"
         onClick={(e) => {
+
           if (!hoveredRef.current) {
-            handleGetCategory(e)
+            handleGetCategory(e, type == "items" ? submenu.title : submenu.label, submenu.id, type)
+
           }
         }}
-        onMouseEnter={e => handleGetCategory(e)}
+        onMouseEnter={e => handleGetCategory(e, type == "items" ? submenu.title : submenu.label, submenu.id, type)}
       >
         <span className="spanSubBtn_NHS">
           {id == 'allPro' ? submenu.title : submenu.label}
@@ -688,20 +694,23 @@ const Nav = () => {
     setTimeout(() => {
       setSubmenuDisplay(result);
       setTimeout(() => {
-        handleActivateAndFetchFirstSubmenuItem(submenus[0], id);
+        handleActivateAndFetchFirstSubmenuItem(submenus[0], id, type);
       }, 10);
     }, 220);
   }
 
-  function handleActivateAndFetchFirstSubmenuItem(firstItme, id) {
+  function handleActivateAndFetchFirstSubmenuItem(firstItem, id, type) {
+
+
+    let subId = (id == "allPro" ? firstItem.id : firstItem.categoryId);
 
     activateFirstSubmenuItem();
     setTimeout(() => {
-      setTitle(id == 'allPro' ? firstItme.title : firstItme.label)
+      setTitle(id == 'allPro' ? firstItem.title : firstItem.label)
     }, 150);
 
     // در نهایت واکشی داده‌های مرتبط با اولین آیتم
-    fetchAndDisplaySubmenuDetails(firstItme, id);
+    fetchAndDisplaySubmenuDetails(subId, type);
   }
 
   const activateFirstSubmenuItem = () => {
@@ -712,15 +721,76 @@ const Nav = () => {
     elements[0].classList.add('BRSHover_NHS');
   }
 
-  const fetchAndDisplaySubmenuDetails = (firstItme, id) => {
-    // console.log(firstItme);
+  const fetchAndDisplaySubmenuDetails = (supId, type) => {
+    let subItems;
+    let items = [];
+    if (type == 'items') {
+
+      const result = menu[0].items.find((item) => item.id === supId);
+      subItems = result.category;
+    } else {
+      const product = menu[0].items.filter((item) => item.product === true);
+      for (const item of product) {
+
+        const result = item.category.find((cat) => cat.categoryId === supId);
+        if (result) {
+          subItems = result.subCategory;
+          break
+        };
+
+      }
+    }
+
+    items = subItems.map((subItem, i) => (
+      <section key={i} className="catepory_NHS">
+        <h2 className="titleCategory_NHS">
+          <Link className="--styleLessLink  titleItmeCategory_NHS">
+            {subItem.label}
+          </Link>
+        </h2>
+        <ul className="ulCategory_NHS">
+          {subItem.subCategory.map((subDisplay, x) => (
+            <li key={x} className="liCategory_NHS">
+              <Link className="--styleLessLink itemCategory_NHS">
+                {subDisplay.name}
+              </Link>
+            </li>
+          ))}
+
+        </ul>
+      </section>
+    ));
+
+    setTimeout(() => {
+
+      setCategoryDisplay(items);
+    }, 250);
+
 
   }
 
-  const handleGetCategory = (e) => {
+  const handleGetCategory = (e, title,subId, type) => {
+    scrollToTap();
+   
+    setTitle(null);
+    setTimeout(() => {
+      setTitle(title);
+    }, 250);
+    setCategoryDisplay(null);
     handleSetSubmenuStyle(e);
+    fetchAndDisplaySubmenuDetails(subId, type)
   }
 
+  const scrollToTap = () => {
+    const element = leftSubRef.current;
+    if (element && element.scrollHeight > element.clientHeight) {
+    console.log(element);
+      element.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  }
   const handleSetSubmenuStyle = (e) => {
     const elements = document.getElementsByClassName('btnRightSub_NHS');
     Array.from(elements).forEach(element => {
@@ -922,7 +992,7 @@ const Nav = () => {
               <div className="lineSubBtn_NHS"></div>
             </button> */}
           </div>
-          <div className="leftSub_NHS">
+          <div className="leftSub_NHS" ref={leftSubRef}>
             {
               title ?
                 // title != 'hoverOnly' && 
@@ -945,168 +1015,155 @@ const Nav = () => {
             {
               categoryDisplay ?
                 <div className="containerCategory_NHS">
-                  <section className="catepory_NHS">
-                    <h2 className="titleCategory_NHS">
-                      <Link className="--styleLessLink  titleItmeCategory_NHS">
-                        موبایل
-                      </Link>
-                    </h2>
-                    <ul className="ulCategory_NHS">
-                      <li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
-                      </li>
-                    </ul>
-                  </section>
-
-                  <section className="catepory_NHS">
-                    <h2 className="titleCategory_NHS">
-                      <Link className="--styleLessLink  titleItmeCategory_NHS">
-                        موبایل
-                      </Link>
-                    </h2>
-                    <ul className="ulCategory_NHS">
-                      <li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
-                      </li>
-                    </ul>
-                  </section>
-
-                  <section className="catepory_NHS">
-                    <h2 className="titleCategory_NHS">
-                      <Link className="--styleLessLink  titleItmeCategory_NHS">
-                        موبایل
-                      </Link>
-                    </h2>
-                    <ul className="ulCategory_NHS">
-                      <li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
-                      </li>
-                    </ul>
-                  </section>
-
-                  <section className="catepory_NHS">
-                    <h2 className="titleCategory_NHS">
-                      <Link className="--styleLessLink  titleItmeCategory_NHS">
-                        موبایل
-                      </Link>
-                    </h2>
-                    <ul className="ulCategory_NHS">
-                      <li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">لمسی</Link>
-                      </li>
-                      <li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link>
-                      </li>
-                      <li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
-                      </li>
-                    </ul>
-                  </section>
-
-                  <section className="catepory_NHS">
-                    <h2 className="titleCategory_NHS">
-                      <Link className="--styleLessLink  titleItmeCategory_NHS">
-                        موبایل
-                      </Link>
-                    </h2>
-                    <ul className="ulCategory_NHS">
-                      <li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
-                      </li>
-                    </ul>
-                  </section>
-
-                  <section className="catepory_NHS">
-                    <h2 className="titleCategory_NHS">
-                      <Link className="--styleLessLink  titleItmeCategory_NHS">
-                        موبایل
-                      </Link>
-                    </h2>
-                    <ul className="ulCategory_NHS">
-                      <li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
-                      </li>
-                    </ul>
-                  </section>
-
-                  <section className="catepory_NHS">
-                    <h2 className="titleCategory_NHS">
-                      <Link className="--styleLessLink  titleItmeCategory_NHS">
-                        موبایل
-                      </Link>
-                    </h2>
-                    <ul className="ulCategory_NHS">
-                      <li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
-                        <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
-                      </li>
-                    </ul>
-                  </section>
+                  {categoryDisplay}
                 </div>
+
+                // <div className="containerCategory_NHS">
+                //   <section className="catepory_NHS">
+                //     <h2 className="titleCategory_NHS">
+                //       <Link className="--styleLessLink  titleItmeCategory_NHS">
+                //         موبایل
+                //       </Link>
+                //     </h2>
+                //     <ul className="ulCategory_NHS">
+                //       <li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
+                //       </li>
+                //     </ul>
+                //   </section>
+
+                //   <section className="catepory_NHS">
+                //     <h2 className="titleCategory_NHS">
+                //       <Link className="--styleLessLink  titleItmeCategory_NHS">
+                //         موبایل
+                //       </Link>
+                //     </h2>
+                //     <ul className="ulCategory_NHS">
+                //       <li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
+                //       </li>
+                //     </ul>
+                //   </section>
+
+                //   <section className="catepory_NHS">
+                //     <h2 className="titleCategory_NHS">
+                //       <Link className="--styleLessLink  titleItmeCategory_NHS">
+                //         موبایل
+                //       </Link>
+                //     </h2>
+                //     <ul className="ulCategory_NHS">
+                //       <li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
+                //       </li>
+                //     </ul>
+                //   </section>
+
+                //   <section className="catepory_NHS">
+                //     <h2 className="titleCategory_NHS">
+                //       <Link className="--styleLessLink  titleItmeCategory_NHS">
+                //         موبایل
+                //       </Link>
+                //     </h2>
+                //     <ul className="ulCategory_NHS">
+                //       <li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">لمسی</Link>
+                //       </li>
+                //       <li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link>
+                //       </li>
+                //       <li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
+                //       </li>
+                //     </ul>
+                //   </section>
+
+                //   <section className="catepory_NHS">
+                //     <h2 className="titleCategory_NHS">
+                //       <Link className="--styleLessLink  titleItmeCategory_NHS">
+                //         موبایل
+                //       </Link>
+                //     </h2>
+                //     <ul className="ulCategory_NHS">
+                //       <li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
+                //       </li>
+                //     </ul>
+                //   </section>
+
+                //   <section className="catepory_NHS">
+                //     <h2 className="titleCategory_NHS">
+                //       <Link className="--styleLessLink  titleItmeCategory_NHS">
+                //         موبایل
+                //       </Link>
+                //     </h2>
+                //     <ul className="ulCategory_NHS">
+                //       <li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
+                //       </li>
+                //     </ul>
+                //   </section>
+
+                //   <section className="catepory_NHS">
+                //     <h2 className="titleCategory_NHS">
+                //       <Link className="--styleLessLink  titleItmeCategory_NHS">
+                //         موبایل
+                //       </Link>
+                //     </h2>
+                //     <ul className="ulCategory_NHS">
+                //       <li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">لمسی</Link> </li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">هوشمند</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">شیامویی</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">سامسونگ</Link></li><li className="liCategory_NHS">
+                //         <Link className="--styleLessLink itemCategory_NHS">کنسول دار</Link>
+                //       </li>
+                //     </ul>
+                //   </section>
+                // </div>
                 :
 
                 <div className="containerCategory_NHS">
-                  <section className="catepory_NHS">
-                    <Skeleton
-                      count={1}
-                      duration={1.6}
-                      containerClassName="skeleton_containerSubmenuLinkTitle_NHS"
-                      className="skeleton_submenuLinkTitle_NHS"
-                    />
-                  </section>
-                  <section className="catepory_NHS">
-                    <Skeleton
-                      count={1}
-                      duration={1.6}
-                      containerClassName="skeleton_containerSubmenuLinkTitle_NHS"
-                      className="skeleton_submenuLinkTitle_NHS"
-                    />
-                  </section>
-                  <section className="catepory_NHS">
-                    <Skeleton
-                      count={1}
-                      duration={1.6}
-                      containerClassName="skeleton_containerSubmenuLinkTitle_NHS"
-                      className="skeleton_submenuLinkTitle_NHS"
-                    />
-                    <ul>
-
+                  {Array.from({ length: 1 }, (_, outerIndex) => (
+                    <section className="catepory_NHS">
                       <Skeleton
-                        count={3}
+                        count={1}
                         duration={1.6}
-                        containerClassName="skeleton_containerSubmenuLinkTitle_NHS"
-                        className="skeleton_submenuLinkTitle_NHS"
+                        containerClassName="skeletonContainer_categoryTitle_NHS"
+                        className="skeleton_categoryTitle_NHS"
                       />
-                    </ul>
-
-                  </section>
+                      {Array.from({ length: 4 }, (_, innerIndex) => (
+                        <Skeleton
+                          count={1}
+                          duration={1.6}
+                          containerClassName="skeletonContainer_categoryItem_NHS"
+                          className="skeleton_categoryItem_NHS"
+                        />
+                      ))}
+                    </section>
+                  ))}
                 </div>
-
             }
 
           </div>
