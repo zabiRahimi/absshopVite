@@ -67,6 +67,7 @@ const Nav = () => {
 
   )
   const [title, setTitle] = useState(null);
+  const [categoryChange, setCategoryChange] = useState(false);
 
 
   useEffect(() => {
@@ -677,11 +678,11 @@ const Nav = () => {
         onClick={(e) => {
 
           if (!hoveredRef.current) {
-            handleGetCategory(e, type == "items" ? submenu.title : submenu.label, submenu.id, type)
+            handleGetCategory(e, type == "items" ? submenu.title : submenu.label, type == "items" ? submenu.id : submenu.categoryId, type)
 
           }
         }}
-        onMouseEnter={e => handleGetCategory(e, type == "items" ? submenu.title : submenu.label, submenu.id, type)}
+        onMouseEnter={e => handleGetCategory(e, type == "items" ? submenu.title : submenu.label, type == "items" ? submenu.id : submenu.categoryId, type)}
       >
         <span className="spanSubBtn_NHS">
           {id == 'allPro' ? submenu.title : submenu.label}
@@ -705,9 +706,11 @@ const Nav = () => {
     let subId = (id == "allPro" ? firstItem.id : firstItem.categoryId);
 
     activateFirstSubmenuItem();
-    setTimeout(() => {
-      setTitle(id == 'allPro' ? firstItem.title : firstItem.label)
-    }, 150);
+    // setTimeout(() => {
+    //   setTitle(id == 'allPro' ? firstItem.title : firstItem.label)
+    // }, 150);
+    setTitle(id == 'allPro' ? firstItem.title : firstItem.label)
+
 
     // در نهایت واکشی داده‌های مرتبط با اولین آیتم
     fetchAndDisplaySubmenuDetails(subId, type);
@@ -724,15 +727,17 @@ const Nav = () => {
   const fetchAndDisplaySubmenuDetails = (supId, type) => {
     let subItems;
     let items = [];
+    
     if (type == 'items') {
-
       const result = menu[0].items.find((item) => item.id === supId);
       subItems = result.category;
     } else {
       const product = menu[0].items.filter((item) => item.product === true);
+      
       for (const item of product) {
 
         const result = item.category.find((cat) => cat.categoryId === supId);
+
         if (result) {
           subItems = result.subCategory;
           break
@@ -741,50 +746,63 @@ const Nav = () => {
       }
     }
 
-    items = subItems.map((subItem, i) => (
-      <section key={i} className="catepory_NHS">
-        <h2 className="titleCategory_NHS">
-          <Link className="--styleLessLink  titleItmeCategory_NHS">
-            {subItem.label}
-          </Link>
-        </h2>
-        <ul className="ulCategory_NHS">
-          {subItem.subCategory.map((subDisplay, x) => (
-            <li key={x} className="liCategory_NHS">
-              <Link className="--styleLessLink itemCategory_NHS">
-                {subDisplay.name}
-              </Link>
-            </li>
-          ))}
+    if(type == 'items'){
+      items = subItems.map((subItem, i) => (
+        <section key={i} className="catepory_NHS">
+          <h2 className="titleCategory_NHS">
+            <Link className="--styleLessLink  titleItmeCategory_NHS ripple-btn">
+              {subItem.label}
+            </Link>
+          </h2>
+          <ul className="ulCategory_NHS">
+            {subItem.subCategory.map((subDisplay, x) => (
+              <li key={x} className="liCategory_NHS">
+                <Link className="--styleLessLink itemCategory_NHS ripple-btn">
+                  {subDisplay.name}
+                </Link>
+              </li>
+            ))}
+  
+          </ul>
+        </section>
+      ));
+    }else{
+      items = subItems.map((subItem, i) => (
+        <section key={i} className="catepory_NHS">
+          <h2 className="titleCategory_NHS">
+            <Link className="--styleLessLink  titleItmeCategory_NHS ripple-btn">
+              {subItem.name}
+            </Link>
+          </h2>
+        </section>
+      ));
+    }
+   
 
-        </ul>
-      </section>
-    ));
+    // setTimeout(() => {
 
-    setTimeout(() => {
-
-      setCategoryDisplay(items);
-    }, 250);
+    //   setCategoryDisplay(items);
+    // }, 250);
+    setCategoryDisplay(items);
 
 
   }
 
-  const handleGetCategory = (e, title,subId, type) => {
+  const handleGetCategory = (e, title, subId, type) => {
     scrollToTap();
-   
-    setTitle(null);
-    setTimeout(() => {
-      setTitle(title);
-    }, 250);
+    setTitle(title);
     setCategoryDisplay(null);
     handleSetSubmenuStyle(e);
     fetchAndDisplaySubmenuDetails(subId, type)
+    setCategoryChange(true);//جهت تجربه بصری
+    setTimeout(() => {
+      setCategoryChange(false);
+    }, 600);
   }
 
   const scrollToTap = () => {
     const element = leftSubRef.current;
     if (element && element.scrollHeight > element.clientHeight) {
-    console.log(element);
       element.scrollTo({
         top: 0,
         behavior: 'smooth'
@@ -992,11 +1010,12 @@ const Nav = () => {
               <div className="lineSubBtn_NHS"></div>
             </button> */}
           </div>
-          <div className="leftSub_NHS" ref={leftSubRef}>
+          <div className="leftSub_NHS " ref={leftSubRef}>
+            <div className={`${categoryChange && 'animateCategory_NHS'}`}></div>
             {
               title ?
                 // title != 'hoverOnly' && 
-                <Link to="" className="--styleLessLink link_NHS">
+                <Link to="" className="--styleLessLink link_NHS ripple-btn">
                   <i className="enterIcon_NHS">
                     <EnterIcon />
                   </i>
