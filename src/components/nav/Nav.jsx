@@ -1255,13 +1255,13 @@ const Nav = () => {
           </button>
         </div> */}
 
-        {/* <div className="subMenu_NHS --displayNone" ref={divSubMenu}>
+        <div className="subMenu_NHS --displayNone" ref={divSubMenu}>
           <SubMenuHorizontal
-            ref={ref}
+            // ref={ref}
             modelSubMenu={modelSubMenu}
             arraySubMenu={arraySubMenu}
           />
-        </div> */}
+        </div>
 
         {/* <div className='subMenu_NHS --displayNone' ref={proNHS}>
 

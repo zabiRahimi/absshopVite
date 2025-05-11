@@ -31,10 +31,33 @@ ol {
 
 }
 
+html {
+    font-size: 0.75rem; /* موبایل: معادل 12px */
+  }
+  
+  @media (min-width: 450px) {
+    html {
+      font-size: 0.875rem; /* تبلت: معادل 14px */
+    }
+  }
+  
+  @media (min-width: 980px) {
+    html {
+      font-size: 1rem; /* لپ‌تاپ: معادل 16px */
+    }
+  }
+  
+  @media (min-width: 1440px) {
+    html {
+      font-size: 1.125rem; /* صفحه‌های بزرگ: معادل 18px */
+    }
+  }
+  
+
 body {
 
     margin: 0;
-    font-size: 16px;
+    /* font-size: 16px; */
 
 
 }
