@@ -6,9 +6,17 @@ import VerticalSubmenu from "./verticalSubmenu/VerticalSubmenu";
 import "./verticalMenu.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import ItemBtn from './ItemBtn';
 
-const VerticalMenu = ({ handleBodyScrollShow, handleCloseVerticalMenu }) => {
+const VerticalMenu = ({ handleBodyScrollShow, handleCloseVerticalMenu, items, verticalParts }) => {
   const navigate = useNavigate();
+
+  const proAllItems = items.filter(item => item.product === true);
+
+
+
+
+
 
   const { user, setUser } = useContext(UserContext);
 
@@ -17,6 +25,75 @@ const VerticalMenu = ({ handleBodyScrollShow, handleCloseVerticalMenu }) => {
   const SubMenuPros = useRef(null);
   const iDownPros = useRef(null);
   const iUpPros = useRef(null);
+  // const [tags, setTags] = useState([]);
+  // let tags = [];
+  // for (let i = 1; i < verticalParts; i++) {
+  //   let array = items.filter(item => item.verticalPart === i + 1)
+  //   tags = <div key={i} className="divItems_VMe ">
+  //     {array.map((item, a) => (
+  //       <button
+  //         key={a}
+  //         className="--styleLessBtn btnItem_VMe"
+  //       // onClick={() => handleShowSubMenu(iDownPros, iUpPros, SubMenuPros)}
+  //       >
+  //         <i className="icofont-tasks-alt " />
+  //         <span> {item.title} </span>
+  //         <i
+  //           className="icofont-rounded-down down_VMe lastChild_VMe"
+  //         // ref={iDownPros}
+  //         />
+  //         <i
+  //           className="icofont-rounded-up up_VMe lastChild_VMe --displayNone"
+  //         // ref={iUpPros}
+  //         />
+  //       </button>
+  //     ))}
+  //   </div>
+  // }
+
+  // console.log(tags);
+  
+let tags = [];
+for (let i = 0; i < verticalParts; i++) {
+  let array = items.filter(item => item.verticalPart === i + 1);
+  tags.push(
+    <div key={i} className="divItems_VMe">
+      {array.map((item, a) => (
+        i==0?
+        <ItemBtn key={a} item={item}/>
+        //   <button
+        //   key={a}
+        //   className="--styleLessBtn btnItem_VMe"
+        //   // onClick={() => handleShowSubMenu(iDownPros, iUpPros, SubMenuPros)}
+        // >
+        //   <i className="icofont-tasks-alt" />
+        //   <span>{item.title}</span>
+        //   <i className="icofont-rounded-down down_VMe lastChild_VMe" 
+        //   // ref={iDownPros}
+        //   />
+        //   <i className="icofont-rounded-up up_VMe lastChild_VMe --displayNone" 
+        //   // ref={iUpPros}
+        //   />
+        // </button>
+        // 
+        // :
+        :
+         <Link
+          className="--styleLessLink linkItem_VMe"
+          to="/addProduct"
+          onClick={handleBodyScrollShow}
+        >
+          <i className="icofont-plus-square  " />
+          <span>{item.title} </span>
+        </Link>
+      
+      ))}
+    </div>
+  );
+}
+
+console.log(tags);
+
 
   const handleShowSubMenu = (iDown, iUp, subMenu) => {
     iDown.current.classList.toggle("--displayNone");
@@ -68,7 +145,8 @@ const VerticalMenu = ({ handleBodyScrollShow, handleCloseVerticalMenu }) => {
 
   return (
     <div className="cotainerItems_VMe">
-      <div className="divItems_VMe ">
+      {tags}
+      {/* <div className="divItems_VMe ">
         <button
           className="--styleLessBtn btnItem_VMe"
           onClick={() => handleShowSubMenu(iDownPros, iUpPros, SubMenuPros)}
@@ -86,7 +164,9 @@ const VerticalMenu = ({ handleBodyScrollShow, handleCloseVerticalMenu }) => {
         </button>
 
         <div className="divShowSubMenu_VMe  --displayNone" ref={SubMenuPros}>
-          <VerticalSubmenu />
+          <VerticalSubmenu
+            subItems={proAllItems}
+          />
         </div>
 
         <button className="--styleLessBtn btnItem_VMe">
@@ -221,109 +301,10 @@ const VerticalMenu = ({ handleBodyScrollShow, handleCloseVerticalMenu }) => {
           <i className="icofont-plus-square   " />
           <span> انتخاب محصولات برای اسلایدرها ( مدیریت ) </span>
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 };
 export default VerticalMenu;
 
-// const VerticalMenu = forwardRef(({ refBtn }, ref) => {
 
-//     const handleClose = () => {
-
-//         handleBodyScrollShow();
-//         // handleShowBtn();
-//         handleHideContainer();
-//         handleCloseSubMenu();
-
-//     }
-
-//     const handleBodyScrollShow = () => {
-
-//         const body = document.getElementsByTagName('body');
-//         body[0].classList.remove('--scrollHidden');
-
-//     }
-
-//     const handleShowBtn = () => {
-
-//         refBtn.current.classList.remove('--displayNone');
-
-//     }
-
-//     const handleHideContainer = () => {
-
-//         ref.verticalMenu.current.classList.remove('--width100');
-
-//         ref.verticalMenu_VMe.current.classList.remove('--width100');
-
-//         setTimeout(function () {
-
-//             ref.verticalMenu.current.classList.add('--displayNone');
-
-//         }, 500);
-
-//     }
-
-//     const handleCloseSubMenu = () => {
-//         handleShowIDown();
-//         handleHideIUp();
-//         handleHideSubMenu();
-//     }
-
-//     const handleShowIDown = () => {
-
-//         const elements = Array.from(document.getElementsByClassName('down_VMe'));
-
-//         elements.forEach((element) => {
-
-//             element.classList.remove('--displayNone');
-
-//         });
-
-//     }
-
-//     const handleHideIUp = () => {
-
-//         const elements = Array.from(document.getElementsByClassName('up_VMe'));
-
-//         elements.forEach((element) => {
-
-//             element.classList.add('--displayNone');
-
-//         });
-
-//     }
-
-//     const handleHideSubMenu = () => {
-
-//         const elements = Array.from(document.getElementsByClassName('divShowSubMenu_VMe'));
-
-//         elements.forEach((element) => {
-
-//             element.classList.add('--displayNone');
-
-//         });
-
-//     }
-
-//     return (
-
-//         <div ref={ref.verticalMenu} className='containerMain_VMe --displayNone ' >
-
-//             {/**
-//                 * The bottom layer has opacity
-//             */}
-//             <div className="divOpacity_VMe" onClick={handleClose}></div>
-
-//             <div className='verticalMenu_VMe' ref={ref.verticalMenu_VMe}>
-
-//             </div>
-
-//         </div>
-
-//     );
-
-// });
-
-// export default VerticalMenu;

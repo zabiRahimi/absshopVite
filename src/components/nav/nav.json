@@ -1,12 +1,14 @@
 [
     {
         "settings": {
-            "numberParts": 3
+            "numberParts": 3,
+            "verticalParts":4
         },
         "items": [
             {
                 "title": "موبایل",
                 "part": 1,
+                "verticalPart":1,
                 "priority": 2,
                 "showOnMobile": true,
                 "behavior": "hoverOnly",
@@ -47,6 +49,7 @@
                 "id": 2,
                 "title": "کیف و کفش",
                 "part": 1,
+                "verticalPart":1,
                 "priority": 3,
                 "showOnMobile": true,
                 "behavior": "hoverOnly",
@@ -86,6 +89,7 @@
                 "id": 3,
                 "title": "سوپر مارکت",
                 "part": 1,
+                  "verticalPart":1,
                 "priority": 1,
                 "showOnMobile": true,
                 "behavior": "hoverOnly",
@@ -125,6 +129,7 @@
                 "id": 4,
                 "title": "ورزش و سفر",
                 "part": 1,
+                "verticalPart":1,
                 "priority": 4,
                 "behavior": "clickAndHover",
                 "product": true,
@@ -164,6 +169,7 @@
                 "id": 5,
                 "title": "نحوه خرید",
                 "part": 2,
+                "verticalPart":3,
                 "priority": 1,
                 "url": "",
                 "behavior": "clickOnly"
@@ -172,6 +178,7 @@
                 "id": 6,
                 "title": "بفروش",
                 "part": 3,
+                "verticalPart":3,
                 "priority": 1,
                 "url": "",
                 "behavior": "clickOnly"
@@ -180,6 +187,7 @@
                 "id": 7,
                 "title": "تازها",
                 "part": 3,
+                "verticalPart":4,
                 "priority": 2,
                 "url": "",
                 "behavior": "clickOnly"
@@ -188,6 +196,7 @@
                 "id": 8,
                 "title": "ردیابی خرید",
                 "part": 3,
+                "verticalPart":3,
                 "priority": 1,
                 "url": "",
                 "behavior": "clickOnly"
@@ -196,6 +205,7 @@
                 "id": 9,
                 "title": "رضایت از ما",
                 "part": 20,
+                "verticalPart":4,
                 "priority": 4,
                 "url": "",
                 "behavior": "clickOnly"
@@ -204,6 +214,7 @@
                 "id": 10,
                 "title": "راهنما",
                 "part": 20,
+                "verticalPart":4,
                 "priority": 2,
                 "url": "",
                 "behavior": "clickOnly"
@@ -212,6 +223,7 @@
                 "id": 11,
                 "title": "مقررات",
                 "part": 20,
+                "verticalPart":3,
                 "priority": 3,
                 "url": "",
                 "behavior": "clickOnly"
@@ -220,6 +232,7 @@
                 "id": 12,
                 "title": "خانه و آشپزخانه",
                 "part": 1,
+                "verticalPart":1,
                 "priority": 3,
                 "showOnMobile": true,
                 "behavior": "hoverOnly",
@@ -254,6 +267,24 @@
                         ]
                     }
                 ]
+            },
+              {
+                "id": 13,
+                "title": "ثبت نام",
+                "part": 20,
+                "verticalPart":2,
+                "priority": 3,
+                "url": "",
+                "behavior": "clickOnly"
+            },
+              {
+                "id": 14,
+                "title": "ورود",
+                "part": 20,
+                "verticalPart":2,
+                "priority": 3,
+                "url": "",
+                "behavior": "clickOnly"
             }
         ]
     }

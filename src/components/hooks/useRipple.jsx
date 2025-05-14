@@ -3,11 +3,9 @@ import { useEffect } from 'react';
 const useRipple = () => {
   useEffect(() => {
     const handleClick = (event) => {
-      console.log(event);
       
       // پیدا کردن نزدیک‌ترین المانی با کلاس 'ripple-btn'
       const rippleBtn = event.target.closest('.ripple-btn');
-      console.log(rippleBtn);
       
       if (!rippleBtn) return;
 

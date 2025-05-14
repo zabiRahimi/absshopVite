@@ -2,7 +2,7 @@
 
 import './verticalSubmenu.css';
 
-const SubMenu = () => {
+const SubMenu = ({subItems}) => {
 
     const handle = () => {
 

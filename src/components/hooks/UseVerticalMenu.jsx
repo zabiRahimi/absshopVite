@@ -1,28 +1,18 @@
 import { forwardRef, useRef } from 'react';
-import '../../css/useVerticalMenu.css';
 
 /**
  * در پایین صحفه بطور کامل نحوه استفاده از این کامپوننت شرح داده شده است.
  */
-const UseVerticalMenu = forwardRef(({ Menu, hasBtn = false }, ref) => {
-
-
-
+const UseVerticalMenu = forwardRef(({ Menu, items, verticalParts, hasBtn = false }, ref) => {
     const containerVerticalMenu = useRef(null);
     const verticalMenu = useRef(null);
 
     ref.refVerticalMenu.current = {
-
         handleShowVerticalMenu: () => {
-
             handleBodyScrollHidden();
             handleShowVerticalSubmenu();
-
         },
-
-
     }
-
 
     /**
      * اقدامات لازم برای مشاهده منوی عمودی را انجام می‌دهد
@@ -32,145 +22,68 @@ const UseVerticalMenu = forwardRef(({ Menu, hasBtn = false }, ref) => {
      * همچنین به المنت 
      */
     const handleShowVerticalSubmenu = () => {
-
         containerVerticalMenu.current.classList.remove('--displayNone');
-
         setTimeout(() => {
-
             verticalMenu.current.classList.add('--width100');
-
             containerVerticalMenu.current.classList.add('--width100');
-
-        }, 2)
-
+        }, 2);
     }
 
     const handleCloseVerticalMenu = () => {
-
         handleBodyScrollShow();
-
         handleHideContainer();
-
     }
-
 
     /**
      * هنگام نمایش منوی عمودی این متد اسکرول تگ بادی را غیر فعال می‌کند
      */
     const handleBodyScrollHidden = () => {
-
         const body = document.getElementsByTagName('body');
-
         body[0].classList.add('--scrollHidden');
-
     }
 
 
     const handleBodyScrollShow = () => {
-
         const body = document.getElementsByTagName('body');
         body[0].classList.remove('--scrollHidden');
-
     }
-
-
-
-
 
     const handleHideContainer = () => {
-
-
         containerVerticalMenu.current.classList.remove('--width100');
-
         verticalMenu.current.classList.remove('--width100');
-
         setTimeout(function () {
-
             containerVerticalMenu.current.classList.add('--displayNone');
-
         }, 500);
-
     }
-
-
-    // const handleCloseSubMenu = () => {
-    //     handleShowIDown();
-    //     handleHideIUp();
-    //     handleHideSubMenu();
-    // }
-
-
-    // const handleShowIDown = () => {
-
-    //     const elements = Array.from(document.getElementsByClassName('down_VMe'));
-
-    //     elements.forEach((element) => {
-
-    //         element.classList.remove('--displayNone');
-
-    //     });
-
-    // }
-
-
-    // const handleHideIUp = () => {
-
-    //     const elements = Array.from(document.getElementsByClassName('up_VMe'));
-
-    //     elements.forEach((element) => {
-
-    //         element.classList.add('--displayNone');
-
-    //     });
-
-    // }
-
-
-    // const handleHideSubMenu = () => {
-
-    //     const elements = Array.from(document.getElementsByClassName('divShowSubMenu_VMe'));
-
-    //     elements.forEach((element) => {
-
-    //         element.classList.add('--displayNone');
-
-    //     });
-
-    // }
 
     return (
         <div
             ref={containerVerticalMenu}
-            className='containerVerticalMenu --displayNone '
+            className='containerMain_VMe --displayNone '
         >
             {/**
                 * The bottom layer has opacity
             */}
-            <div className="divOpacityVerticalMenu" onClick={handleCloseVerticalMenu}></div>
+            <div className="divOpacity_VMe" onClick={handleCloseVerticalMenu}></div>
 
-            <div className='verticalMenu' ref={verticalMenu}>
+            <div className='verticalMenu_VMe' ref={verticalMenu}>
 
                 {
                     hasBtn &&
                     <div className='divBtnClose_VMe'>
-
                         <button onClick={handleCloseVerticalMenu} className='--styleLessBtn btnClose_VMe'>
                             <i className='icofont-close ' />
                         </button>
-
                     </div>
                 }
 
                 <Menu
-
-                    handleBodyScrollShow={handleBodyScrollShow} handleCloseVerticalMenu={handleCloseVerticalMenu}
-
+                    handleBodyScrollShow={handleBodyScrollShow}
+                     handleCloseVerticalMenu={handleCloseVerticalMenu}
+                     items={items}
+                     verticalParts={verticalParts}
                 />
-
             </div>
-
-
-
         </div>
     );
 })
